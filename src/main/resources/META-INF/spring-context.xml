@@ -11,8 +11,10 @@
     <import resource="classpath*:META-INF/contexts/security.xml" />
     <import resource="classpath*:META-INF/contexts/database.xml" />
     <import resource="classpath*:META-INF/contexts/web.xml" />
+    <import resource="classpath*:META-INF/contexts/service.xml" />
+    <import resource="classpath*:META-INF/contexts/assembler.xml" />
 
-    <jpa:repositories base-package="com.piro.run.entity" />
+    <jpa:repositories base-package="com.piro.run.dao" />
 
     <bean id="applicationProperties"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
