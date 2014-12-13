@@ -6,8 +6,8 @@ import javax.persistence.*;
  * Created by ppirovski on 12/5/14. In Code we trust
  */
 
-@Entity
-@Table(name = "authorities")
+//@Entity
+//@Table(name = "authorities")
 public class Authority {
 
     private Long id;
@@ -16,7 +16,6 @@ public class Authority {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -34,8 +33,7 @@ public class Authority {
         this.authority = authority;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "username")
+
     public User getUser() {
         return user;
     }

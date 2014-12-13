@@ -6,14 +6,13 @@
     <title>
         Error Page
     </title>
-    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/javax.faces.resource/style.css.html?ln=css" />
 </h:head>
 <h:body class="body_error">
-    <h:outputText value="An error has occurred!" style="color:red; font-size:20"/>
+    <image src="/static/img/oops.jpg"/>
     <br/>
     <br/>
-    <p:panel id="pnl" header="Show Details" toggleable="true" closable="false" style="width: 742px;"
-             toggleSpeed="100" widgetVar="panel" collapsed="false">
+    <p:panel id="pnl" header="Show Details" toggleable="true" closable="false" style="width: 1200px;"
+             toggleSpeed="100" widgetVar="panel" collapsed="true">
 
         <h:inputTextarea style="width: 100%;" rows="20" readonly="true"
                          value="#{errorBean.stackTrace}" />

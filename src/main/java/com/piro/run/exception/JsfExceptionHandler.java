@@ -1,5 +1,6 @@
 package com.piro.run.exception;
 
+import com.sun.faces.context.FacesFileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
     private static Logger LOG = LoggerFactory.getLogger(JsfExceptionHandler.class);
 
     final static String ERROR_PAGE  = "/public/error.jsf";
+    final static String NOT_FOUND_PAGE  = "/static/404.html";
 
     private ExceptionHandler wrapped;
 
@@ -46,8 +48,12 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
                 //obtain throwable object
                 Throwable t = context.getException();
-                String errorRef = String.valueOf(System.currentTimeMillis());
 
+                if(t.getCause() != null && t.getCause() instanceof FacesFileNotFoundException){
+                    this.notFound();
+                    return;
+                }
+                String errorRef = String.valueOf(System.currentTimeMillis());
                 LOG.warn("Handling exception with reference number: "+errorRef +" ==========================================================");
                 LOG.warn("Exception: ", t);
                 LOG.warn("End of handled exception: ========================================================================================");
@@ -81,5 +87,12 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
         extContext.redirect(url);
 
 
+    }
+
+    private void notFound() throws IOException{
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ExternalContext extContext = ctx.getExternalContext();
+
+        extContext.redirect(NOT_FOUND_PAGE);
     }
 }

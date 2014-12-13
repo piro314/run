@@ -14,7 +14,7 @@ public class User {
     private String username;
     private String password;
     private boolean enabled;
-    private List<Authority> authorities;
+    private List<String> authorities;
 
     @Id
     public String getUsername() {
@@ -41,12 +41,14 @@ public class User {
         this.enabled = enabled;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<Authority> getAuthorities() {
+    @Column(name="authority")
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name = "authorities", joinColumns = {@JoinColumn(name="username")})
+    public List<String> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(List<String> authorities) {
         this.authorities = authorities;
     }
 }
