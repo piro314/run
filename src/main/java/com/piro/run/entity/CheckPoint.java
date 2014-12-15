@@ -15,7 +15,7 @@ public class CheckPoint {
     private String name;
     private int distanceFromStart;
     private int altitude;
-    private List<Leg> legs;
+    private Leg leg;
 
 
     @Id
@@ -56,12 +56,13 @@ public class CheckPoint {
         this.altitude = altitude;
     }
 
-    @ManyToMany(mappedBy="checkPoints")
-    public List<Leg> getLegs() {
-        return legs;
+    @ManyToOne
+    @JoinColumn(name="leg_id")
+    public Leg getLeg() {
+        return leg;
     }
 
-    public void setLegs(List<Leg> legs) {
-        this.legs = legs;
+    public void setLeg(Leg leg) {
+        this.leg = leg;
     }
 }

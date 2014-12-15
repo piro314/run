@@ -16,6 +16,7 @@ public class Competition {
     private String url;
     private String description;
     private List<Instance> instances;
+    private String imageUrl;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,5 +63,14 @@ public class Competition {
 
     public void setInstances(List<Instance> instances) {
         this.instances = instances;
+    }
+
+    @Column(name="image_url")
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

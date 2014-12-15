@@ -4,4 +4,26 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="baseAssembler" class="com.piro.run.assembler.impl.BaseAssembler" abstract="true" />
+
+    <bean id="checkPointAssembler" class="com.piro.run.assembler.impl.CheckPointAssemblerImpl"
+          parent="baseAssembler" />
+
+    <bean id="legAssembler" class="com.piro.run.assembler.impl.LegAssemblerImpl"
+          parent="baseAssembler" >
+        <property name="checkPointAssembler" ref="checkPointAssembler"/>
+    </bean>
+
+    <bean id="instanceAssembler" class="com.piro.run.assembler.impl.InstanceAssemblerImpl"
+          parent="baseAssembler" >
+        <property name="legAssembler" ref="legAssembler"/>
+    </bean>
+
+    <bean id="competitionAssembler" class="com.piro.run.assembler.impl.CompetitionAssemblerImpl"
+          parent="baseAssembler" >
+        <property name="instanceAssembler" ref="instanceAssembler"/>
+    </bean>
+
+
+
 </beans>

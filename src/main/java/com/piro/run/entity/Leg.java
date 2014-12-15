@@ -87,8 +87,7 @@ public class Leg {
         this.lowest = lowest;
     }
 
-    @ManyToMany
-    @JoinTable(name="legs_points")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="leg")
     public List<CheckPoint> getCheckPoints() {
         return checkPoints;
     }
@@ -97,7 +96,7 @@ public class Leg {
         this.checkPoints = checkPoints;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="instance_id")
     public Instance getInstance() {
         return instance;

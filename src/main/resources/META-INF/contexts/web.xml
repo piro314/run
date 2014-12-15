@@ -4,6 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="view">
+                    <bean class="com.piro.run.web.common.ViewJsfScope" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <bean id="errorBean" class="com.piro.run.web.beans.ErrorBean" scope="request" />
+
+    <bean id="competitionsBean" class="com.piro.run.web.beans.CompetitionsBean" scope="view" >
+        <property name="competitionService" ref="competitionService"/>
+    </bean>
 
 </beans>

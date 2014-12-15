@@ -14,6 +14,7 @@ public class CompetitionDto {
     private String url;
     private String description;
     private List<InstanceDto> instances;
+    private String imageUrl;
 
     public Long getId() {
         return id;
@@ -53,6 +54,14 @@ public class CompetitionDto {
 
     public void setInstances(List<InstanceDto> instances) {
         this.instances = instances;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.piro.run.entity.Competition;
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public interface CompetitionAssembler {
+public interface CompetitionAssembler extends Assembler<Competition, CompetitionDto>{
 
     Competition toEntity(CompetitionDto dto);
 

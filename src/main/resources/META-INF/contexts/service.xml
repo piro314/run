@@ -4,4 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean class="com.piro.run.service.impl.CompetitionServiceImpl" id="competitionService">
+        <property name="competitionAssembler" ref="competitionAssembler"/>
+        <property name="competitionRepository" ref="competitionRepository"/>
+    </bean>
+
 </beans>

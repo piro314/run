@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="competitions")
+@Table(name="instances")
 public class Instance {
 
     private Long id;

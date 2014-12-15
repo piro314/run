@@ -1,11 +1,32 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/templates/publicLayout.xhtml">
 
         <ui:define name="content">
-                This is competitions page
+            <h:form id="competitionsForm">
+                <p:dataTable var="competition" value="#{competitionsBean.competitions}"
+                             paginator="true" rows="10">
+
+                    <p:column headerText="Image">
+                        <image src="#{competition.imageUrl}" width="300" height="300" />
+                    </p:column>
+
+                    <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
+                        <h:outputText value="#{competition.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Url" filterBy="#{competition.url}" filterMatchMode="contains">
+                        <h:outputText value="#{competition.url}"/>
+                    </p:column>
+
+                    <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">
+                        <h:outputText value="#{competition.description}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </ui:define>
 
     </ui:composition>

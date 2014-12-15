@@ -1,9 +1,62 @@
 package com.piro.run.assembler.impl;
 
+import com.piro.run.assembler.CheckPointAssembler;
 import com.piro.run.assembler.LegAssembler;
+import com.piro.run.dao.InstanceRepository;
+import com.piro.run.dto.LegDto;
+import com.piro.run.entity.Leg;
+import org.springframework.beans.factory.annotation.Required;
+
+import javax.annotation.Resource;
 
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class LegAssemblerImpl implements LegAssembler {
+public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
+                              implements LegAssembler {
+
+    private CheckPointAssembler checkPointAssembler;
+
+    @Resource
+    private InstanceRepository instanceRepository;
+
+    @Override
+    public Leg toEntity(LegDto dto) {
+        Leg entity = new Leg();
+
+        entity.setName(dto.getName());
+        entity.setCheckPoints(checkPointAssembler.toEntities(dto.getCheckPoints()));
+        entity.setDistance(dto.getDistance());
+        entity.setdMinus(dto.getdMinus());
+        entity.setdPlus(dto.getdPlus());
+        entity.setHighest(dto.getHighest());
+        entity.setId(dto.getId());
+        entity.setLowest(dto.getLowest());
+        entity.setInstance(instanceRepository.findOne(dto.getInstanceId()));
+
+        return entity;
+    }
+
+    @Override
+    public LegDto toDto(Leg entity) {
+        LegDto dto = new LegDto();
+
+        dto.setLowest(entity.getLowest());
+        dto.setId(entity.getId());
+        dto.setHighest(entity.getHighest());
+        dto.setdPlus(entity.getdPlus());
+        dto.setDistance(entity.getDistance());
+        dto.setdMinus(dto.getdMinus());
+        dto.setCheckPoints(checkPointAssembler.toDtos(entity.getCheckPoints()));
+        dto.setInstanceId(entity.getInstance().getId());
+        dto.setName(entity.getName());
+
+        return dto;
+    }
+
+    @Required
+    public void setCheckPointAssembler(CheckPointAssembler checkPointAssembler) {
+        this.checkPointAssembler = checkPointAssembler;
+    }
+
 }
