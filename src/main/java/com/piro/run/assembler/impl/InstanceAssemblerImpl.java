@@ -5,6 +5,8 @@ import com.piro.run.assembler.LegAssembler;
 import com.piro.run.dao.CompetitionRepository;
 import com.piro.run.dto.InstanceDto;
 import com.piro.run.entity.Instance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.annotation.Resource;
@@ -15,6 +17,8 @@ import javax.annotation.Resource;
 public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
                                    implements InstanceAssembler {
 
+    private static final Logger LOG = LoggerFactory.getLogger(InstanceAssemblerImpl.class);
+
     private LegAssembler legAssembler;
 
     @Resource
@@ -22,6 +26,8 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
 
     @Override
     public Instance toEntity(InstanceDto dto) {
+        LOG.debug("Transforming to entity dto with id = "+dto.getId());
+
         Instance entity = new Instance();
 
         entity.setName(dto.getName());
@@ -36,6 +42,8 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
 
     @Override
     public InstanceDto toDto(Instance entity) {
+        LOG.debug("Transforming to dto entity with id = "+entity.getId());
+
         InstanceDto dto = new InstanceDto();
 
         dto.setStartDate(entity.getStartDate());

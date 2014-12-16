@@ -5,6 +5,8 @@ import com.piro.run.assembler.LegAssembler;
 import com.piro.run.dao.InstanceRepository;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.annotation.Resource;
@@ -15,6 +17,8 @@ import javax.annotation.Resource;
 public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
                               implements LegAssembler {
 
+    private static final Logger LOG = LoggerFactory.getLogger(LegAssemblerImpl.class);
+
     private CheckPointAssembler checkPointAssembler;
 
     @Resource
@@ -22,6 +26,8 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
 
     @Override
     public Leg toEntity(LegDto dto) {
+        LOG.debug("Transforming to entity dto with id = "+dto.getId());
+
         Leg entity = new Leg();
 
         entity.setName(dto.getName());
@@ -39,6 +45,8 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
 
     @Override
     public LegDto toDto(Leg entity) {
+        LOG.debug("Transforming to dto entity with id = "+entity.getId());
+
         LegDto dto = new LegDto();
 
         dto.setLowest(entity.getLowest());

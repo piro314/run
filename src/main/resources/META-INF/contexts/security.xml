@@ -23,5 +23,7 @@
             </security:authentication-provider>
         </security:authentication-manager>
 
+        <security:global-method-security secured-annotations="enabled" />
+
 
 </beans>
