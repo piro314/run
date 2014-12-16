@@ -13,4 +13,6 @@ public interface CompetitionService {
     List<CompetitionDto> getAllCompetitions();
 
     void update(CompetitionDto toUpdate);
+
+    CompetitionDto createNew(CompetitionDto dto);
 }

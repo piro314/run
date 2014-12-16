@@ -39,10 +39,20 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     @Secured("ROLE_ADMIN")
+    @Transactional
     public void update(CompetitionDto toUpdate) {
         Competition entity = competitionAssembler.toEntity(toUpdate);
         LOG.debug("Updating competition with id = "+toUpdate.getId());
         competitionRepository.saveAndFlush(entity);
+    }
+
+    @Override
+    @Transactional
+    public CompetitionDto createNew(CompetitionDto dto) {
+        LOG.debug("Creating new Competition");
+        Competition entity = competitionAssembler.toEntity(dto);
+        entity = competitionRepository.save(entity);
+        return competitionAssembler.toDto(entity);
     }
 
     @Required

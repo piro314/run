@@ -3,13 +3,16 @@ package com.piro.run.web.beans;
 import com.piro.run.dto.CompetitionDto;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.impl.CompetitionServiceImpl;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ppirovski on 12/15/14. In Code we trust
@@ -20,8 +23,10 @@ public class CompetitionsBean implements Serializable{
 
     private List<CompetitionDto> competitions;
 
-    public CompetitionsBean(){
+    private CompetitionDto forCreate;
 
+    public CompetitionsBean(){
+        forCreate = new CompetitionDto();
     }
 
 
@@ -47,6 +52,35 @@ public class CompetitionsBean implements Serializable{
 
     public void setCompetitions(List<CompetitionDto> competitions) {
         this.competitions = competitions;
+    }
+
+    public void openCreateCompetitionDialog(){
+        Map<String,Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        options.put("draggable", false);
+        options.put("resizable", false);
+        options.put("contentHeight", 320);
+
+        RequestContext.getCurrentInstance().openDialog("createCompetitionDialog", options, null);
+
+    }
+
+    public void createNewCompetition(){
+        if(forCreate != null){
+            competitionService.createNew(forCreate);
+            forCreate = new CompetitionDto();
+        }
+        FacesMessage msg = new FacesMessage("New competition created", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        RequestContext.getCurrentInstance().closeDialog("createCompetitionDialog");
+    }
+
+    public CompetitionDto getForCreate() {
+        return forCreate;
+    }
+
+    public void setForCreate(CompetitionDto forCreate) {
+        this.forCreate = forCreate;
     }
 
     @Required
