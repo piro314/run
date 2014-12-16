@@ -34,6 +34,11 @@ public class CompetitionServiceImpl implements CompetitionService {
         return competitionAssembler.toDtos(entities);
     }
 
+    @Override
+    public void update(CompetitionDto toUpdate) {
+        Competition entity = competitionAssembler.toEntity(toUpdate);
+        competitionRepository.saveAndFlush(entity);
+    }
 
     @Required
     public void setCompetitionAssembler(CompetitionAssembler competitionAssembler) {

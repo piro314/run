@@ -32,7 +32,7 @@ public class CompetitionAssemblerImpl extends BaseAssembler<Competition, Competi
         CompetitionDto dto = new CompetitionDto();
 
         dto.setUrl(entity.getUrl());
-        dto.setName(entity.getUrl());
+        dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setId(entity.getId());
         dto.setInstances(instanceAssembler.toDtos(entity.getInstances()));

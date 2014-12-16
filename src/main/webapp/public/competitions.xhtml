@@ -8,10 +8,10 @@
         <ui:define name="content">
             <h:form id="competitionsForm">
                 <p:dataTable var="competition" value="#{competitionsBean.competitions}"
-                             paginator="true" rows="10">
+                             paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
 
                     <p:column headerText="Image">
-                        <image src="#{competition.imageUrl}" width="300" height="300" />
+                        <image src="#{competition.imageUrl}" width="100" height="100" />
                     </p:column>
 
                     <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
@@ -19,7 +19,7 @@
                     </p:column>
 
                     <p:column headerText="Url" filterBy="#{competition.url}" filterMatchMode="contains">
-                        <h:outputText value="#{competition.url}"/>
+                        <a href="#{competition.url}"><h:outputText value="#{competition.url}"/></a>
                     </p:column>
 
                     <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">

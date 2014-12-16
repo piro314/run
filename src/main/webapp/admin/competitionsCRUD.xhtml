@@ -1,0 +1,56 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="competitionsCRUDForm">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable var="competition" value="#{competitionsBean.competitions}"
+                         paginator="true" rows="10" editable="true" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+
+                <p:ajax event="rowEdit" listener="#{competitionsBean.onRowEdit}" update=":competitionsCRUDForm:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{competitionsBean.onRowCancel}" update=":competitionsCRUDForm:msgs" />
+
+                <p:column headerText="Image">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{competition.imageUrl}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="imageUrlInput" value="#{competition.imageUrl}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{competition.name}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="nameInput" value="#{competition.name}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Url" filterBy="#{competition.url}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{competition.url}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="urlInput" value="#{competition.url}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{competition.description}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="descriptionInput" value="#{competition.description}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>

@@ -11,4 +11,6 @@ import java.util.List;
 public interface CompetitionService {
 
     List<CompetitionDto> getAllCompetitions();
+
+    void update(CompetitionDto toUpdate);
 }

@@ -11,7 +11,8 @@
         <security:http auto-config="true">
             <security:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
             <security:intercept-url pattern="/dba/**" access="ROLE_DBA" />
-            <security:form-login default-target-url='/admin/aaa.jsf' always-use-default-target='true' />
+            <security:intercept-url pattern="/user/**" access="ROLE_USER" />
+            <security:form-login default-target-url='/admin/competitionsCRUD.jsf' always-use-default-target='true' />
         </security:http>
 
 
@@ -21,8 +22,6 @@
                 <security:jdbc-user-service data-source-ref="dataSource"/>
             </security:authentication-provider>
         </security:authentication-manager>
-
-
 
 
 </beans>
