@@ -55,6 +55,13 @@ public class CompetitionServiceImpl implements CompetitionService {
         return competitionAssembler.toDto(entity);
     }
 
+    @Override
+    @Transactional
+    public void delete(Long competitionId) {
+        LOG.debug("Deleting competition with id = "+competitionId);
+        competitionRepository.delete(competitionId);
+    }
+
     @Required
     public void setCompetitionAssembler(CompetitionAssembler competitionAssembler) {
         this.competitionAssembler = competitionAssembler;

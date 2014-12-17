@@ -45,7 +45,6 @@ public class CompetitionsBean implements Serializable{
     }
 
     public void onRowCancel(RowEditEvent event) {
-        System.out.println("adasdasdasdasddfasfsdfasdf");
         FacesMessage msg = new FacesMessage("Edit Cancelled", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -54,25 +53,31 @@ public class CompetitionsBean implements Serializable{
         this.competitions = competitions;
     }
 
-    public void openCreateCompetitionDialog(){
-        Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        options.put("draggable", false);
-        options.put("resizable", false);
-        options.put("contentHeight", 320);
+//    public void openCreateCompetitionDialog(){
+//
+//        Map<String,Object> options = new HashMap<String, Object>();
+//        options.put("modal", true);
+//        options.put("draggable", false);
+//        options.put("resizable", false);
+//        options.put("contentHeight", 320);
+//
+//        RequestContext.getCurrentInstance().openDialog("createCompetitionDialog", options, null);
+//
+//    }
 
-        RequestContext.getCurrentInstance().openDialog("createCompetitionDialog", options, null);
-
+    public void openTestDialog(){
+        RequestContext.getCurrentInstance().openDialog("testDialog");
     }
 
     public void createNewCompetition(){
         if(forCreate != null){
-            competitionService.createNew(forCreate);
+            CompetitionDto created = competitionService.createNew(forCreate);
+            competitions.add(created);
             forCreate = new CompetitionDto();
         }
         FacesMessage msg = new FacesMessage("New competition created", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        RequestContext.getCurrentInstance().closeDialog("createCompetitionDialog");
+
     }
 
     public CompetitionDto getForCreate() {
@@ -81,6 +86,13 @@ public class CompetitionsBean implements Serializable{
 
     public void setForCreate(CompetitionDto forCreate) {
         this.forCreate = forCreate;
+    }
+
+    public void delete(CompetitionDto forDelete){
+        competitionService.delete(forDelete.getId());
+        competitions.remove(forDelete);
+        FacesMessage msg = new FacesMessage("Competition deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     @Required

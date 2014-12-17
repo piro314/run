@@ -8,10 +8,12 @@
 
     <ui:define name="content">
         <h:form id="competitionsCRUDForm">
+
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable var="competition" value="#{competitionsBean.competitions}"
-                         paginator="true" rows="10" editable="true" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+            <p:dataTable id="competitionsTable" var="competition" value="#{competitionsBean.competitions}"
+                         paginator="true" rows="10" editable="true"
+                         style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
 
                 <p:ajax event="rowEdit" listener="#{competitionsBean.onRowEdit}" update=":competitionsCRUDForm:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{competitionsBean.onRowCancel}" update=":competitionsCRUDForm:msgs" />
@@ -47,10 +49,45 @@
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
+
+                <p:column style="width:32px">
+                    <p:commandButton icon="ui-icon-trash"
+                                     actionListener="#{competitionsBean.delete(competition)}"
+                                    update=":competitionsCRUDForm:msgs :competitionsCRUDForm:competitionsTable"
+                    />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('testDialog').show();" />
+                </f:facet>
             </p:dataTable>
 
-            <p:commandButton value="Create New" icon="ui-icon-extlink" actionListener="#{competitionsBean.openCreateCompetitionDialog}" />
+
+
+            <p:dialog header="Create new Competition" widgetVar="testDialog" resizable="false" modal="true">
+                <h:panelGrid id="createCompetitionPanel" columns="2">
+                    <h:outputText value="Name"/>
+                    <p:inputText value="#{competitionsBean.forCreate.name}" />
+
+                    <h:outputText value="ImageUrl"/>
+                    <p:inputText value="#{competitionsBean.forCreate.imageUrl}" />
+
+                    <h:outputText value="Url"/>
+                    <p:inputText value="#{competitionsBean.forCreate.url}" />
+
+                    <h:outputText value="Description"/>
+                    <p:inputText value="#{competitionsBean.forCreate.description}" />
+
+                    <p:commandButton value="Create"
+                                     actionListener="#{competitionsBean.createNewCompetition}"
+                                     update=":competitionsCRUDForm:msgs :competitionsCRUDForm:competitionsTable"
+                                     oncomplete="PF('testDialog').hide();"/>
+
+                </h:panelGrid>
+            </p:dialog>
+
         </h:form>
+
     </ui:define>
 
 </ui:composition>

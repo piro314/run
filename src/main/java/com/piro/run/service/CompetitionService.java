@@ -15,4 +15,6 @@ public interface CompetitionService {
     void update(CompetitionDto toUpdate);
 
     CompetitionDto createNew(CompetitionDto dto);
+
+    void delete(Long competitionId);
 }
