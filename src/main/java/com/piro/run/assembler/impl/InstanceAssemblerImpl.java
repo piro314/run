@@ -21,7 +21,6 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
 
     private LegAssembler legAssembler;
 
-    @Resource
     private CompetitionRepository competitionRepository;
 
     @Override
@@ -61,4 +60,8 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
         this.legAssembler = legAssembler;
     }
 
+    @Required
+    public void setCompetitionRepository(CompetitionRepository competitionRepository) {
+        this.competitionRepository = competitionRepository;
+    }
 }

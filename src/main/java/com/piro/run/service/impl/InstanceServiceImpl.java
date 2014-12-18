@@ -12,6 +12,8 @@ import com.piro.run.entity.Instance;
 import com.piro.run.service.InstanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class InstanceServiceImpl implements InstanceService {
     private CompetitionAssembler competitionAssembler;
 
     @Override
+    @Transactional
     public List<InstanceDto> listByCompetition(CompetitionDto competitionDto) {
 
         Competition competition = competitionAssembler.toEntity(competitionDto);
@@ -36,16 +39,17 @@ public class InstanceServiceImpl implements InstanceService {
         return instanceAssembler.toDtos(entities);
     }
 
+    @Required
     public void setInstanceAssembler(InstanceAssemblerImpl instanceAssembler) {
         this.instanceAssembler = instanceAssembler;
     }
 
-
+    @Required
     public void setInstanceRepository(InstanceRepository instanceRepository) {
         this.instanceRepository = instanceRepository;
     }
 
-
+    @Required
     public void setCompetitionAssembler(CompetitionAssemblerImpl competitionAssembler) {
         this.competitionAssembler = competitionAssembler;
     }

@@ -14,7 +14,7 @@ public abstract class BaseAssembler<E,D> implements Assembler<E,D> {
     @Override
     public List<E> toEntities(List<D> dtos) {
         List<E> result = new ArrayList<>();
-        if(dtos != null) {
+        if(dtos != null && !dtos.isEmpty()) {
             for (D dto : dtos) {
                 E entity = toEntity(dto);
                 result.add(entity);
@@ -28,7 +28,7 @@ public abstract class BaseAssembler<E,D> implements Assembler<E,D> {
     public List<D> toDtos(List<E> entities) {
         List<D> result = new ArrayList<>();
 
-        if(entities != null) {
+        if(entities != null && !entities.isEmpty()) {
             for (E entity : entities) {
                 D dto = toDto(entity);
                 result.add(dto);

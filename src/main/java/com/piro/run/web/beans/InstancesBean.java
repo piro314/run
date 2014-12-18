@@ -25,7 +25,11 @@ public class InstancesBean implements Serializable {
     private CompetitionDto competitionDto;
     private List<InstanceDto> instances;
 
-    public InstancesBean(){
+    public InstancesBean(CompetitionService competitionService, InstanceService instanceService){
+        this.competitionService = competitionService;
+        this.instanceService = instanceService;
+
+
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
         String competitionIdStr = parameterMap.get("competitionId");
@@ -38,7 +42,11 @@ public class InstancesBean implements Serializable {
             catch (NumberFormatException e){}
         }
 
-        competitionDto = competitionService.getById(competitionId);
+        if(competitionId != -1) {
+            competitionDto = competitionService.getById(competitionId);
+        }else{
+            throw new IllegalArgumentException("cannot find competition");
+        }
 
     }
 
@@ -61,11 +69,4 @@ public class InstancesBean implements Serializable {
         this.competitionDto = competitionDto;
     }
 
-    public void setInstanceService(InstanceServiceImpl instanceService) {
-        this.instanceService = instanceService;
-    }
-
-    public void setCompetitionService(CompetitionServiceImpl competitionService) {
-        this.competitionService = competitionService;
-    }
 }

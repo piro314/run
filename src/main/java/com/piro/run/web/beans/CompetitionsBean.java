@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -53,8 +54,9 @@ public class CompetitionsBean implements Serializable{
         this.competitions = competitions;
     }
 
-    public String getRedirectUrl(String id){
-        return "instances.jsf?competitionId="+id;
+    public void redirect(String id) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("instances.jsf?competitionId="+id);
+
     }
 
     public void openTestDialog(){

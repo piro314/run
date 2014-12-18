@@ -27,7 +27,7 @@
                     </p:column>
 
                     <p:column headerText="Details">
-                        <p:commandLink value="View" action="#{competitionsBean.getRedirectUrl(competition.id)}" >
+                        <p:commandLink value="View" actionListener="#{competitionsBean.redirect(competition.id)}" >
 
                         </p:commandLink>
                     </p:column>

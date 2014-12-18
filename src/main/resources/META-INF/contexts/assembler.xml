@@ -17,16 +17,12 @@
     <bean id="instanceAssembler" class="com.piro.run.assembler.impl.InstanceAssemblerImpl"
           parent="baseAssembler" >
         <property name="legAssembler" ref="legAssembler"/>
+        <property name="competitionRepository" ref="competitionRepository"/>
     </bean>
 
     <bean id="competitionAssembler" class="com.piro.run.assembler.impl.CompetitionAssemblerImpl"
           parent="baseAssembler" >
         <property name="instanceAssembler" ref="instanceAssembler"/>
-    </bean>
-    <bean class="com.piro.run.service.impl.InstanceServiceImpl" id="instanceService">
-        <property name="instanceAssembler" ref="instanceAssembler"/>
-        <property name="instanceRepository" ref="instanceRepository"/>
-        <property name="competitionAssembler" ref="competitionAssembler"/>
     </bean>
 
 

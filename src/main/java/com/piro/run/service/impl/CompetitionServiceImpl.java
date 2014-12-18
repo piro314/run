@@ -63,9 +63,11 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    @Transactional
     public CompetitionDto getById(Long id) {
 
         Competition competition = competitionRepository.findOne(id);
+
         return competitionAssembler.toDto(competition);
     }
 
