@@ -53,6 +53,7 @@
                 <p:column style="width:32px">
                     <p:commandButton icon="ui-icon-trash"
                                      actionListener="#{competitionsBean.delete(competition)}"
+                                     process="@this"
                                     update=":competitionsCRUDForm:msgs :competitionsCRUDForm:competitionsTable"
                     />
                 </p:column>
@@ -65,23 +66,30 @@
 
 
             <p:dialog header="Create new Competition" widgetVar="testDialog" resizable="false" modal="true">
-                <h:panelGrid id="createCompetitionPanel" columns="2">
+
+                <h:panelGrid id="createCompetitionPanel" columns="3">
                     <h:outputText value="Name"/>
-                    <p:inputText value="#{competitionsBean.forCreate.name}" />
+                    <p:inputText id="name" value="#{competitionsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="nameMsg" for="name" />
 
                     <h:outputText value="ImageUrl"/>
-                    <p:inputText value="#{competitionsBean.forCreate.imageUrl}" />
+                    <p:inputText id="imageUrl" value="#{competitionsBean.forCreate.imageUrl}" />
+                    <p:messages id="imageUrlMsg" for="imageUrl"/>
 
                     <h:outputText value="Url"/>
-                    <p:inputText value="#{competitionsBean.forCreate.url}" />
+                    <p:inputText id="url" value="#{competitionsBean.forCreate.url}" />
+                    <p:messages id="urlMsg" for="url"/>
 
                     <h:outputText value="Description"/>
-                    <p:inputText value="#{competitionsBean.forCreate.description}" />
+                    <p:inputText id="description" value="#{competitionsBean.forCreate.description}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="descriptionMsg" for="description" />
 
                     <p:commandButton value="Create"
                                      actionListener="#{competitionsBean.createNewCompetition}"
-                                     update=":competitionsCRUDForm:msgs :competitionsCRUDForm:competitionsTable"
-                                     oncomplete="PF('testDialog').hide();"/>
+                                     update=":competitionsCRUDForm:msgs
+                                      :competitionsCRUDForm:competitionsTable
+                                      descriptionMsg nameMsg createCompetitionPanel"
+                                     />
 
                 </h:panelGrid>
             </p:dialog>

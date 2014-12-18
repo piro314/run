@@ -78,6 +78,8 @@ public class CompetitionsBean implements Serializable{
         FacesMessage msg = new FacesMessage("New competition created", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
+        RequestContext.getCurrentInstance().execute("PF('testDialog').hide();");
+
     }
 
     public CompetitionDto getForCreate() {
