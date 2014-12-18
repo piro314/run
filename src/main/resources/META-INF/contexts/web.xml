@@ -20,4 +20,9 @@
         <property name="competitionService" ref="competitionService"/>
     </bean>
 
+    <bean id="cinstancesBean" class="com.piro.run.web.beans.InstancesBean" scope="view" >
+        <property name="instanceService" ref="instanceService"/>
+        <property name="competitionService" ref="competitionService"/>
+    </bean>
+
 </beans>

@@ -1,0 +1,36 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="instancesForm">
+            <p:dataTable var="instance" value="#{instancesBean.instances}"
+            paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+
+
+                <p:column headerText="Name" filterBy="#{instance.name}" filterMatchMode="contains">
+                    <h:outputText value="#{instance.name}"/>
+                </p:column>
+
+                <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains">
+                    <h:outputText value="#{instance.startDate}">
+                        <f:convertDateTime pattern="YYYY-MM-DD" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Start Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
+                    <h:outputText value="#{instance.endDate}">
+                        <f:convertDateTime pattern="YYYY-MM-DD" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

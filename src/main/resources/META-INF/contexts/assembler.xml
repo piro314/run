@@ -23,7 +23,11 @@
           parent="baseAssembler" >
         <property name="instanceAssembler" ref="instanceAssembler"/>
     </bean>
-
+    <bean class="com.piro.run.service.impl.InstanceServiceImpl" id="instanceService">
+        <property name="instanceAssembler" ref="instanceAssembler"/>
+        <property name="instanceRepository" ref="instanceRepository"/>
+        <property name="competitionAssembler" ref="competitionAssembler"/>
+    </bean>
 
 
 </beans>

@@ -62,6 +62,13 @@ public class CompetitionServiceImpl implements CompetitionService {
         competitionRepository.delete(competitionId);
     }
 
+    @Override
+    public CompetitionDto getById(Long id) {
+
+        Competition competition = competitionRepository.findOne(id);
+        return competitionAssembler.toDto(competition);
+    }
+
     @Required
     public void setCompetitionAssembler(CompetitionAssembler competitionAssembler) {
         this.competitionAssembler = competitionAssembler;

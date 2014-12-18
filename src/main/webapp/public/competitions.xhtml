@@ -1,7 +1,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:composition template="/templates/publicLayout.xhtml">
 
@@ -24,6 +24,12 @@
 
                     <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">
                         <h:outputText value="#{competition.description}"/>
+                    </p:column>
+
+                    <p:column headerText="Details">
+                        <p:commandLink value="View" action="#{competitionsBean.getRedirectUrl(competition.id)}" >
+
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
             </h:form>

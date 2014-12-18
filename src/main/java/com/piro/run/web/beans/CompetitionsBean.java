@@ -53,17 +53,9 @@ public class CompetitionsBean implements Serializable{
         this.competitions = competitions;
     }
 
-//    public void openCreateCompetitionDialog(){
-//
-//        Map<String,Object> options = new HashMap<String, Object>();
-//        options.put("modal", true);
-//        options.put("draggable", false);
-//        options.put("resizable", false);
-//        options.put("contentHeight", 320);
-//
-//        RequestContext.getCurrentInstance().openDialog("createCompetitionDialog", options, null);
-//
-//    }
+    public String getRedirectUrl(String id){
+        return "instances.jsf?competitionId="+id;
+    }
 
     public void openTestDialog(){
         RequestContext.getCurrentInstance().openDialog("testDialog");
