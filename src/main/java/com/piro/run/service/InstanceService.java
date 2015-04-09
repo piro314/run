@@ -11,4 +11,12 @@ import java.util.List;
 public interface InstanceService {
 
     List<InstanceDto> listByCompetition(CompetitionDto competitionDto);
+
+    void update(InstanceDto toUpdate);
+
+    InstanceDto createNew(InstanceDto dto);
+
+    void delete(Long instanceId);
+
+    InstanceDto getById(Long id);
 }

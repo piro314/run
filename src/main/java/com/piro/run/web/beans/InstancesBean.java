@@ -6,8 +6,11 @@ import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
 import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.util.StringUtils;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -24,6 +27,7 @@ public class InstancesBean implements Serializable {
 
     private CompetitionDto competitionDto;
     private List<InstanceDto> instances;
+    private InstanceDto forCreate;
 
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService){
         this.competitionService = competitionService;
@@ -48,6 +52,9 @@ public class InstancesBean implements Serializable {
             throw new IllegalArgumentException("cannot find competition");
         }
 
+        forCreate = new InstanceDto();
+        forCreate.setCompetitionId(competitionId);
+
     }
 
     public List<InstanceDto> getInstances() {
@@ -69,4 +76,43 @@ public class InstancesBean implements Serializable {
         this.competitionDto = competitionDto;
     }
 
+    public void onRowEdit(RowEditEvent event) {
+        InstanceDto toUpdate = (InstanceDto)event.getObject();
+        instanceService.update(toUpdate);
+        FacesMessage msg = new FacesMessage("Instance Edited", "" );
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void delete(InstanceDto forDelete){
+        instanceService.delete(forDelete.getId());
+        instances.remove(forDelete);
+        FacesMessage msg = new FacesMessage("Instance deleted", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void createNewInstance(){
+        if(forCreate != null){
+            InstanceDto created = instanceService.createNew(forCreate);
+            instances.add(created);
+            forCreate = new InstanceDto();
+        }
+        FacesMessage msg = new FacesMessage("New instance created", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        RequestContext.getCurrentInstance().execute("PF('createDialog').hide();");
+
+    }
+
+    public InstanceDto getForCreate() {
+        return forCreate;
+    }
+
+    public void setForCreate(InstanceDto forCreate) {
+        this.forCreate = forCreate;
+    }
 }

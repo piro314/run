@@ -50,6 +50,12 @@
                     <p:rowEditor />
                 </p:column>
 
+                <p:column style="width:32px" headerText="Instances">
+                    <p:commandLink value="Edit" actionListener="#{competitionsBean.redirectEdit(competition.id)}" process="@this">
+
+                    </p:commandLink>
+                </p:column>
+
                 <p:column style="width:32px">
                     <p:commandButton icon="ui-icon-trash"
                                      actionListener="#{competitionsBean.delete(competition)}"

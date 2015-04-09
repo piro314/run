@@ -9,6 +9,10 @@
 
     <ui:define name="content">
         <h:form id="instancesForm">
+            <p:panelGrid columns="2">
+                <h:outputText value="#{instancesBean.competitionDto.name}"/>
+                <h:graphicImage url="#{instancesBean.competitionDto.imageUrl}" style="width: 100; height: 100;"/>
+            </p:panelGrid>
             <p:dataTable var="instance" value="#{instancesBean.instances}"
             paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
 
@@ -23,7 +27,7 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Start Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
+                <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
                     <h:outputText value="#{instance.endDate}">
                         <f:convertDateTime pattern="YYYY-MM-DD" />
                     </h:outputText>

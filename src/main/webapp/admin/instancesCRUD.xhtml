@@ -1,0 +1,102 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="instancesCRUDForm">
+
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="instancesTable" var="instance" value="#{instancesBean.instances}" editable="true"
+                         paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+
+                <f:facet name="header">
+                    <a href="#{instancesBean.competitionDto.url}" target="_blank"><h:outputText value="#{instancesBean.competitionDto.name}"/></a>
+                </f:facet>
+
+
+                <p:ajax event="rowEdit" listener="#{instancesBean.onRowEdit}" update=":instancesCRUDForm:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{instancesBean.onRowCancel}" update=":instancesCRUDForm:msgs" />
+
+                <p:column headerText="Name" filterBy="#{instance.name}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{instance.name}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="nameInput" value="#{instance.name}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{instance.startDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input"><p:calendar pattern="yyyy-MM-dd" id="startDate" value="#{instance.startDate}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{instance.endDate}">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input"><p:calendar  pattern="yyyy-MM-dd" id="endDate" value="#{instance.endDate}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:commandButton icon="ui-icon-trash"
+                                     actionListener="#{instancesBean.delete(instance)}"
+                                     process="@this"
+                                     update=":instancesCRUDForm:msgs :instancesCRUDForm:instancesTable"
+                            />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:dialog header="Create new Instance" widgetVar="createDialog" resizable="false" modal="true">
+
+                <h:panelGrid id="createInstancePanel" columns="3">
+                    <h:outputText value="Name"/>
+                    <p:inputText id="name" value="#{instancesBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="nameMsg" for="name" />
+
+                    <h:outputText value="Start Date"/>
+                    <p:calendar id="startDateInput" value="#{instancesBean.forCreate.startDate}" required="true" requiredMessage="this field is required" />
+                    <p:messages id="startDateInputMsg" for="startDateInput"/>
+
+                    <h:outputText value="End Date"/>
+                    <p:calendar id="endDateInput" value="#{instancesBean.forCreate.endDate}" required="true" requiredMessage="this field is required" />
+                    <p:messages id="endDateInputMsg" for="endDateInput"/>
+
+                    <p:commandButton value="Create"
+                                     actionListener="#{instancesBean.createNewInstance}"
+                                     update=":instancesCRUDForm:msgs
+                                      :instancesCRUDForm:instancesTable
+                                      startDateInputMsg endDateInputMsg createInstancePanel"
+                            />
+
+                </h:panelGrid>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

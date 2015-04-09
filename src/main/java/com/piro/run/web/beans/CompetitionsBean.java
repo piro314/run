@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class CompetitionsBean implements Serializable{
 
+    public final long serialVersionUID = 1931823942176311721L;
+
     private transient CompetitionService competitionService;
 
     private List<CompetitionDto> competitions;
@@ -57,6 +59,10 @@ public class CompetitionsBean implements Serializable{
     public void redirect(String id) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("instances.jsf?competitionId="+id);
 
+    }
+
+    public void redirectEdit(String id) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("instancesCRUD.jsf?competitionId="+id);
     }
 
     public void openTestDialog(){
