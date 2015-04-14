@@ -21,7 +21,6 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
 
     private CheckPointAssembler checkPointAssembler;
 
-    @Resource
     private InstanceRepository instanceRepository;
 
     @Override
@@ -67,4 +66,8 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         this.checkPointAssembler = checkPointAssembler;
     }
 
+    @Required
+    public void setInstanceRepository(InstanceRepository instanceRepository) {
+        this.instanceRepository = instanceRepository;
+    }
 }

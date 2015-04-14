@@ -7,11 +7,14 @@
     <bean id="baseAssembler" class="com.piro.run.assembler.impl.BaseAssembler" abstract="true" />
 
     <bean id="checkPointAssembler" class="com.piro.run.assembler.impl.CheckPointAssemblerImpl"
-          parent="baseAssembler" />
+          parent="baseAssembler" >
+        <property name="legRepository" ref="legRepository"/>
+    </bean>
 
     <bean id="legAssembler" class="com.piro.run.assembler.impl.LegAssemblerImpl"
           parent="baseAssembler" >
         <property name="checkPointAssembler" ref="checkPointAssembler"/>
+        <property name="instanceRepository" ref="instanceRepository"/>
     </bean>
 
     <bean id="instanceAssembler" class="com.piro.run.assembler.impl.InstanceAssemblerImpl"

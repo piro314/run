@@ -16,7 +16,12 @@
                          paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
 
                 <f:facet name="header">
-                    <a href="#{instancesBean.competitionDto.url}" target="_blank"><h:outputText value="#{instancesBean.competitionDto.name}"/></a>
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="#" />
+                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+                        <p:menuitem value="#{instancesBean.competitionDto.name}" url="#" />
+                    </p:breadCrumb>
+
                 </f:facet>
 
 
@@ -52,11 +57,19 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column style="width:32px">
+                <p:column style="width:22px">
                     <p:rowEditor />
                 </p:column>
 
-                <p:column style="width:32px">
+                <p:column style="width:42px" >
+
+                    <p:commandButton icon="ui-icon-gear"
+                                     actionListener="#{instancesBean.redirectEdit(instance.id)}"
+                                     process="@this" />
+
+                </p:column>
+
+                <p:column style="width:42px">
                     <p:commandButton icon="ui-icon-trash"
                                      actionListener="#{instancesBean.delete(instance)}"
                                      process="@this"

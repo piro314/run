@@ -2,12 +2,15 @@ package com.piro.run.dto;
 
 import com.piro.run.entity.Instance;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class CompetitionDto {
+public class CompetitionDto  implements Serializable{
+
+    public final long serialVersionUID = 1921221942117311391L;
 
     private Long id;
     private String name;

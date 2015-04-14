@@ -1,0 +1,130 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="checkPointsCRUDForm">
+
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="checkPointsTable" var="checkPoint" value="#{checkPointsBean.checkPoints}" editable="true"
+                         paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+
+                <f:facet name="header">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="#" />
+                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+                        <p:menuitem value="#{checkPointsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{checkPointsBean.competitionDto.id}" />
+                        <p:menuitem value="#{checkPointsBean.instanceDto.name}" url="legsCRUD.jsf?instanceId=#{checkPointsBean.instanceDto.id}" />
+                        <p:menuitem value="#{checkPointsBean.legDto.name}" url="#" />
+                    </p:breadCrumb>
+
+                </f:facet>
+
+
+                <p:ajax event="rowEdit" listener="#{checkPointsBean.onRowEdit}" update=":checkPointsCRUDForm:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{checkPointsBean.onRowCancel}" update=":checkPointsCRUDForm:msgs" />
+
+                <p:column headerText="Name" filterBy="#{checkPoint.name}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{checkPoint.name}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="nameInput" value="#{checkPoint.name}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Altitude (m)" filterBy="#{checkPoint.altitude}" filterFunction="#{webBeanUtils.filterBigger}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{checkPoint.altitude}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{checkPoint.altitude}" style="width:96%">
+                                <f:convertNumber integerOnly="true" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Distance from start (m)" filterBy="#{checkPoint.distanceFromStart}" filterFunction="#{webBeanUtils.filterBigger}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{checkPoint.distanceFromStart}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{checkPoint.distanceFromStart}" style="width:96%">
+                                <f:convertNumber integerOnly="true" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:22px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column style="width:42px">
+                    <p:commandButton icon="ui-icon-trash"
+                                     actionListener="#{checkPointsBean.delete(checkPoint)}"
+                                     process="@this"
+                                     update=":checkPointsCRUDForm:msgs :checkPointsCRUDForm:checkPointsTable"
+                            />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+                    <p:commandButton value="Clone another leg"  icon="ui-icon-extlink" onclick="PF('cloneDialog').show();" rendered="#{checkPointsBean.checkPoints.isEmpty()}"/>
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:dialog header="Create new Check Point" widgetVar="createDialog" resizable="false" modal="true">
+
+                <h:panelGrid id="createCheckPointPanel" columns="3">
+                    <h:outputText value="Name"/>
+                    <p:inputText id="name" value="#{checkPointsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="nameMsg" for="name" />
+
+                    <h:outputText value="Altitude (m)"/>
+                    <p:inputText id="altitudeInput" value="#{checkPointsBean.forCreate.altitude}">
+                        <f:convertNumber integerOnly="true" />
+                    </p:inputText>
+                    <p:messages id="altitudeInputMsg" for="altitudeInput"/>
+
+                    <h:outputText value="Distance from start (m)"/>
+                    <p:inputText id="distanceInput" value="#{checkPointsBean.forCreate.distanceFromStart}">
+                        <f:convertNumber integerOnly="true" />
+                    </p:inputText>
+                    <p:messages id="distanceInputMsg" for="distanceInput"/>
+
+                    <p:commandButton value="Create"
+                                     actionListener="#{checkPointsBean.createNewCheckPoint}"
+                                     update=":checkPointsCRUDForm:msgs
+                                      :checkPointsCRUDForm:checkPointsTable
+                                      nameMsg distanceInputMsg altitudeInputMsg createCheckPointPanel"
+                            />
+
+                </h:panelGrid>
+            </p:dialog>
+
+            <p:dialog header="Clone check points from another leg" widgetVar="cloneDialog" resizable="false" modal="true">
+
+                <p:outputLabel for="selectLeg" value="Leg to copy from: " />
+                <p:selectOneMenu id="selectLeg" value="#{checkPointsBean.copyLegId}">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{checkPointsBean.selectLegs}" />
+                </p:selectOneMenu>
+                <p:commandButton value="Create" actionListener="#{checkPointsBean.cloneCheckPoints}"
+                                 update=":checkPointsCRUDForm:checkPointsTable :checkPointsCRUDForm:msgs"
+                                 process="selectLeg @this"/>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

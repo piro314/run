@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,7 @@ public class InstancesBean implements Serializable {
             InstanceDto created = instanceService.createNew(forCreate);
             instances.add(created);
             forCreate = new InstanceDto();
+            forCreate.setCompetitionId(competitionDto.getId());
         }
         FacesMessage msg = new FacesMessage("New instance created", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -114,5 +116,9 @@ public class InstancesBean implements Serializable {
 
     public void setForCreate(InstanceDto forCreate) {
         this.forCreate = forCreate;
+    }
+
+    public void redirectEdit(String id) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("legsCRUD.jsf?instanceId="+id);
     }
 }

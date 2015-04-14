@@ -3,12 +3,15 @@ package com.piro.run.dto;
 import com.piro.run.entity.CheckPoint;
 import com.piro.run.entity.Instance;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class LegDto {
+public class LegDto implements Serializable{
+
+    public final long serialVersionUID = 2727221942188311381L;
 
     private Long id;
     private String name;

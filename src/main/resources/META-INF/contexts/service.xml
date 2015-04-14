@@ -15,4 +15,17 @@
         <property name="competitionAssembler" ref="competitionAssembler"/>
     </bean>
 
+    <bean class="com.piro.run.service.impl.LegServiceImpl" id="legService">
+        <property name="legAssembler" ref="legAssembler"/>
+        <property name="legRepository" ref="legRepository"/>
+        <property name="instanceAssembler" ref="instanceAssembler"/>
+        <property name="checkPointRepository" ref="checkPointRepository"/>
+    </bean>
+
+    <bean class="com.piro.run.service.impl.CheckPointServiceImpl" id="checkPointService">
+        <property name="checkPointAssembler" ref="checkPointAssembler"/>
+        <property name="legAssembler" ref="legAssembler"/>
+        <property name="checkPointRepository" ref="checkPointRepository"/>
+    </bean>
+
 </beans>

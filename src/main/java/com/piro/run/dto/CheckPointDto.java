@@ -2,17 +2,21 @@ package com.piro.run.dto;
 
 import com.piro.run.entity.Leg;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class CheckPointDto {
+public class CheckPointDto implements Serializable{
+
+    public final long serialVersionUID = 2321244942417515351L;
 
     private long id;
     private String name;
     private int distanceFromStart;
     private int altitude;
+    private Long legId;
 
     public long getId() {
         return id;
@@ -44,5 +48,13 @@ public class CheckPointDto {
 
     public void setAltitude(int altitude) {
         this.altitude = altitude;
+    }
+
+    public Long getLegId() {
+        return legId;
+    }
+
+    public void setLegId(Long legId) {
+        this.legId = legId;
     }
 }

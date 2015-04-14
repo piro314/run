@@ -18,13 +18,6 @@
                 <p:ajax event="rowEdit" listener="#{competitionsBean.onRowEdit}" update=":competitionsCRUDForm:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{competitionsBean.onRowCancel}" update=":competitionsCRUDForm:msgs" />
 
-                <p:column headerText="Image">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{competition.imageUrl}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="imageUrlInput" value="#{competition.imageUrl}" style="width:96%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-
                 <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{competition.name}" /></f:facet>
@@ -39,6 +32,13 @@
                     </p:cellEditor>
                 </p:column>
 
+                <p:column headerText="Image">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{competition.imageUrl}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="imageUrlInput" value="#{competition.imageUrl}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
                 <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{competition.description}" /></f:facet>
@@ -46,17 +46,19 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column style="width:32px">
+                <p:column style="width:22px">
                     <p:rowEditor />
                 </p:column>
 
-                <p:column style="width:32px" headerText="Instances">
-                    <p:commandLink value="Edit" actionListener="#{competitionsBean.redirectEdit(competition.id)}" process="@this">
+                <p:column style="width:42px" >
 
-                    </p:commandLink>
+                    <p:commandButton icon="ui-icon-gear"
+                                     actionListener="#{competitionsBean.redirectEdit(competition.id)}"
+                                     process="@this" />
+
                 </p:column>
 
-                <p:column style="width:32px">
+                <p:column style="width:42px">
                     <p:commandButton icon="ui-icon-trash"
                                      actionListener="#{competitionsBean.delete(competition)}"
                                      process="@this"

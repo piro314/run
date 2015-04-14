@@ -1,8 +1,10 @@
 package com.piro.run.assembler.impl;
 
 import com.piro.run.assembler.CheckPointAssembler;
+import com.piro.run.dao.LegRepository;
 import com.piro.run.dto.CheckPointDto;
 import com.piro.run.entity.CheckPoint;
+import com.piro.run.entity.Leg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,8 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
 
     private static final Logger LOG = LoggerFactory.getLogger(CheckPointAssemblerImpl.class);
 
+    private LegRepository legRepository;
+
     @Override
     public CheckPoint toEntity(CheckPointDto dto) {
         LOG.debug("Transforming to entity dto with id = "+dto.getId());
@@ -24,6 +28,8 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
         entity.setAltitude(dto.getAltitude());
         entity.setDistanceFromStart(dto.getDistanceFromStart());
         entity.setId(dto.getId());
+        Leg leg = legRepository.findOne(dto.getLegId());
+        entity.setLeg(leg);
 
         return entity;
     }
@@ -38,7 +44,13 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
         dto.setAltitude(entity.getAltitude());
         dto.setDistanceFromStart(entity.getDistanceFromStart());
         dto.setName(entity.getName());
+        dto.setLegId(entity.getLeg().getId());
 
         return dto;
+    }
+
+
+    public void setLegRepository(LegRepository legRepository) {
+        this.legRepository = legRepository;
     }
 }
