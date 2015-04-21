@@ -28,5 +28,11 @@
         <property name="instanceAssembler" ref="instanceAssembler"/>
     </bean>
 
+    <bean id="resultAssembler" class="com.piro.run.assembler.impl.ResultAssemblerImpl"
+          parent="baseAssembler" >
+        <property name="participantRepository" ref="participantRepository"/>
+        <property name="checkPointRepository" ref="checkPointRepository"/>
+    </bean>
+
 
 </beans>

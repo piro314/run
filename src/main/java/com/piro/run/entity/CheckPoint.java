@@ -16,6 +16,7 @@ public class CheckPoint {
     private int distanceFromStart;
     private int altitude;
     private Leg leg;
+    private List<Result> results;
 
 
     @Id
@@ -64,5 +65,14 @@ public class CheckPoint {
 
     public void setLeg(Leg leg) {
         this.leg = leg;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="checkPoint")
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 }

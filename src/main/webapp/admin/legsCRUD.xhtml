@@ -113,6 +113,14 @@
 
                 </p:column>
 
+                <p:column style="width:42px" >
+
+                    <p:commandButton icon="ui-icon-clipboard"
+                                     actionListener="#{legsBean.redirectResults(leg.id)}"
+                                     process="@this" />
+
+                </p:column>
+
                 <p:column style="width:42px">
                     <p:commandButton icon="ui-icon-trash"
                                      actionListener="#{legsBean.delete(leg)}"

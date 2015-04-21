@@ -126,4 +126,8 @@ public class LegsBean implements Serializable {
     public void redirectEdit(String id) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("checkPointsCRUD.jsf?legId="+id);
     }
+
+    public void redirectResults(String id) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("resultsCRUD.jsf?legId="+id);
+    }
 }

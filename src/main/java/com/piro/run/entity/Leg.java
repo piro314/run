@@ -105,4 +105,5 @@ public class Leg {
     public void setInstance(Instance instance) {
         this.instance = instance;
     }
+
 }

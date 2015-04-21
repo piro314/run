@@ -38,6 +38,14 @@
         <constructor-arg ref="checkPointService"/>
     </bean>
 
+    <bean id="resultsBean" class="com.piro.run.web.beans.ResultsBean" scope="view" >
+        <constructor-arg ref="competitionService"/>
+        <constructor-arg ref="instanceService"/>
+        <constructor-arg ref="legService"/>
+        <constructor-arg ref="resultService"/>
+    </bean>
+
+
     <bean id="webBeanUtils" class="com.piro.run.web.beans.WebBeanUtils" scope="request" />
 
 </beans>

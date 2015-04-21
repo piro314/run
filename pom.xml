@@ -23,7 +23,7 @@
         <start-class>com.piro.run.Application</start-class>
         <java.version>1.7</java.version>
         <primefaces.version>5.1</primefaces.version>
-        <sun.faces.version>2.1.17</sun.faces.version>
+        <sun.faces.version>2.2.10</sun.faces.version>
         <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
         <org.springsecurity.version>3.2.5.RELEASE</org.springsecurity.version>
         <spring.version>4.1.2.RELEASE</spring.version>
