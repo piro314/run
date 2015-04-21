@@ -1,0 +1,135 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="resultsCRUDForm">
+
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable id="resultsTable" var="result" value="#{resultsBean.results}" editable="true"
+                         paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+
+                <f:facet name="header">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="#" />
+                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+                        <p:menuitem value="#{resultsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{resultsBean.competitionDto.id}" />
+                        <p:menuitem value="#{resultsBean.instanceDto.name}" url="legsCRUD.jsf?instanceId=#{resultsBean.instanceDto.id}" />
+                        <p:menuitem value="#{resultsBean.legDto.name}" url="#" />
+                    </p:breadCrumb>
+
+                </f:facet>
+
+
+                <p:ajax event="rowEdit" listener="#{resultsBean.onRowEdit}" update=":resultsCRUDForm:msgs" />
+                <p:ajax event="rowEditCancel" listener="#{resultsBean.onRowCancel}" update=":resultsCRUDForm:msgs" />
+
+                <p:column headerText="Name" filterBy="#{result.participantName}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.participantName}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="nameInput" value="#{result.participantName}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="UserName" filterBy="#{result.participantUsername}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.participantUsername}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="usernameInput" value="#{result.participantUsername}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:columns value="#{resultsBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}" filterBy="#{result.results[colIndex].time}">
+                    <f:facet name="header">
+                        <h:outputText value="#{column}" />
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.results[colIndex].time}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="#{column}Input" value="#{result.results[colIndex].time}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:columns>
+
+                <p:column style="width:22px">
+                    <p:rowEditor />
+                </p:column>
+
+                <p:column style="width:42px">
+                    <p:commandButton icon="ui-icon-trash"
+                                     actionListener="#{resultsBean.delete(result)}"
+                                     process="@this"
+                                     update=":resultsCRUDForm:msgs :resultsCRUDForm:resultsTable"
+                            />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:dialog header="Enter new Result" widgetVar="createDialog" resizable="false" modal="true">
+
+                <h:panelGrid id="createResultPanel" columns="3">
+
+                    <h:outputText value="Name"/>
+                    <p:inputText id="name" value="#{resultsBean.forCreate.participantName}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="nameMsg" for="name" />
+
+                    <h:outputText value="Username"/>
+                    <p:inputText id="username" value="#{resultsBean.forCreate.participantUsername}" />
+                    <p:messages id="usernameMsg" for="username" />
+
+                    <h:outputText value="Times"/>
+                    <p:dataTable value="#{resultsBean.forCreate.results}" var="result" style="width: 400px" rowIndexVar="rowIndex">
+                        <p:column>
+                            <h:outputText value="#{result.checkPointName}"/>
+                        </p:column>
+                        <p:column>
+
+                            <p:inputText value="#{result.hours}" id="hoursInput" style="width: 30px">
+                                <f:convertNumber integerOnly="true" />
+                            </p:inputText>
+                            :
+                            <p:inputText value="#{result.minutes}" id="minutesInput" style="width: 30px">
+                                <f:validateLongRange minimum="0" maximum="59"/>
+                            </p:inputText>
+                            :
+                            <p:inputText value="#{result.seconds}" id="secondsInput" style="width: 30px">
+                                <f:validateLongRange minimum="0" maximum="59"/>
+                            </p:inputText>
+
+                            <p:watermark for="hoursInput" value="hh" />
+                            <p:messages for="hoursInput" />
+                            <p:watermark for="minutesInput" value="mm" />
+                            <p:messages for="minutesInput" />
+                            <p:watermark for="secondsInput" value="ss" />
+                            <p:messages for="secondsInput" />
+
+
+                        </p:column>
+                    </p:dataTable>
+                    <h:outputText value=""/>
+
+
+
+
+                    <p:commandButton value="Create"
+                                     actionListener="#{resultsBean.createNewResult}"
+                                     update=":resultsCRUDForm:msgs
+                                      :resultsCRUDForm:resultsTable
+                                       createResultPanel"
+                            />
+
+                </h:panelGrid>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
