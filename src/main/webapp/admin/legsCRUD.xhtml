@@ -102,32 +102,35 @@
                 </p:column>
 
                 <p:column style="width:22px">
-                    <p:rowEditor />
+                    <p:rowEditor id="editButton"/>
+                    <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
                 </p:column>
 
                 <p:column style="width:42px" >
 
-                    <p:commandButton icon="ui-icon-gear"
+                    <p:commandButton icon="ui-icon-gear" id="gearButton"
                                      actionListener="#{legsBean.redirectEdit(leg.id)}"
                                      process="@this" />
-
+                    <p:tooltip id="toolTipGear" for="gearButton" value="Check Points" />
                 </p:column>
 
                 <p:column style="width:42px" >
 
-                    <p:commandButton icon="ui-icon-clipboard"
+                    <p:commandButton icon="ui-icon-clipboard" id="resultsButton"
                                      actionListener="#{legsBean.redirectResults(leg.id)}"
                                      process="@this" />
+                    <p:tooltip id="toolTipResults" for="resultsButton" value="Results" />
 
                 </p:column>
 
                 <p:column style="width:42px">
-                    <p:commandButton icon="ui-icon-trash"
+                    <p:commandButton icon="ui-icon-trash" id="deleteButton"
                                      actionListener="#{legsBean.delete(leg)}"
                                      process="@this"
                                      update=":legsCRUDForm:msgs :legsCRUDForm:legsTable"
                                      disabled="#{leg.resultsCount gt 0}"
                             />
+                    <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
                 </p:column>
 
                 <f:facet name="footer">

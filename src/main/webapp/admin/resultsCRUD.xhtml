@@ -83,15 +83,17 @@
                 </p:columns>
 
                 <p:column style="width:22px">
-                    <p:rowEditor />
+                    <p:rowEditor id="editButton" />
+                    <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
                 </p:column>
 
                 <p:column style="width:42px">
-                    <p:commandButton icon="ui-icon-trash"
+                    <p:commandButton icon="ui-icon-trash" id="deleteButton"
                                      actionListener="#{resultsBean.delete(result)}"
                                      process="@this"
                                      update=":resultsCRUDForm:msgs :resultsCRUDForm:resultsTable"
                             />
+                    <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
                 </p:column>
 
                 <f:facet name="footer">

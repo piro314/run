@@ -58,24 +58,26 @@
                 </p:column>
 
                 <p:column style="width:22px">
-                    <p:rowEditor />
+                    <p:rowEditor id="editButton"/>
+                    <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
                 </p:column>
 
                 <p:column style="width:42px" >
 
-                    <p:commandButton icon="ui-icon-gear"
+                    <p:commandButton icon="ui-icon-gear" id="gearButton"
                                      actionListener="#{instancesBean.redirectEdit(instance.id)}"
                                      process="@this" />
-
+                    <p:tooltip id="toolTipGear" for="gearButton" value="Legs" />
                 </p:column>
 
                 <p:column style="width:42px">
-                    <p:commandButton icon="ui-icon-trash"
+                    <p:commandButton icon="ui-icon-trash" id="deleteButton"
                                      actionListener="#{instancesBean.delete(instance)}"
                                      process="@this"
                                      update=":instancesCRUDForm:msgs :instancesCRUDForm:instancesTable"
                                      disabled="#{instance.resultsCount gt 0}"
                             />
+                    <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
                 </p:column>
 
                 <f:facet name="footer">
