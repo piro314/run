@@ -3,6 +3,7 @@ package com.piro.run.assembler.impl;
 import com.piro.run.assembler.CompetitionAssembler;
 import com.piro.run.assembler.InstanceAssembler;
 import com.piro.run.dto.CompetitionDto;
+import com.piro.run.dto.InstanceDto;
 import com.piro.run.entity.Competition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,12 @@ public class CompetitionAssemblerImpl extends BaseAssembler<Competition, Competi
         dto.setId(entity.getId());
         dto.setInstances(instanceAssembler.toDtos(entity.getInstances()));
         dto.setImageUrl(entity.getImageUrl());
+
+        long resultsCount = 0;
+        for(InstanceDto instanceDto : dto.getInstances()){
+            resultsCount += instanceDto.getResultsCount();
+        }
+        dto.setResultsCount(resultsCount);
 
         return dto;
     }

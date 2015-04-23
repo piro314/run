@@ -22,7 +22,7 @@
                         <p:menuitem value="#{legsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{legsBean.competitionDto.id}" />
                         <p:menuitem value="#{legsBean.instanceDto.name}" url="#" />
                     </p:breadCrumb>
-
+                    <h:outputText value="Legs" />
                 </f:facet>
 
 
@@ -36,7 +36,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Distance (m)" filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="Distance (m)" filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.distance}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{leg.distance}" />
@@ -49,7 +49,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="D+ (m)" filterBy="#{leg.dPlus}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="D+ (m)" filterBy="#{leg.dPlus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dPlus}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{leg.dPlus}" />
@@ -62,7 +62,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="D- (m)" filterBy="#{leg.dMinus}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="D- (m)" filterBy="#{leg.dMinus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dMinus}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{leg.dMinus}" />
@@ -75,7 +75,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Highest (m)" filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="Highest (m)" filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.highest}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{leg.highest}" />
@@ -88,7 +88,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Lowest (m)" filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="Lowest (m)" filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.lowest}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{leg.lowest}" />
@@ -126,6 +126,7 @@
                                      actionListener="#{legsBean.delete(leg)}"
                                      process="@this"
                                      update=":legsCRUDForm:msgs :legsCRUDForm:legsTable"
+                                     disabled="#{leg.resultsCount gt 0}"
                             />
                 </p:column>
 

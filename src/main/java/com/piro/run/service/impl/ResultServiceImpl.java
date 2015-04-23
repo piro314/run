@@ -15,6 +15,8 @@ import com.piro.run.entity.Participant;
 import com.piro.run.entity.Result;
 import com.piro.run.service.ResultService;
 import com.piro.run.utils.TimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +36,15 @@ public class ResultServiceImpl implements ResultService {
     private LegRepository legRepository;
     private ParticipantRepository participantRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(ResultServiceImpl.class);
+
     @Override
     @Transactional(readOnly = true)
     public List<ParticipantResultDto> getResultsByLegGroupByParticipant(LegDto legDto) {
         List<ResultDto> resultDtos = new ArrayList<>();
         Leg leg = legAssembler.toEntity(legDto);
 
-        List<Result> results= resultRepository.findByCheckPointLegOrderByParticipantAsc(leg);
+        List<Result> results= resultRepository.findByCheckPointLegOrderByParticipantAscCheckPointAsc(leg);
         return resultAssembler.toParticipantResultDto(results);
     }
 
@@ -49,6 +53,16 @@ public class ResultServiceImpl implements ResultService {
     @Secured("ROLE_ADMIN")
     public void update(ParticipantResultDto participantResultDto) {
 
+        LOG.debug("updating results for participant with id = " +participantResultDto.getParticipantId() +
+                " and leg id = "+participantResultDto.getLegId());
+
+        List<Result> results = resultAssembler.toEntities(participantResultDto.getResults());
+        resultRepository.save(results);
+
+        Participant participant = participantRepository.findOne(participantResultDto.getParticipantId());
+        participant.setUsername(participantResultDto.getParticipantUsername());
+        participant.setName(participantResultDto.getParticipantName());
+        participantRepository.save(participant);
     }
 
     @Override
@@ -56,29 +70,42 @@ public class ResultServiceImpl implements ResultService {
     @Secured("ROLE_ADMIN")
     public void delete(ParticipantResultDto participantResultDto) {
 
+        LOG.debug("deleting results for participant with id = " +participantResultDto.getParticipantId() +
+                " and leg id = "+participantResultDto.getLegId());
+
+        List<Result> results = resultAssembler.toEntities(participantResultDto.getResults());
+        resultRepository.delete(results);
+        participantRepository.delete(participantResultDto.getParticipantId());
     }
 
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
     public void createNew(ParticipantResultDto participantResultDto) {
+
+        LOG.debug("creating participant with name = " + participantResultDto.getParticipantName());
+
         Participant participant = new Participant();
         participant.setName(participantResultDto.getParticipantName());
         participant.setUsername(participantResultDto.getParticipantUsername());
         participantRepository.save(participant);
 
         List<Result> results = new ArrayList<>();
+        Long legId = null;
         for(ResultDto resultDto: participantResultDto.getResults()){
             Result result = new Result();
             result.setParticipant(participant);
 
             CheckPoint checkPoint = checkPointRepository.findOne(resultDto.getCheckPointId());
             result.setCheckPoint(checkPoint);
-
+            legId = checkPoint.getLeg().getId();
             result.setTime(TimeUtils.covertToMillis(resultDto.getHours(), resultDto.getMinutes(), resultDto.getSeconds()));
 
             results.add(result);
         }
+
+        LOG.debug("creating results for participant with name = " + participantResultDto.getParticipantName()+
+                " and leg id = " + legId);
 
         results = resultRepository.save(results);
 

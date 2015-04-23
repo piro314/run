@@ -32,8 +32,9 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
         entity.setParticipant(participantRepository.findOne(dto.getParticipantId()));
 
         Long time = dto.getTime();
-        if(time == null) {
-            time = (60*60*dto.getHours() + 60*dto.getMinutes() + dto.getSeconds())*1000L;
+        Long updatedTime = TimeUtils.covertToMillis(dto.getHours(), dto.getMinutes(), dto.getSeconds());
+        if(time == null || time != updatedTime) {
+            time = updatedTime;
         }
         entity.setTime(time);
 
@@ -72,7 +73,6 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
         ParticipantResultDto participantResultDto = new ParticipantResultDto();
         for (Result r : results) {
             if(currentParticipantId.longValue() != r.getParticipant().getId().longValue()){
-                list.add(participantResultDto);
 
                 participantResultDto = new ParticipantResultDto();
                 participantResultDto.setParticipantUsername(r.getParticipant().getUsername());
@@ -80,13 +80,11 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
                 participantResultDto.setParticipantId(r.getParticipant().getId());
                 participantResultDto.setResults(new ArrayList<ResultDto>());
                 currentParticipantId = r.getParticipant().getId();
+
+                list.add(participantResultDto);
             }
             participantResultDto.getResults().add(this.toDto(r));
 
-        }
-
-        if(!list.contains(participantResultDto)){
-            list.add(participantResultDto);
         }
 
         return list;

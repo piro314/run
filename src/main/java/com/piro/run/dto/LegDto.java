@@ -22,6 +22,7 @@ public class LegDto implements Serializable{
     private int lowest;
     private List<CheckPointDto> checkPoints;
     private Long instanceId;
+    private long resultsCount;
 
     public Long getId() {
         return id;
@@ -93,5 +94,13 @@ public class LegDto implements Serializable{
 
     public void setInstanceId(Long instanceId) {
         this.instanceId = instanceId;
+    }
+
+    public long getResultsCount() {
+        return resultsCount;
+    }
+
+    public void setResultsCount(long resultsCount) {
+        this.resultsCount = resultsCount;
     }
 }

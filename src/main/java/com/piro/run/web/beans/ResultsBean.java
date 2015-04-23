@@ -8,6 +8,7 @@ import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
 import com.piro.run.service.impl.LegServiceImpl;
 import com.piro.run.service.impl.ResultServiceImpl;
+import com.piro.run.utils.TimeUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.util.StringUtils;
@@ -106,6 +107,9 @@ public class ResultsBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         ParticipantResultDto toUpdate = (ParticipantResultDto)event.getObject();
         resultService.update(toUpdate);
+        for(ResultDto resultDto : toUpdate.getResults()){
+            resultDto.setTime(TimeUtils.covertToMillis(resultDto.getHours(), resultDto.getMinutes(), resultDto.getSeconds()));
+        }
         FacesMessage msg = new FacesMessage("Result Edited", "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -143,11 +147,8 @@ public class ResultsBean implements Serializable {
 
         forCreate = new ParticipantResultDto();
         forCreate.setResults(new ArrayList<ResultDto>());
-        for(String column : columns){
-            ResultDto dto = new ResultDto();
-            dto.setCheckPointName(column);
-            forCreate.getResults().add(dto);
-        }
+        columns = new ArrayList<>();
+        this.createColumns();
 
         FacesMessage msg = new FacesMessage("New Result created", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

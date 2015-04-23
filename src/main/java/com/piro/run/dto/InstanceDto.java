@@ -20,6 +20,7 @@ public class InstanceDto implements Serializable{
     private Date endDate;
     private List<LegDto> legs;
     private Long competitionId;
+    private long resultsCount;
 
 
     public Long getId() {
@@ -68,5 +69,13 @@ public class InstanceDto implements Serializable{
 
     public void setCompetitionId(Long competitionId) {
         this.competitionId = competitionId;
+    }
+
+    public long getResultsCount() {
+        return resultsCount;
+    }
+
+    public void setResultsCount(long resultsCount) {
+        this.resultsCount = resultsCount;
     }
 }

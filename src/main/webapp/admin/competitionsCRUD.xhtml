@@ -18,6 +18,10 @@
                 <p:ajax event="rowEdit" listener="#{competitionsBean.onRowEdit}" update=":competitionsCRUDForm:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{competitionsBean.onRowCancel}" update=":competitionsCRUDForm:msgs" />
 
+                <f:facet name="header">
+                    <h:outputText value="Competitions" />
+                </f:facet>
+
                 <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{competition.name}" /></f:facet>
@@ -63,6 +67,7 @@
                                      actionListener="#{competitionsBean.delete(competition)}"
                                      process="@this"
                                     update=":competitionsCRUDForm:msgs :competitionsCRUDForm:competitionsTable"
+                                    disabled="#{competition.resultsCount gt 0}"
                     />
                 </p:column>
 

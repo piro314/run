@@ -23,7 +23,7 @@
                         <p:menuitem value="#{checkPointsBean.instanceDto.name}" url="legsCRUD.jsf?instanceId=#{checkPointsBean.instanceDto.id}" />
                         <p:menuitem value="#{checkPointsBean.legDto.name}" url="#" />
                     </p:breadCrumb>
-
+                    <h:outputText value="Check Points" />
                 </f:facet>
 
 
@@ -37,7 +37,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Altitude (m)" filterBy="#{checkPoint.altitude}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="Altitude (m)" filterBy="#{checkPoint.altitude}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.altitude}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{checkPoint.altitude}" />
@@ -50,7 +50,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Distance from start (m)" filterBy="#{checkPoint.distanceFromStart}" filterFunction="#{webBeanUtils.filterBigger}">
+                <p:column headerText="Distance from start (m)" filterBy="#{checkPoint.distanceFromStart}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.distanceFromStart}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{checkPoint.distanceFromStart}" />
@@ -113,14 +113,15 @@
 
             <p:dialog header="Clone check points from another leg" widgetVar="cloneDialog" resizable="false" modal="true">
 
-                <p:outputLabel for="selectLeg" value="Leg to copy from: " />
-                <p:selectOneMenu id="selectLeg" value="#{checkPointsBean.copyLegId}">
-                    <f:selectItem itemLabel="Select One" itemValue="" />
-                    <f:selectItems value="#{checkPointsBean.selectLegs}" />
-                </p:selectOneMenu>
-                <p:commandButton value="Create" actionListener="#{checkPointsBean.cloneCheckPoints}"
-                                 update=":checkPointsCRUDForm:checkPointsTable :checkPointsCRUDForm:msgs"
-                                 process="selectLeg @this"/>
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="selectLeg" value="Leg to copy from  " />
+                    <p:selectOneMenu id="selectLeg" value="#{checkPointsBean.copyLegId}">
+                        <f:selectItems value="#{checkPointsBean.selectLegs}" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Create" actionListener="#{checkPointsBean.cloneCheckPoints}"
+                                     update=":checkPointsCRUDForm:checkPointsTable :checkPointsCRUDForm:msgs"
+                                     process="selectLeg @this" disabled="#{checkPointsBean.selectLegs.isEmpty()}"/>
+                </h:panelGrid>
             </p:dialog>
 
 

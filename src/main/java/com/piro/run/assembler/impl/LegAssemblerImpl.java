@@ -3,6 +3,7 @@ package com.piro.run.assembler.impl;
 import com.piro.run.assembler.CheckPointAssembler;
 import com.piro.run.assembler.LegAssembler;
 import com.piro.run.dao.InstanceRepository;
+import com.piro.run.dao.ResultRepository;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
     private CheckPointAssembler checkPointAssembler;
 
     private InstanceRepository instanceRepository;
+    private ResultRepository resultRepository;
 
     @Override
     public Leg toEntity(LegDto dto) {
@@ -57,6 +59,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         dto.setCheckPoints(checkPointAssembler.toDtos(entity.getCheckPoints()));
         dto.setInstanceId(entity.getInstance().getId());
         dto.setName(entity.getName());
+        dto.setResultsCount(resultRepository.countByCheckPointLeg(entity));
 
         return dto;
     }
@@ -69,5 +72,10 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
     @Required
     public void setInstanceRepository(InstanceRepository instanceRepository) {
         this.instanceRepository = instanceRepository;
+    }
+
+    @Required
+    public void setResultRepository(ResultRepository resultRepository) {
+        this.resultRepository = resultRepository;
     }
 }

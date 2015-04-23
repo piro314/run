@@ -91,6 +91,9 @@ public class CompetitionsBean implements Serializable{
     }
 
     public void delete(CompetitionDto forDelete){
+        if(forDelete.getResultsCount() > 0){
+            return; //shouldn't delete competition that has results
+        }
         competitionService.delete(forDelete.getId());
         competitions.remove(forDelete);
         FacesMessage msg = new FacesMessage("Competition deleted", "");

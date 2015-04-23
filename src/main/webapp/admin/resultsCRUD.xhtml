@@ -23,14 +23,14 @@
                         <p:menuitem value="#{resultsBean.instanceDto.name}" url="legsCRUD.jsf?instanceId=#{resultsBean.instanceDto.id}" />
                         <p:menuitem value="#{resultsBean.legDto.name}" url="#" />
                     </p:breadCrumb>
-
+                    <h:outputText value="Results" />
                 </f:facet>
 
 
                 <p:ajax event="rowEdit" listener="#{resultsBean.onRowEdit}" update=":resultsCRUDForm:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{resultsBean.onRowCancel}" update=":resultsCRUDForm:msgs" />
 
-                <p:column headerText="Name" filterBy="#{result.participantName}" filterMatchMode="contains">
+                <p:column headerText="Name" filterBy="#{result.participantName}" filterMatchMode="contains" >
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{result.participantName}"/></f:facet>
                         <f:facet name="input"><p:inputText id="nameInput" value="#{result.participantName}" style="width:96%"/></f:facet>
@@ -44,13 +44,41 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:columns value="#{resultsBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}" filterBy="#{result.results[colIndex].time}">
+                <p:columns value="#{resultsBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}">
                     <f:facet name="header">
                         <h:outputText value="#{column}" />
                     </f:facet>
                     <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{result.results[colIndex].time}" /></f:facet>
-                        <f:facet name="input"><p:inputText id="#{column}Input" value="#{result.results[colIndex].time}" style="width:96%"/></f:facet>
+                        <f:facet name="output">
+                            <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time lt 86400000}">
+                                <f:convertDateTime pattern="HH:mm:ss"/>
+                            </h:outputText>
+
+                            <h:outputText value="#{result.results[colIndex].hours}" rendered="#{result.results[colIndex].time ge 86400000}" />
+                            <h:outputText value=":" rendered="#{result.results[colIndex].time ge 86400000}" />
+                            <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time ge 86400000}">
+                                <f:convertDateTime pattern="mm:ss"/>
+                            </h:outputText>
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{result.results[colIndex].hours}" id="hoursEdit" style="width: 30px">
+                                <f:convertNumber integerOnly="true" />
+                            </p:inputText>
+                            :
+                            <p:inputText value="#{result.results[colIndex].minutes}" id="minutesEdit" style="width: 30px">
+                                <f:validateLongRange minimum="0" maximum="59"/>
+                            </p:inputText>
+                            :
+                            <p:inputText value="#{result.results[colIndex].seconds}" id="secondsEdit" style="width: 30px">
+                                <f:validateLongRange minimum="0" maximum="59"/>
+                            </p:inputText>
+
+                            <p:watermark for="hoursEdit" value="hh" />
+                            <p:watermark for="minutesEdit" value="mm" />
+                            <p:watermark for="secondsEdit" value="ss" />
+
+                        </f:facet>
                     </p:cellEditor>
                 </p:columns>
 

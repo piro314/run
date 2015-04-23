@@ -90,6 +90,9 @@ public class InstancesBean implements Serializable {
     }
 
     public void delete(InstanceDto forDelete){
+        if(forDelete.getResultsCount() > 0){
+            return; //shouldn't delete instance that has results
+        }
         instanceService.delete(forDelete.getId());
         instances.remove(forDelete);
         FacesMessage msg = new FacesMessage("Instance deleted", "");

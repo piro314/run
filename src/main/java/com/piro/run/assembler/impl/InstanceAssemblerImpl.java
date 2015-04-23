@@ -4,6 +4,7 @@ import com.piro.run.assembler.InstanceAssembler;
 import com.piro.run.assembler.LegAssembler;
 import com.piro.run.dao.CompetitionRepository;
 import com.piro.run.dto.InstanceDto;
+import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Instance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,12 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
         dto.setCompetitionId(entity.getCompetition().getId());
         dto.setLegs(legAssembler.toDtos(entity.getLegs()));
         dto.setName(entity.getName());
+
+        long resultsCount = 0;
+        for(LegDto legDto : dto.getLegs()){
+            resultsCount += legDto.getResultsCount();
+        }
+        dto.setResultsCount(resultsCount);
 
         return dto;
     }

@@ -18,6 +18,7 @@ public class CompetitionDto  implements Serializable{
     private String description;
     private List<InstanceDto> instances;
     private String imageUrl;
+    private long resultsCount;
 
     public Long getId() {
         return id;
@@ -65,6 +66,14 @@ public class CompetitionDto  implements Serializable{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public long getResultsCount() {
+        return resultsCount;
+    }
+
+    public void setResultsCount(long resultsCount) {
+        this.resultsCount = resultsCount;
     }
 
     @Override

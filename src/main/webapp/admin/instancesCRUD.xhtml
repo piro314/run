@@ -21,7 +21,7 @@
                         <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
                         <p:menuitem value="#{instancesBean.competitionDto.name}" url="#" />
                     </p:breadCrumb>
-
+                    <h:outputText value="Instances" />
                 </f:facet>
 
 
@@ -35,7 +35,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains">
+                <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains" sortBy="#{instance.startDate}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.startDate}">
@@ -46,7 +46,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
+                <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains" sortBy="#{instance.endDate}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.endDate}">
@@ -74,6 +74,7 @@
                                      actionListener="#{instancesBean.delete(instance)}"
                                      process="@this"
                                      update=":instancesCRUDForm:msgs :instancesCRUDForm:instancesTable"
+                                     disabled="#{instance.resultsCount gt 0}"
                             />
                 </p:column>
 

@@ -90,6 +90,9 @@ public class LegsBean implements Serializable {
     }
 
     public void delete(LegDto forDelete){
+        if(forDelete.getResultsCount() > 0){
+            return; //shouldn't delete leg that has results
+        }
         legService.delete(forDelete.getId());
         legs.remove(forDelete);
         FacesMessage msg = new FacesMessage("Leg deleted", "");
