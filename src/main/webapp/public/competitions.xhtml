@@ -3,38 +3,35 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:composition template="/templates/publicLayout.xhtml">
+<ui:composition template="/templates/publicLayout.xhtml">
 
-        <ui:define name="content">
-            <h:form id="competitionsForm">
-                <p:dataTable var="competition" value="#{competitionsBean.competitions}"
-                             paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+    <ui:define name="content">
+        <h:form id="competitionsForm">
 
-                    <p:column headerText="Image">
-                        <image src="#{competition.imageUrl}" width="100" height="100" />
-                    </p:column>
 
-                    <p:column headerText="Name" filterBy="#{competition.name}" filterMatchMode="contains">
-                        <h:outputText value="#{competition.name}"/>
-                    </p:column>
+            <p:dataGrid var="competition" value="#{competitionsBean.competitions}" columns="3" rows="12" layout="grid" >
 
-                    <p:column headerText="Url" filterBy="#{competition.url}" filterMatchMode="contains">
-                        <a href="#{competition.url}"><h:outputText value="#{competition.url}"/></a>
-                    </p:column>
+                <f:facet name="header">
+                    Competitions
+                </f:facet>
 
-                    <p:column headerText="Description" filterBy="#{competition.description}" filterMatchMode="contains">
-                        <h:outputText value="#{competition.description}"/>
-                    </p:column>
+                <p:panel header="#{competition.name}" style="text-align:center">
+                    <h:panelGrid columns="2" style="width:100%">
+                        <p:graphicImage url="#{competition.imageUrl}" style="width: 180px "/>
 
-                    <p:column headerText="Details">
-                        <p:commandLink value="View" actionListener="#{competitionsBean.redirect(competition.id)}" >
+                        <h:panelGrid columns="1" style="width:100%;">
+                            <h:outputText value="#{competition.description}" />
+                            <p:spacer height="0"/>
+                            <p:link value="Official page" href="#{competition.url}" target="_blank" process="@this"/>
+                            <p:spacer height="0"/>
+                            <p:commandButton value="View" actionListener="#{competitionsBean.redirect(competition.id)}" process="@this"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
 
-                        </p:commandLink>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-        </ui:define>
-
-    </ui:composition>
+</ui:composition>
 
 </html>

@@ -48,4 +48,6 @@
 
     <bean id="webBeanUtils" class="com.piro.run.web.beans.WebBeanUtils" scope="request" />
 
+    <bean id="sessionBean" class="com.piro.run.web.beans.SessionBean" scope="session" />
+
 </beans>

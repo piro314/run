@@ -2,12 +2,16 @@ package com.piro.run.web.beans;
 
 import com.piro.run.dto.CompetitionDto;
 import com.piro.run.dto.InstanceDto;
+import com.piro.run.dto.LegDto;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
 import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
@@ -29,6 +33,10 @@ public class InstancesBean implements Serializable {
     private CompetitionDto competitionDto;
     private List<InstanceDto> instances;
     private InstanceDto forCreate;
+
+    private TreeNode root;
+
+    private TreeNode selected;
 
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService){
         this.competitionService = competitionService;
@@ -123,5 +131,38 @@ public class InstancesBean implements Serializable {
 
     public void redirectEdit(String id) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("legsCRUD.jsf?instanceId="+id);
+    }
+
+    // Public part
+
+    public TreeNode getTree(){
+        if(root == null){
+            this.initTree();
+        }
+        return root;
+    }
+
+    private void initTree(){
+        root = new DefaultTreeNode();
+        for(InstanceDto instanceDto : competitionDto.getInstances()){
+            TreeNode instanceNode = new DefaultTreeNode(instanceDto.getName(), root);
+            root.getChildren().add(instanceNode);
+            for(LegDto legDto : instanceDto.getLegs()){
+                TreeNode legNode = new DefaultTreeNode(legDto.getName(), instanceNode);
+                instanceNode.getChildren().add(legNode);
+            }
+        }
+    }
+
+    public void onNodeSelect(NodeSelectEvent event) {
+        selected =  event.getTreeNode();
+    }
+
+    public TreeNode getSelected() {
+        return selected;
+    }
+
+    public void setSelected(TreeNode selected) {
+        this.selected = selected;
     }
 }

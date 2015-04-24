@@ -43,6 +43,11 @@
         <param-value>true</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>#{sessionBean.userTheme}</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -64,7 +69,7 @@
     </session-config>
 
     <welcome-file-list>
-        <welcome-file>/static/hello.html</welcome-file>
+        <welcome-file>/public/competitions.jsf</welcome-file>
     </welcome-file-list>
 
     <!-- Enable Spring Security -->
