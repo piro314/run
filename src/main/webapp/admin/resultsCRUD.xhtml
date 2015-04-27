@@ -44,6 +44,13 @@
                     </p:cellEditor>
                 </p:column>
 
+                <p:column headerText="N" style="width: 30px">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.participantNumber}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="numberInput" value="#{result.participantNumber}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
                 <p:columns value="#{resultsBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}">
                     <f:facet name="header">
                         <h:outputText value="#{column}" />
@@ -113,6 +120,10 @@
                     <h:outputText value="Username"/>
                     <p:inputText id="username" value="#{resultsBean.forCreate.participantUsername}" />
                     <p:messages id="usernameMsg" for="username" />
+
+                    <h:outputText value="N"/>
+                    <p:inputText id="number" value="#{resultsBean.forCreate.participantNumber}" />
+                    <p:messages id="numbereMsg" for="number" />
 
                     <h:outputText value="Times"/>
                     <p:dataTable value="#{resultsBean.forCreate.results}" var="result" style="width: 400px" rowIndexVar="rowIndex">

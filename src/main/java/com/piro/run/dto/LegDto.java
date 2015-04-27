@@ -2,6 +2,7 @@ package com.piro.run.dto;
 
 import com.piro.run.entity.CheckPoint;
 import com.piro.run.entity.Instance;
+import com.piro.run.enums.Type;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +24,7 @@ public class LegDto implements Serializable{
     private List<CheckPointDto> checkPoints;
     private Long instanceId;
     private long resultsCount;
+    private Type type;
 
     public Long getId() {
         return id;
@@ -102,5 +104,13 @@ public class LegDto implements Serializable{
 
     public void setResultsCount(long resultsCount) {
         this.resultsCount = resultsCount;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

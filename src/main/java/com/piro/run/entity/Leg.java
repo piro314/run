@@ -20,6 +20,7 @@ public class Leg {
     private int lowest;
     private List<CheckPoint> checkPoints;
     private Instance instance;
+    private int type;
 
 
     @Id
@@ -106,4 +107,12 @@ public class Leg {
         this.instance = instance;
     }
 
+    @Column(name="type")
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

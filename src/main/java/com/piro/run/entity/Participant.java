@@ -14,6 +14,7 @@ public class Participant implements Comparable<Participant>{
     private Long id;
     private String name;
     private String username;
+    private String number;
     private List<Result> results;
 
     @Id
@@ -52,6 +53,15 @@ public class Participant implements Comparable<Participant>{
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    @Column(name="number")
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override

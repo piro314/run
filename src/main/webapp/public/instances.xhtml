@@ -9,48 +9,68 @@
 
     <ui:define name="content">
         <h:form id="instancesForm">
-            <p:panelGrid columns="2" style="width: 100%; margin-top:140px;" >
-                <h:panelGroup id="treeGroup">
-                    <p:tree value="#{instancesBean.tree}" var="node" selectionMode="single" selection="#{instancesBean.selected}">
 
-                        <p:ajax event="select" update=":instancesForm:resultsGroup" listener="#{instancesBean.onNodeSelect}" />
+            <table style="margin-top: 140px; margin-left: 50px">
+                <tr style="vertical-align: top"><td>
+                    <h:panelGroup id="treeGroup" style="vertical-align: top">
+                        <p:tree value="#{instancesBean.tree}" var="node" selectionMode="single" selection="#{instancesBean.selected}">
 
-                        <p:treeNode>
-                            <h:outputText value="#{node}" />
-                        </p:treeNode>
-                    </p:tree>
-                </h:panelGroup>
+                            <p:ajax event="select" update=":instancesForm:resultsGroup" listener="#{instancesBean.onNodeSelect}" />
 
-                <h:panelGroup id="resultsGroup">
-                    <p:dataTable id="resultsTable" var="instance" value="#{instancesBean.instances}" rendered="#{instancesBean.selected != null}"
-                                 paginator="true" rows="10" style="margin-bottom:20px; width:90%; margin-left:5%">
+                            <p:treeNode>
+                                <h:outputText value="#{node.name} " />
+                                <h:panelGroup rendered="#{instancesBean.isLeaf(node)}">
+                                    <p:graphicImage url="/static/img/biking.png" style="width: 20px " rendered="#{node.type == 'BIKE'}"/>
+                                    <p:graphicImage url="/static/img/runner.png" style="width: 20px " rendered="#{node.type == 'RUN'}"/>
+                                </h:panelGroup>
+                            </p:treeNode>
+                        </p:tree>
+                    </h:panelGroup>
+                </td>
+                    <td>
 
-                        <f:facet name="header">
-                            #{instancesBean.selected.data}
-                        </f:facet>
+                        <h:panelGroup id="resultsGroup">
 
-                        <p:column headerText="Name" filterBy="#{instance.name}" filterMatchMode="contains">
-                            <h:outputText value="#{instance.name}"/>
-                        </p:column>
+                            <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}"
+                                         paginator="true" rows="10" style=" width:95%; margin-right:50px">
 
-                        <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains">
-                            <h:outputText value="#{instance.startDate}">
-                                <f:convertDateTime pattern="YYYY-MM-DD" />
-                            </h:outputText>
-                        </p:column>
+                                <p:column headerText="Name" filterBy="#{result.participantName}" filterMatchMode="contains" >
+                                    <h:outputText value="#{result.participantName}"/>
+                                </p:column>
 
-                        <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains">
-                            <h:outputText value="#{instance.endDate}">
-                                <f:convertDateTime pattern="YYYY-MM-DD" />
-                            </h:outputText>
-                        </p:column>
-                    </p:dataTable>
-                </h:panelGroup>
-            </p:panelGrid>
+                                <p:column headerText="UserName" filterBy="#{result.participantUsername}" filterMatchMode="contains">
+                                    <h:outputText value="#{result.participantUsername}"/>
+                                </p:column>
 
+                                <p:column headerText="N" style="width: 30px">
+                                    <h:outputText value="#{result.participantNumber}"/>
+                                </p:column>
+
+                                <p:columns value="#{instancesBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{column}" />
+                                    </f:facet>
 
 
+                                    <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time lt 86400000}">
+                                        <f:convertDateTime pattern="HH:mm:ss"/>
+                                    </h:outputText>
 
+                                    <h:outputText value="#{result.results[colIndex].hours}" rendered="#{result.results[colIndex].time ge 86400000}" />
+                                    <h:outputText value=":" rendered="#{result.results[colIndex].time ge 86400000}" />
+                                    <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time ge 86400000}">
+                                        <f:convertDateTime pattern="mm:ss"/>
+                                    </h:outputText>
+
+                                </p:columns>
+
+                            </p:dataTable>
+                        </h:panelGroup>
+
+
+                    </td>
+                </tr>
+            </table>
         </h:form>
     </ui:define>
 </ui:composition>

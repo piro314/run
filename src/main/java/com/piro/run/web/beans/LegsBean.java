@@ -4,6 +4,7 @@ import com.piro.run.dto.CompetitionDto;
 import com.piro.run.dto.InstanceDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
+import com.piro.run.enums.Type;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
 import com.piro.run.service.LegService;
@@ -17,8 +18,10 @@ import org.springframework.util.StringUtils;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -132,5 +135,13 @@ public class LegsBean implements Serializable {
 
     public void redirectResults(String id) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("resultsCRUD.jsf?legId="+id);
+    }
+
+    public List<SelectItem> getTypes(){
+        List<SelectItem> result = new ArrayList<>();
+        for(Type t: Type.values()){
+            result.add(new SelectItem(t, t.toString()));
+        }
+        return result;
     }
 }

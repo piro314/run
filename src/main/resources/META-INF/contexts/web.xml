@@ -23,6 +23,7 @@
     <bean id="instancesBean" class="com.piro.run.web.beans.InstancesBean" scope="view" >
        <constructor-arg name="instanceService" ref="instanceService" />
         <constructor-arg name="competitionService" ref="competitionService" />
+        <constructor-arg ref="resultService"/>
     </bean>
 
     <bean id="legsBean" class="com.piro.run.web.beans.LegsBean" scope="view" >

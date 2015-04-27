@@ -77,6 +77,7 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
                 participantResultDto = new ParticipantResultDto();
                 participantResultDto.setParticipantUsername(r.getParticipant().getUsername());
                 participantResultDto.setParticipantName(r.getParticipant().getName());
+                participantResultDto.setParticipantNumber(r.getParticipant().getNumber());
                 participantResultDto.setParticipantId(r.getParticipant().getId());
                 participantResultDto.setResults(new ArrayList<ResultDto>());
                 currentParticipantId = r.getParticipant().getId();

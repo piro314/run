@@ -36,6 +36,17 @@
                     </p:cellEditor>
                 </p:column>
 
+                <p:column headerText="Type" sortBy="#{leg.type}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{leg.type}"/></f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="selectType" value="#{leg.type}">
+                                <f:selectItems value="#{legsBean.types}" />
+                            </p:selectOneMenu>
+                       </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
                 <p:column headerText="Distance (m)" filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.distance}">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -145,6 +156,12 @@
                     <h:outputText value="Name"/>
                     <p:inputText id="name" value="#{legsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
                     <p:messages id="nameMsg" for="name" />
+
+                    <h:outputText value="Type"/>
+                    <p:selectOneMenu id="typeInput" value="#{legsBean.forCreate.type}">
+                        <f:selectItems value="#{legsBean.types}" />
+                    </p:selectOneMenu>
+                    <p:messages id="typeInputMsg" for="typeInput"/>
 
                     <h:outputText value="Distance"/>
                     <p:inputText id="distanceInput" value="#{legsBean.forCreate.distance}">

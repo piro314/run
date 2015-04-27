@@ -6,6 +6,7 @@ import com.piro.run.dao.InstanceRepository;
 import com.piro.run.dao.ResultRepository;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
+import com.piro.run.enums.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -40,6 +41,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         entity.setId(dto.getId());
         entity.setLowest(dto.getLowest());
         entity.setInstance(instanceRepository.findOne(dto.getInstanceId()));
+        entity.setType(dto.getType().getValue());
 
         return entity;
     }
@@ -60,6 +62,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         dto.setInstanceId(entity.getInstance().getId());
         dto.setName(entity.getName());
         dto.setResultsCount(resultRepository.countByCheckPointLeg(entity));
+        dto.setType(Type.fromInt(entity.getType()));
 
         return dto;
     }

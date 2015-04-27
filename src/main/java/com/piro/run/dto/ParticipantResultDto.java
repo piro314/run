@@ -12,6 +12,7 @@ public class ParticipantResultDto {
     private Long participantId;
     private String participantName;
     private String participantUsername;
+    private String participantNumber;
     private List<ResultDto> results;
     private Long legId;
 
@@ -53,5 +54,13 @@ public class ParticipantResultDto {
 
     public void setLegId(Long legId) {
         this.legId = legId;
+    }
+
+    public String getParticipantNumber() {
+        return participantNumber;
+    }
+
+    public void setParticipantNumber(String participantNumber) {
+        this.participantNumber = participantNumber;
     }
 }

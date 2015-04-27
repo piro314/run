@@ -1,12 +1,12 @@
 package com.piro.run.web.beans;
 
-import com.piro.run.dto.CompetitionDto;
-import com.piro.run.dto.InstanceDto;
-import com.piro.run.dto.LegDto;
+import com.piro.run.dto.*;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
+import com.piro.run.service.ResultService;
 import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
+import com.piro.run.service.impl.ResultServiceImpl;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.RowEditEvent;
@@ -19,6 +19,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,18 +30,22 @@ public class InstancesBean implements Serializable {
 
     private transient InstanceService instanceService;
     private transient CompetitionService competitionService;
+    private transient ResultService resultService;
 
     private CompetitionDto competitionDto;
     private List<InstanceDto> instances;
     private InstanceDto forCreate;
 
+    //Public part
     private TreeNode root;
-
     private TreeNode selected;
+    private List<ParticipantResultDto> results;
+    private List<String> columns;
 
-    public InstancesBean(CompetitionService competitionService, InstanceService instanceService){
+    public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService){
         this.competitionService = competitionService;
         this.instanceService = instanceService;
+        this.resultService = resultService;
 
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -63,7 +68,7 @@ public class InstancesBean implements Serializable {
 
         forCreate = new InstanceDto();
         forCreate.setCompetitionId(competitionId);
-
+        columns = new ArrayList<>();
     }
 
     public List<InstanceDto> getInstances() {
@@ -145,17 +150,19 @@ public class InstancesBean implements Serializable {
     private void initTree(){
         root = new DefaultTreeNode();
         for(InstanceDto instanceDto : competitionDto.getInstances()){
-            TreeNode instanceNode = new DefaultTreeNode(instanceDto.getName(), root);
+            TreeNode instanceNode = new DefaultTreeNode(instanceDto, root);
             root.getChildren().add(instanceNode);
             for(LegDto legDto : instanceDto.getLegs()){
-                TreeNode legNode = new DefaultTreeNode(legDto.getName(), instanceNode);
+                TreeNode legNode = new DefaultTreeNode(legDto, instanceNode);
                 instanceNode.getChildren().add(legNode);
             }
         }
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
-        selected =  event.getTreeNode();
+        if(event.getTreeNode().getChildren().size() == 0) {
+            selected = event.getTreeNode();
+        }
     }
 
     public TreeNode getSelected() {
@@ -163,6 +170,40 @@ public class InstancesBean implements Serializable {
     }
 
     public void setSelected(TreeNode selected) {
-        this.selected = selected;
+        if(selected != null && (selected.getChildren() == null || selected.getChildren().size() == 0)) {
+            LegDto legDto = (LegDto)selected.getData();
+            LegDto oldSelected = null;
+            if(this.selected != null) {
+               oldSelected = (LegDto) this.selected.getData();
+            }
+
+            if(oldSelected == null || oldSelected.getId() != legDto.getId()) {
+                this.selected = selected;
+                this.initResultsAndColumns(legDto);
+            }
+        }
+    }
+
+    public List<ParticipantResultDto> getResults() {
+        return results;
+    }
+
+    public List<String> getColumns() {
+        return columns;
+    }
+
+    private void initResultsAndColumns(LegDto legDto){
+        results = resultService.getResultsByLegGroupByParticipant(legDto);
+
+        columns = new ArrayList<>();
+        for(CheckPointDto checkPoint : legDto.getCheckPoints()) {
+            String key = checkPoint.getName();
+            columns.add(key);
+        }
+    }
+
+    public boolean isLeaf(Object node){
+        boolean result = node instanceof LegDto;
+        return result;
     }
 }
