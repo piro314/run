@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -149,8 +150,11 @@ public class InstancesBean implements Serializable {
 
     private void initTree(){
         root = new DefaultTreeNode();
+        boolean expanded = true;
         for(InstanceDto instanceDto : competitionDto.getInstances()){
             TreeNode instanceNode = new DefaultTreeNode(instanceDto, root);
+            instanceNode.setExpanded(expanded);
+            expanded = false;
             root.getChildren().add(instanceNode);
             for(LegDto legDto : instanceDto.getLegs()){
                 TreeNode legNode = new DefaultTreeNode(legDto, instanceNode);
@@ -204,6 +208,13 @@ public class InstancesBean implements Serializable {
 
     public boolean isLeaf(Object node){
         boolean result = node instanceof LegDto;
+        return result;
+    }
+
+    public List<SelectItem> getSexes(){
+        List<SelectItem> result = new ArrayList<>();
+        result.add(new SelectItem(false,"Ж"));
+        result.add(new SelectItem(true,"М") );
         return result;
     }
 }

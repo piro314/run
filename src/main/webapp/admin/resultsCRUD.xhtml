@@ -51,6 +51,20 @@
                     </p:cellEditor>
                 </p:column>
 
+                <p:column headerText="Sex" style="width: 30px">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.male ? 'M' : 'F'}"/></f:facet>
+                        <f:facet name="input"><p:selectBooleanCheckbox id="sexInput" value="#{result.male}" /></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Cat" style="width: 40px">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{result.category}"/></f:facet>
+                        <f:facet name="input"><p:inputText id="categoryInput" value="#{result.category}" style="width:96%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
                 <p:columns value="#{resultsBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}">
                     <f:facet name="header">
                         <h:outputText value="#{column}" />
@@ -124,6 +138,14 @@
                     <h:outputText value="N"/>
                     <p:inputText id="number" value="#{resultsBean.forCreate.participantNumber}" />
                     <p:messages id="numbereMsg" for="number" />
+
+                    <h:outputText value="Male"/>
+                    <p:selectBooleanCheckbox id="sex" value="#{resultsBean.forCreate.male}" />
+                    <p:messages id="sexMsg" for="sex" />
+
+                    <h:outputText value="Category"/>
+                    <p:inputText id="category" value="#{resultsBean.forCreate.category}" />
+                    <p:messages id="categoryMsg" for="category" />
 
                     <h:outputText value="Times"/>
                     <p:dataTable value="#{resultsBean.forCreate.results}" var="result" style="width: 400px" rowIndexVar="rowIndex">

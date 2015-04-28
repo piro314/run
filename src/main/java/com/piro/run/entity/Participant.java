@@ -16,6 +16,8 @@ public class Participant implements Comparable<Participant>{
     private String username;
     private String number;
     private List<Result> results;
+    private boolean male;
+    private String category;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,5 +70,23 @@ public class Participant implements Comparable<Participant>{
     public int compareTo(Participant participant) {
 
         return this.getName().compareTo(participant.getName());
+    }
+
+    @Column(name="is_male")
+    public boolean isMale() {
+        return male;
+    }
+
+    public void setMale(boolean male) {
+        this.male = male;
+    }
+
+    @Column(name="category")
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

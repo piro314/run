@@ -63,6 +63,8 @@ public class ResultServiceImpl implements ResultService {
         participant.setUsername(participantResultDto.getParticipantUsername());
         participant.setName(participantResultDto.getParticipantName());
         participant.setNumber(participantResultDto.getParticipantNumber());
+        participant.setCategory(participantResultDto.getCategory());
+        participant.setMale(participantResultDto.isMale());
         participantRepository.save(participant);
     }
 
@@ -90,6 +92,8 @@ public class ResultServiceImpl implements ResultService {
         participant.setName(participantResultDto.getParticipantName());
         participant.setUsername(participantResultDto.getParticipantUsername());
         participant.setNumber(participantResultDto.getParticipantNumber());
+        participant.setCategory(participantResultDto.getCategory());
+        participant.setMale(participantResultDto.isMale());
         participantRepository.save(participant);
 
         List<Result> results = new ArrayList<>();

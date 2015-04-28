@@ -10,7 +10,7 @@
     <ui:define name="content">
         <h:form id="instancesForm">
 
-            <table style="margin-top: 140px; margin-left: 50px">
+            <table style="margin-top: 140px; margin-left: 50px; margin-right: 50px;">
                 <tr style="vertical-align: top"><td>
                     <h:panelGroup id="treeGroup" style="vertical-align: top">
                         <p:tree value="#{instancesBean.tree}" var="node" selectionMode="single" selection="#{instancesBean.selected}">
@@ -31,22 +31,42 @@
 
                         <h:panelGroup id="resultsGroup">
 
-                            <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}"
-                                         paginator="true" rows="10" style=" width:95%; margin-right:50px">
+                            <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}" rowIndexVar="index" widgetVar="resultsTableVar"
+                                         paginator="true" rows="10" >
 
-                                <p:column headerText="Name" filterBy="#{result.participantName}" filterMatchMode="contains" >
+                                <p:column headerText="P" style="width: 30px" priority="2">
+                                    <h:outputText value="#{index +1}"/>
+                                </p:column>
+
+                                <p:column headerText="Име" style="width: 120px" filterBy="#{result.participantName}" filterMatchMode="contains" priority="1">
                                     <h:outputText value="#{result.participantName}"/>
                                 </p:column>
 
-                                <p:column headerText="UserName" filterBy="#{result.participantUsername}" filterMatchMode="contains">
+                                <p:column headerText="Username" style="width: 120px" filterBy="#{result.participantUsername}" filterMatchMode="contains" priority="6">
                                     <h:outputText value="#{result.participantUsername}"/>
                                 </p:column>
 
-                                <p:column headerText="N" style="width: 30px">
+                                <p:column headerText="N" style="width: 30px" priority="5" filterBy="#{result.participantNumber}" filterMatchMode="contains" filterStyle="width: 30px;">
                                     <h:outputText value="#{result.participantNumber}"/>
                                 </p:column>
 
-                                <p:columns value="#{instancesBean.columns}" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}">
+                                <p:column headerText="Пол" style="width: 30px" filterBy="#{result.male}" filterMatchMode="exact" >
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('resultsTableVar').filter()" >
+                                            <f:selectItem itemLabel=" " itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems value="#{instancesBean.sexes}" />
+
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{result.male ? 'М' : 'Ж'}"/>
+                                </p:column>
+
+                                <p:column headerText="Cat" style="width: 40px">
+                                    <h:outputText value="#{result.category}"/>
+                                </p:column>
+
+                                <p:columns value="#{instancesBean.columns}" style="width: 100px" var="column" columnIndexVar="colIndex" sortBy="#{result.results[colIndex].time}"
+                                           priority="#{colIndex == (instancesBean.columns.size() -1) ? 2 : 5}">
                                     <f:facet name="header">
                                         <h:outputText value="#{column}" />
                                     </f:facet>

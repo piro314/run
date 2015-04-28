@@ -15,6 +15,8 @@ public class ParticipantResultDto {
     private String participantNumber;
     private List<ResultDto> results;
     private Long legId;
+    private boolean male;
+    private String category;
 
     public List<ResultDto> getResults() {
         return results;
@@ -62,5 +64,21 @@ public class ParticipantResultDto {
 
     public void setParticipantNumber(String participantNumber) {
         this.participantNumber = participantNumber;
+    }
+
+    public boolean isMale() {
+        return male;
+    }
+
+    public void setMale(boolean male) {
+        this.male = male;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

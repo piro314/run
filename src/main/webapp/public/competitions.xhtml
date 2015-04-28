@@ -9,22 +9,22 @@
         <h:form id="competitionsForm">
 
 
-            <p:dataGrid var="competition" value="#{competitionsBean.competitions}" columns="3" rows="12" layout="grid" >
+            <p:dataGrid var="competition" value="#{competitionsBean.competitions}" columns="3" rows="9" layout="grid" style=" margin-top: 140px">
 
                 <f:facet name="header">
                     Competitions
                 </f:facet>
 
                 <p:panel header="#{competition.name}" style="text-align:center">
-                    <h:panelGrid columns="2" style="width:100%">
-                        <p:graphicImage url="#{competition.imageUrl}" style="width: 180px "/>
+                    <h:panelGrid columns="2" style="width:100%" layout="grid">
+                        <p:graphicImage url="#{competition.imageUrl}" style="width: 150px "/>
 
-                        <h:panelGrid columns="1" style="width:100%;">
+                        <h:panelGrid columns="1" style="width:100%;" layout="grid">
                             <h:outputText value="#{competition.description}" />
                             <p:spacer height="0"/>
-                            <p:link value="Official page" href="#{competition.url}" target="_blank" process="@this"/>
+                            <p:link value="Официална страница" href="#{competition.url}" target="_blank" process="@this"/>
                             <p:spacer height="0"/>
-                            <p:commandButton value="View" actionListener="#{competitionsBean.redirect(competition.id)}" process="@this"/>
+                            <p:commandButton value="Резултати" actionListener="#{competitionsBean.redirect(competition.id)}" process="@this"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </p:panel>
