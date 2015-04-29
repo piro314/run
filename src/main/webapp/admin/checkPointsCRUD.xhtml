@@ -27,7 +27,7 @@
                 </f:facet>
 
 
-                <p:ajax event="rowEdit" listener="#{checkPointsBean.onRowEdit}" update=":checkPointsCRUDForm:msgs" />
+                <p:ajax event="rowEdit" listener="#{checkPointsBean.onRowEdit}" update=":checkPointsCRUDForm:msgs :checkPointsCRUDForm:checkPointsTable:lastInput" />
                 <p:ajax event="rowEditCancel" listener="#{checkPointsBean.onRowCancel}" update=":checkPointsCRUDForm:msgs" />
 
                 <p:column headerText="Name" filterBy="#{checkPoint.name}" filterMatchMode="contains">
@@ -60,6 +60,13 @@
                                 <f:convertNumber integerOnly="true" />
                             </p:inputText>
                         </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Last" >
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{checkPoint.last ? 'true' : 'false'}"/></f:facet>
+                        <f:facet name="input"><p:selectBooleanCheckbox id="lastInput" value="#{checkPoint.last}" disabled="#{checkPointsBean.hasAnotherLast(checkPoint.getId())}"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -98,10 +105,14 @@
                     <p:messages id="altitudeInputMsg" for="altitudeInput"/>
 
                     <h:outputText value="Distance from start (m)"/>
-                    <p:inputText id="distanceInput" value="#{checkPointsBean.forCreate.distanceFromStart}">
+                    <p:inputText id="distanceInput" value="#{checkPointsBean.forCreate.distanceFromStart}" >
                         <f:convertNumber integerOnly="true" />
                     </p:inputText>
                     <p:messages id="distanceInputMsg" for="distanceInput"/>
+
+                    <h:outputText value="Last"/>
+                    <p:selectBooleanCheckbox id="last" value="#{checkPointsBean.forCreate.last}" disabled="#{checkPointsBean.hasAnotherLast(-1)}"/>
+                    <p:messages id="lastMsg" for="last" />
 
                     <p:commandButton value="Create"
                                      actionListener="#{checkPointsBean.createNewCheckPoint}"

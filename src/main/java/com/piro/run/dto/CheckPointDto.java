@@ -17,6 +17,7 @@ public class CheckPointDto implements Serializable{
     private int distanceFromStart;
     private int altitude;
     private Long legId;
+    private boolean last;
 
     public long getId() {
         return id;
@@ -56,5 +57,13 @@ public class CheckPointDto implements Serializable{
 
     public void setLegId(Long legId) {
         this.legId = legId;
+    }
+
+    public boolean isLast() {
+        return last;
+    }
+
+    public void setLast(boolean last) {
+        this.last = last;
     }
 }

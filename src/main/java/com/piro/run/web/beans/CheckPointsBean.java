@@ -174,4 +174,16 @@ public class CheckPointsBean implements Serializable{
 
         return items;
     }
+
+    public boolean hasAnotherLast(long current){
+        for(CheckPointDto dto : checkPoints){
+            if(dto.getId() == current){
+                continue;
+            }
+            if(dto.isLast()){
+                return true;
+            }
+        }
+        return false;
+    }
 }

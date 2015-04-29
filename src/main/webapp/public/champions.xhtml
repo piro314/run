@@ -1,0 +1,26 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/templates/publicLayout.xhtml">
+        <ui:define name="content">
+            <p:tree value="#{championsBean.root}" var="node" >
+                <p:treeNode>
+                    <h:outputText value="#{node.name} " />
+                    <h:panelGroup rendered="#{node.type == 'leg'}">
+                        <p:graphicImage url="/static/img/biking.png" style="width: 20px " rendered="#{node.data == 'BIKE'}"/>
+                        <p:graphicImage url="/static/img/runner.png" style="width: 20px " rendered="#{node.data == 'RUN'}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{node.type == 'data'}">
+                        <h:outputText value="#{node.name}" /><h:outputText value=" " />
+                        <h:outputText value="#{node.data}" /><h:outputText value=" " />
+                        <h:outputText value="#{node.time}" />
+                    </h:panelGroup>
+                </p:treeNode>
+
+             </p:tree>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -51,4 +51,8 @@
 
     <bean id="sessionBean" class="com.piro.run.web.beans.SessionBean" scope="session" />
 
+    <bean id="championsBean" class="com.piro.run.web.beans.ChampionsBean" scope="view" >
+        <constructor-arg ref="championService"/>
+    </bean>
+
 </beans>

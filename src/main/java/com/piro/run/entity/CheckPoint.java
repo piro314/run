@@ -17,6 +17,7 @@ public class CheckPoint {
     private int altitude;
     private Leg leg;
     private List<Result> results;
+    private boolean last;
 
 
     @Id
@@ -74,5 +75,14 @@ public class CheckPoint {
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    @Column(name="is_last")
+    public boolean isLast() {
+        return last;
+    }
+
+    public void setLast(boolean last) {
+        this.last = last;
     }
 }

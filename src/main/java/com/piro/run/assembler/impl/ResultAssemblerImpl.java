@@ -45,12 +45,14 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
     public ResultDto toDto(Result entity) {
         ResultDto dto = new ResultDto();
 
-        long time = entity.getTime();
+        Long time = entity.getTime();
         dto.setTime(time);
-        dto.setHours(TimeUtils.getHours(time));
-        dto.setMinutes(TimeUtils.getMinutes(time));
-        dto.setSeconds(TimeUtils.getSeconds(time));
 
+        if(time != null) {
+            dto.setHours(TimeUtils.getHours(time));
+            dto.setMinutes(TimeUtils.getMinutes(time));
+            dto.setSeconds(TimeUtils.getSeconds(time));
+        }
         dto.setId(entity.getId());
         dto.setCheckPointId(entity.getCheckPoint().getId());
         dto.setCheckPointName(entity.getCheckPoint().getName());

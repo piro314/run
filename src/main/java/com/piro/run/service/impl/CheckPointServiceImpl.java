@@ -44,9 +44,14 @@ public class CheckPointServiceImpl implements CheckPointService {
     @Secured("ROLE_ADMIN")
     @Transactional
     public void update(CheckPointDto checkPointDto) {
-        CheckPoint checkPoint = checkPointAssembler.toEntity(checkPointDto);
-        LOG.debug("updating checkPoint with id = "+ checkPoint.getId());
 
+        CheckPoint checkPoint = checkPointAssembler.toEntity(checkPointDto);
+
+        if(checkPointDto.isLast()) {
+           this.checkForAnotherLast(checkPoint);
+        }
+
+        LOG.debug("updating checkPoint with id = "+ checkPoint.getId());
         checkPointRepository.save(checkPoint);
     }
 
@@ -55,6 +60,11 @@ public class CheckPointServiceImpl implements CheckPointService {
     @Transactional
     public CheckPointDto createNew(CheckPointDto checkPointDto) {
         CheckPoint checkPoint = checkPointAssembler.toEntity(checkPointDto);
+
+        if(checkPointDto.isLast()) {
+            this.checkForAnotherLast(checkPoint);
+        }
+
         LOG.debug("creating new checkPoint for leg with id = "+checkPointDto.getLegId());
         checkPoint = checkPointRepository.save(checkPoint);
 
@@ -74,6 +84,21 @@ public class CheckPointServiceImpl implements CheckPointService {
     public CheckPointDto getById(Long id) {
         CheckPoint checkPoint = checkPointRepository.findOne(id);
         return checkPointAssembler.toDto(checkPoint);
+    }
+
+    private void checkForAnotherLast(CheckPoint checkPoint){
+
+        List<CheckPoint> legCheckPoints = checkPointRepository.findByLeg(checkPoint.getLeg());
+
+        for (CheckPoint cp : legCheckPoints) {
+            if (cp.getId() == checkPoint.getId()) {
+                continue;
+            }
+            if(cp.isLast()){
+                throw new IllegalStateException("attempt to create more than one last check point for leg with id = "+checkPoint.getLeg().getId());
+            }
+        }
+
     }
 
 

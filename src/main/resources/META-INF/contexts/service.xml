@@ -37,4 +37,8 @@
         <property name="participantRepository" ref="participantRepository"/>
     </bean>
 
+    <bean class="com.piro.run.service.impl.ChampionsServiceImpl" id="championService">
+        <property name="resultRepository" ref="resultRepository"/>
+    </bean>
+
 </beans>

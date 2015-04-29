@@ -12,7 +12,7 @@ public class Result {
 
     private Long id;
     private CheckPoint checkPoint;
-    private long time;
+    private Long time;
     private Participant participant;
 
 
@@ -38,13 +38,16 @@ public class Result {
     }
 
     @Column(name="time")
-    public long getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(Long time) {
         this.time = time;
     }
+
+
+
 
 
     @ManyToOne

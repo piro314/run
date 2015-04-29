@@ -30,6 +30,7 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
         entity.setId(dto.getId());
         Leg leg = legRepository.findOne(dto.getLegId());
         entity.setLeg(leg);
+        entity.setLast(dto.isLast());
 
         return entity;
     }
@@ -45,6 +46,7 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
         dto.setDistanceFromStart(entity.getDistanceFromStart());
         dto.setName(entity.getName());
         dto.setLegId(entity.getLeg().getId());
+        dto.setLast(entity.isLast());
 
         return dto;
     }
