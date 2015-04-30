@@ -5,19 +5,21 @@
 
     <ui:composition template="/templates/publicLayout.xhtml">
         <ui:define name="content">
-            <p:tree value="#{championsBean.root}" var="node" >
+            <p:tree value="#{championsBean.root }" var="node" style="width: 50%; margin-left: 25%;" >
                 <p:treeNode>
-                    <h:outputText value="#{node.name} " />
+                    <h:outputText value="#{node.name} " rendered="#{node.type != 'data'}" />
                     <h:panelGroup rendered="#{node.type == 'leg'}">
                         <p:graphicImage url="/static/img/biking.png" style="width: 20px " rendered="#{node.data == 'BIKE'}"/>
                         <p:graphicImage url="/static/img/runner.png" style="width: 20px " rendered="#{node.data == 'RUN'}"/>
                     </h:panelGroup>
 
-                    <h:panelGroup rendered="#{node.type == 'data'}">
-                        <h:outputText value="#{node.name}" /><h:outputText value=" " />
-                        <h:outputText value="#{node.data}" /><h:outputText value=" " />
-                        <h:outputText value="#{node.time}" />
-                    </h:panelGroup>
+                    <p:panelGrid rendered="#{node.type == 'data'}" columns="3" layout="grid" >
+
+                        <h:outputText value="#{node.sex}" />
+                        <h:outputText value="#{node.category}" />
+                        <h:outputText value="#{node.name}" />
+
+                    </p:panelGrid>
                 </p:treeNode>
 
              </p:tree>

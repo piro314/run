@@ -16,19 +16,21 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
 
     long countByCheckPointLeg(Leg leg);
 
-    @Query(nativeQuery = true,
-            value = "select c.name as c_name, c.id , i.name as i_name, i.id ," +
-                    " l.name as l_name, l.id , p.is_male , p.category ," +
-                    " p.name as p_name, p.username , min(r.time), l.type  " +
-                    "from competitions c " +
-                    "join instances i on i.competition_id = c.id " +
-                    "join legs l on l.instance_id = i.id " +
-                    "join run.check_points cp on cp.leg_id = l.id " +
-                    "join results r on r.check_point_id = cp.id  " +
-                    "join participants p on r.participant_id = p.id " +
-                    "where cp.is_last  " +
+    @Query( value = "select c.name as c_name, c.id as c_id, " +
+                    " i.name as i_name, i.id as i_id, " +
+                    " l.name as l_name, l.id as l_id, " +
+                    " p.male as p_is_male, p.category as p_category, " +
+                    " p.name as p_name, p.username as p_username, " +
+                    " min(r.time) as time, l.type as l_type " +
+                    "from Result r " +
+                    "join r.checkPoint as cp " +
+                    "join r.participant as p " +
+                    "join cp.leg l " +
+                    "join l.instance as i " +
+                    "join i.competition as c " +
+                    "where cp.last = true " +
                     "and r.time > 0 " +
-                    "group by c.id, i.id, l.id, p.is_male, p.category ")
+                    "group by c.id, i.id, l.id, p.male, p.category ")
     List<Object[]> getChampionsData();
 
 

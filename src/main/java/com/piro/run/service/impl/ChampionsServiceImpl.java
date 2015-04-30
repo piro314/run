@@ -29,9 +29,9 @@ public class ChampionsServiceImpl implements ChampionsService {
         TreeNode legNode = new DefaultTreeNode(null);
 
         for(Object[] row : rawData){
-            ChampionsTreeDto competition = new ChampionsTreeDto((String)row[0], String.valueOf((BigInteger)row[1]), "competition");
-            ChampionsTreeDto instance = new ChampionsTreeDto((String)row[2], String.valueOf((BigInteger)row[3]), "instance");
-            ChampionsTreeDto leg = new ChampionsTreeDto((String)row[4], String.valueOf((BigInteger)row[5]), "leg");
+            ChampionsTreeDto competition = new ChampionsTreeDto((String)row[0], String.valueOf((Long)row[1]), "competition");
+            ChampionsTreeDto instance = new ChampionsTreeDto((String)row[2], String.valueOf((Long)row[3]), "instance");
+            ChampionsTreeDto leg = new ChampionsTreeDto((String)row[4], String.valueOf((Long)row[5]), "leg");
             Integer legType = (Integer)row[11];
             leg.setData(legType == 1 ? "RUN" : "BIKE");
 
@@ -39,12 +39,13 @@ public class ChampionsServiceImpl implements ChampionsService {
             String catStr = row[7] == null ? "" : (String)row[7];
             String name = (String)row[8];
             String username = (String)row[9];
-            Long time = ((BigInteger)row[10]).longValue();
-            ChampionsTreeDto data = new ChampionsTreeDto(sex+catStr, username, "data");
+            Long time = ((Long)row[10]).longValue();
+            ChampionsTreeDto data = new ChampionsTreeDto(name, username, "data");
             data.setTime(time);
-            data.setData(name);
+            data.setCategory(catStr);
+            data.setSex(sex);
 
-            if(!competition.equals((ChampionsTreeDto)competitionNode.getData())){
+            if(!competition.equals(competitionNode.getData())){
                 competitionNode = new DefaultTreeNode(competition, root);
             }
             if(!instance.equals(instanceNode.getData())){
