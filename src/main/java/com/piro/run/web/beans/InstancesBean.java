@@ -166,6 +166,9 @@ public class InstancesBean implements Serializable {
     public void onNodeSelect(NodeSelectEvent event) {
         if(event.getTreeNode().getChildren().size() == 0) {
             selected = event.getTreeNode();
+            RequestContext.getCurrentInstance().execute("PF('selectMenu').selectValue('');");
+            RequestContext.getCurrentInstance().execute("PF('resultsTableVar').filter();");
+
         }
     }
 

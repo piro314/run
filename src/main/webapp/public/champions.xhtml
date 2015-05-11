@@ -3,26 +3,52 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:composition template="/templates/publicLayout.xhtml">
-        <ui:define name="content">
-            <p:tree value="#{championsBean.root }" var="node" style="width: 50%; margin-left: 25%;" >
-                <p:treeNode>
-                    <h:outputText value="#{node.name} " rendered="#{node.type != 'data'}" />
-                    <h:panelGroup rendered="#{node.type == 'leg'}">
-                        <p:graphicImage url="/static/img/biking.png" style="width: 20px " rendered="#{node.data == 'BIKE'}"/>
-                        <p:graphicImage url="/static/img/runner.png" style="width: 20px " rendered="#{node.data == 'RUN'}"/>
-                    </h:panelGroup>
+<ui:composition template="/templates/publicLayout.xhtml">
+    <ui:define name="content">
+        <p:tree value="#{championsBean.root }" var="node" style="width: 38%; align:center; margin-top:140px; margin-left: 31%;" >
+            <p:treeNode>
+                <h:outputText value="#{node.name} " rendered="#{node.type != 'data'}" />
+                <h:panelGroup rendered="#{node.type == 'leg'}">
+                    <p:graphicImage url="/static/img/biking.png" style="width: 20px " rendered="#{node.data == 'BIKE'}"/>
+                    <p:graphicImage url="/static/img/runner.png" style="width: 20px " rendered="#{node.data == 'RUN'}"/>
+                </h:panelGroup>
 
-                    <p:panelGrid rendered="#{node.type == 'data'}" columns="3" layout="grid" >
+                <p:panelGrid rendered="#{node.type == 'data'}" >
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column style="width:30px;">Пол</p:column>
+                            <p:column style="width:100px;">Категория</p:column>
+                            <p:column style="width:300px;">Име</p:column>
+                            <p:column style="width:100px;">Време</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column ><h:outputText value="#{node.sex == 'M' ? 'М' : 'Ж'}"/></p:column>
+                        <p:column >#{node.category}</p:column>
+                        <p:column >#{node.name}</p:column>
+                        <p:column >
+                            <h:outputText value="#{node.time}" rendered="#{node.time lt 86400000}">
+                                <f:convertDateTime pattern="HH:mm:ss"/>
+                            </h:outputText>
 
-                        <h:outputText value="#{node.sex}" />
-                        <h:outputText value="#{node.category}" />
-                        <h:outputText value="#{node.name}" />
+                            <h:outputText value="#{championsBean.getHours(node.time)}" rendered="#{node.time ge 86400000}" />
+                            <h:outputText value=":" rendered="#{node.time ge 86400000}" />
+                            <h:outputText value="#{node.time}" rendered="#{node.time ge 86400000}">
+                                <f:convertDateTime pattern="mm:ss"/>
+                            </h:outputText>
+                        </p:column>
 
-                    </p:panelGrid>
-                </p:treeNode>
 
-             </p:tree>
-        </ui:define>
-    </ui:composition>
+
+
+                    </p:row>
+
+
+
+                </p:panelGrid>
+            </p:treeNode>
+
+        </p:tree>
+    </ui:define>
+</ui:composition>
 </html>

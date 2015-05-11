@@ -2,6 +2,7 @@ package com.piro.run.web.beans;
 
 import com.piro.run.service.ChampionsService;
 import com.piro.run.service.impl.ChampionsServiceImpl;
+import com.piro.run.utils.TimeUtils;
 import org.primefaces.model.TreeNode;
 
 import java.io.Serializable;
@@ -28,5 +29,9 @@ public class ChampionsBean implements Serializable {
 
     private void initTree(){
         root = championsService.getChampionsTree();
+    }
+
+    public int getHours(Long time){
+        return TimeUtils.getHours(time);
     }
 }

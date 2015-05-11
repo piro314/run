@@ -9,12 +9,16 @@
         .ui-widget-header a {
             color: #4C3000;
         }
+
+        .ui-dock-top {
+            z-index:10;
+        }
     </style>
 
     <h:form id="menuForm">
 
 
-        <p:dock position="top" itemWidth="60" maxWidth="100">
+        <p:dock position="top" itemWidth="60" maxWidth="100" >
             <p:menuitem value="Състезания" icon="/static/img/menu/competition.png" url="/public/competitions.jsf"/>
             <p:menuitem value="Статистика" icon="/static/img/menu/statistics.png" url="#"/>
             <p:menuitem value="Шампиони" icon="/static/img/menu/champ.png" url="/public/champions.jsf"/>
