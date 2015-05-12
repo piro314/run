@@ -30,7 +30,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
                     "join i.competition as c " +
                     "where cp.last = true " +
                     "and r.time > 0 " +
-                    "group by c.id, i.id, l.id, p.male, p.category ")
+                    "group by c.id, i.id, l.id, p.male, p.category, c.name, i.name, l.name, p.name, p.username, l.type ")
     List<Object[]> getChampionsData();
 
 
