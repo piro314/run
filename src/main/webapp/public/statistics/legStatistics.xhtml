@@ -1,0 +1,72 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+
+    <p:dataTable id="LegStatisticsTable" var="leg" value="#{statisticsBean.legStatistics}"
+                 paginator="true" rows="10" >
+
+        <p:column headerText="Състезание"  >
+            <h:outputText value="#{leg.competitionName}"/>
+        </p:column>
+
+        <p:column headerText="Инстанция"   >
+            <h:outputText value="#{leg.instanceName}"/>
+        </p:column>
+
+        <p:column headerText="Име"   >
+            <h:outputText value="#{leg.name}"/>
+        </p:column>
+
+        <p:column headerText="Тип"  style="width: 40px " >
+            <div align="center"><p:graphicImage url="/static/img/biking.png" style="width: 30px " rendered="#{leg.type == 'BIKE'}"/></div>
+            <div align="center"><p:graphicImage url="/static/img/runner.png" style="width: 30px " rendered="#{leg.type == 'RUN'}"/></div>
+        </p:column>
+
+        <p:column headerText="Дистанция"  sortBy="#{leg.distance}" style="width: 120px ">
+            <h:outputText value="#{leg.distance/1000}">
+                <f:convertNumber pattern="###.#км"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column headerText="D+"  sortBy="#{leg.dPlus}" style="width: 80px ">
+            <h:outputText value="#{leg.dPlus}"/>
+        </p:column>
+
+        <p:column headerText="D-"  sortBy="#{leg.dMinus}" style="width: 80px ">
+            <h:outputText value="#{leg.dMinus}"/>
+        </p:column>
+
+        <p:column sortBy="#{leg.gradePlus}" style="width: 80px ">
+            <f:facet name="header">
+                <p:graphicImage url="/static/img/up.png" style="width: 40px "/>
+            </f:facet>
+            <h:outputText value="#{leg.gradePlus}">
+                <f:convertNumber pattern="###.##%"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column sortBy="#{leg.gradeMinus}" style="width: 80px ">
+            <f:facet name="header" >
+                <p:graphicImage url="/static/img/down.png" style="width: 40px "/>
+            </f:facet>
+            <h:outputText value="#{leg.gradeMinus}">
+                <f:convertNumber pattern="###.##%"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column headerText="Най-високо"  sortBy="#{leg.highest}" style="width: 100px ">
+            <h:outputText value="#{leg.highest}м"/>
+        </p:column>
+
+        <p:column headerText="Най-ниско"  sortBy="#{leg.lowest}" style="width: 100px ">
+            <h:outputText value="#{leg.lowest}м"/>
+        </p:column>
+
+
+
+    </p:dataTable>
+</ui:composition>
+</html>

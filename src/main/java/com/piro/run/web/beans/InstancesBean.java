@@ -12,6 +12,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.chart.*;
 import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
@@ -42,6 +43,8 @@ public class InstancesBean implements Serializable {
     private TreeNode selected;
     private List<ParticipantResultDto> results;
     private List<String> columns;
+
+    private LineChartModel legGraphModel;
 
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService){
         this.competitionService = competitionService;
@@ -148,6 +151,10 @@ public class InstancesBean implements Serializable {
         return root;
     }
 
+    public LineChartModel getLegGraphModel() {
+        return legGraphModel;
+    }
+
     private void initTree(){
         root = new DefaultTreeNode();
         boolean expanded = true;
@@ -202,11 +209,25 @@ public class InstancesBean implements Serializable {
     private void initResultsAndColumns(LegDto legDto){
         results = resultService.getResultsByLegGroupByParticipant(legDto);
 
+        legGraphModel = new LineChartModel();
+        LineChartSeries series = new LineChartSeries();
+        series.setFill(true);
+        legGraphModel.setShowPointLabels(true);
+        legGraphModel.getAxes().put(AxisType.X, new CategoryAxis("Междинни точки"));
+        Axis yAxis = legGraphModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Височина (м)");
+
         columns = new ArrayList<>();
         for(CheckPointDto checkPoint : legDto.getCheckPoints()) {
             String key = checkPoint.getName();
             columns.add(key);
+
+            String checkPointName = checkPoint.getName();
+            int distanceKm = checkPoint.getDistanceFromStart()/1000;
+            series.set(distanceKm+"км "+checkPointName, checkPoint.getAltitude());
         }
+        legGraphModel.addSeries(series);
+
     }
 
     public boolean isLeaf(Object node){

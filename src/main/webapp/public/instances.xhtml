@@ -18,7 +18,7 @@
                         </f:facet>
                         <p:tree value="#{instancesBean.tree}" var="node" selectionMode="single" selection="#{instancesBean.selected}">
 
-                            <p:ajax event="select" update=":instancesForm:resultsGroup" listener="#{instancesBean.onNodeSelect}" />
+                            <p:ajax event="select" update=":instancesForm:resultsGroup :instancesForm:graph" listener="#{instancesBean.onNodeSelect}" />
 
                             <p:treeNode>
                                 <h:outputText value="#{node.name} " />
@@ -89,13 +89,19 @@
 
                                 </p:columns>
 
+                                <f:facet name="footer">
+                                    <p:commandButton value="Show graph"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.columns.size() gt 0}" />
+                                </f:facet>
+
                             </p:dataTable>
                         </h:panelGroup>
-
-
                     </td>
                 </tr>
             </table>
+
+            <p:dialog header="Leg Graph" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
+                <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null}"/>
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

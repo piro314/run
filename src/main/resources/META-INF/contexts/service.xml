@@ -41,4 +41,10 @@
         <property name="resultRepository" ref="resultRepository"/>
     </bean>
 
+    <bean class="com.piro.run.service.impl.StatisticsServiceImpl" id="statisticsService">
+
+        <property name="legRepository" ref="legRepository"/>
+        <property name="legAssembler" ref="legAssembler"/>
+    </bean>
+
 </beans>

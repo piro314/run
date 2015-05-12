@@ -1,0 +1,43 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="/templates/publicLayout.xhtml">
+
+    <ui:define name="content">
+        <h:form id="statisticsForm">
+
+            <table style="margin-top: 140px; margin-left: 50px; margin-right: 50px;">
+                <tr style="vertical-align: top"><td>
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="Leg Statistics">
+                            <p:menuitem value="Leg Statistics" actionListener="#{statisticsBean.setSelectedStatistics('legStatistics')}" update="resultsGroup"/>
+
+                            <p:menuitem value="Alabala" actionListener="#{statisticsBean.setSelectedStatistics('alabala')}" update="resultsGroup"/>
+                        </p:submenu>
+
+                        <p:submenu label="User Statistics">
+                        </p:submenu>
+
+                        <p:submenu label="Other Statistics">
+                        </p:submenu>
+
+                    </p:panelMenu>
+                </td>
+                    <td>
+                        <h:panelGroup id="resultsGroup">
+                            <ui:insert name="results">
+                                <ui:include src="statistics/#{statisticsBean.selectedStatistics}.xhtml" />
+                            </ui:insert>
+                        </h:panelGroup>
+
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

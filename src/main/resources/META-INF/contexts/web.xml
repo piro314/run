@@ -55,4 +55,8 @@
         <constructor-arg ref="championService"/>
     </bean>
 
+    <bean id="statisticsBean" class="com.piro.run.web.beans.StatisticsBean" scope="view" >
+        <constructor-arg ref="statisticsService"/>
+    </bean>
+
 </beans>
