@@ -1,0 +1,152 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+    <p:panelGrid columns="3" style="text-align: center">
+
+        <p:spacer/>
+        <p:graphicImage url="/static/img/Male.png" style="width: 50px " />
+        <p:graphicImage url="/static/img/Female.png" style="width: 50px " />
+
+
+        <p:graphicImage url="/static/img/runner.png" style="width: 50px " />
+        <p:dataTable id="maleRecordsRun" var="record" value="#{statisticsBean.maleRecordsRun}"
+                     paginator="true" rows="5" >
+
+            <p:column headerText="Състезание"  filterBy="#{record.competitionName}" filterMatchMode="contains">
+                <h:outputText value="#{record.competitionName}"/>
+            </p:column>
+
+            <p:column headerText="Инстанция"   >
+                <h:outputText value="#{record.instanceName}"/>
+            </p:column>
+
+            <p:column headerText="Етап"   >
+                <h:outputText value="#{record.legName}"/>
+            </p:column>
+
+            <p:column headerText="Рекордьор"   >
+                <h:outputText value="#{record.participantName}"/>
+            </p:column>
+
+            <p:column headerText="Резултат" style="width: 80px">
+                <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
+                    <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+
+                <h:outputText value="#{championsBean.getHours(record.time)}" rendered="#{record.time ge 86400000}" />
+                <h:outputText value=":" rendered="#{record.time ge 86400000}" />
+                <h:outputText value="#{record.time}" rendered="#{record.time ge 86400000}">
+                    <f:convertDateTime pattern="mm:ss"/>
+                </h:outputText>
+            </p:column>
+
+        </p:dataTable>
+
+        <p:dataTable id="femaleRecordsRun" var="record" value="#{statisticsBean.femaleRecordsRun}"
+                     paginator="true" rows="5" >
+
+            <p:column headerText="Състезание"  filterBy="#{record.competitionName}" filterMatchMode="contains">
+                <h:outputText value="#{record.competitionName}"/>
+            </p:column>
+
+            <p:column headerText="Инстанция"   >
+                <h:outputText value="#{record.instanceName}"/>
+            </p:column>
+
+            <p:column headerText="Етап"   >
+                <h:outputText value="#{record.legName}"/>
+            </p:column>
+
+            <p:column headerText="Рекордьор"   >
+                <h:outputText value="#{record.participantName}"/>
+            </p:column>
+
+            <p:column headerText="Резултат" style="width: 80px">
+                <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
+                    <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+
+                <h:outputText value="#{championsBean.getHours(record.time)}" rendered="#{record.time ge 86400000}" />
+                <h:outputText value=":" rendered="#{record.time ge 86400000}" />
+                <h:outputText value="#{record.time}" rendered="#{record.time ge 86400000}">
+                    <f:convertDateTime pattern="mm:ss"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+
+
+
+        <p:graphicImage url="/static/img/biking.png" style="width: 50px " />
+
+        <p:dataTable id="maleRecordsBike" var="record" value="#{statisticsBean.maleRecordsBike}"
+                     paginator="true" rows="5" >
+
+            <p:column headerText="Състезание" filterBy="#{record.competitionName}" filterMatchMode="contains" >
+                <h:outputText value="#{record.competitionName}"/>
+            </p:column>
+
+            <p:column headerText="Инстанция"   >
+                <h:outputText value="#{record.instanceName}"/>
+            </p:column>
+
+            <p:column headerText="Етап"   >
+                <h:outputText value="#{record.legName}"/>
+            </p:column>
+
+            <p:column headerText="Рекордьор"   >
+                <h:outputText value="#{record.participantName}"/>
+            </p:column>
+
+            <p:column headerText="Резултат" style="width: 80px">
+                <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
+                    <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+
+                <h:outputText value="#{championsBean.getHours(record.time)}" rendered="#{record.time ge 86400000}" />
+                <h:outputText value=":" rendered="#{record.time ge 86400000}" />
+                <h:outputText value="#{record.time}" rendered="#{record.time ge 86400000}">
+                    <f:convertDateTime pattern="mm:ss"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+
+
+
+        <p:dataTable id="femaleRecordsBike" var="record" value="#{statisticsBean.femaleRecordsBike}"
+                     paginator="true" rows="5" >
+
+            <p:column headerText="Състезание" filterBy="#{record.competitionName}" filterMatchMode="contains" >
+                <h:outputText value="#{record.competitionName}"/>
+            </p:column>
+
+            <p:column headerText="Инстанция"   >
+                <h:outputText value="#{record.instanceName}"/>
+            </p:column>
+
+            <p:column headerText="Етап"   >
+                <h:outputText value="#{record.legName}"/>
+            </p:column>
+
+            <p:column headerText="Рекордьор"   >
+                <h:outputText value="#{record.participantName}"/>
+            </p:column>
+
+            <p:column headerText="Резултат" style="width: 80px">
+                <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
+                    <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+
+                <h:outputText value="#{championsBean.getHours(record.time)}" rendered="#{record.time ge 86400000}" />
+                <h:outputText value=":" rendered="#{record.time ge 86400000}" />
+                <h:outputText value="#{record.time}" rendered="#{record.time ge 86400000}">
+                    <f:convertDateTime pattern="mm:ss"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+
+    </p:panelGrid>
+</ui:composition>
+</html>

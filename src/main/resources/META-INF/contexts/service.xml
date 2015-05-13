@@ -45,6 +45,7 @@
 
         <property name="legRepository" ref="legRepository"/>
         <property name="legAssembler" ref="legAssembler"/>
+        <property name="resultRepository" ref="resultRepository"/>
     </bean>
 
 </beans>

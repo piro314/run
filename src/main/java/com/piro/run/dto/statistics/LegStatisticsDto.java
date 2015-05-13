@@ -1,4 +1,4 @@
-package com.piro.run.dto;
+package com.piro.run.dto.statistics;
 
 import com.piro.run.enums.Type;
 
