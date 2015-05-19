@@ -43,6 +43,9 @@ public class ResultAssemblerImpl extends BaseAssembler<Result, ResultDto> implem
 
     @Override
     public ResultDto toDto(Result entity) {
+        if(entity == null){
+            return null;
+        }
         ResultDto dto = new ResultDto();
 
         Long time = entity.getTime();

@@ -3,6 +3,7 @@ package com.piro.run.web.beans;
 import com.piro.run.dto.*;
 import com.piro.run.entity.CheckPoint;
 import com.piro.run.entity.Result;
+import com.piro.run.exception.ResourceNotFoundException;
 import com.piro.run.service.*;
 import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public class ResultsBean implements Serializable {
 
     private List<String> columns;
 
-    public ResultsBean(CompetitionService competitionService, InstanceService instanceService, LegService legService, ResultService resultService) {
+    public ResultsBean(CompetitionService competitionService, InstanceService instanceService, LegService legService, ResultService resultService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
         this.instanceService = instanceService;
         this.legService = legService;
@@ -57,11 +59,16 @@ public class ResultsBean implements Serializable {
             try {
                 legId = Long.valueOf(legIdStr);
             }
-            catch (NumberFormatException e){}
+            catch (NumberFormatException e){
+                throw new ResourceNotFoundException();
+            }
         }
 
         if(legId != -1) {
             legDto = legService.getById(legId);
+            if(legDto == null){
+                throw new ResourceNotFoundException();
+            }
             instanceDto = instanceService.getById(legDto.getInstanceId());
             competitionDto = competitionService.getById(instanceDto.getCompetitionId());
         }else{

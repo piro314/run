@@ -42,6 +42,9 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
 
     @Override
     public InstanceDto toDto(Instance entity) {
+        if(entity ==null){
+            return null;
+        }
         LOG.debug("Transforming to dto entity with id = "+entity.getId());
 
         InstanceDto dto = new InstanceDto();

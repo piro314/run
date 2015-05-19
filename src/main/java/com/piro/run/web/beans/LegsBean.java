@@ -5,6 +5,7 @@ import com.piro.run.dto.InstanceDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
 import com.piro.run.enums.Type;
+import com.piro.run.exception.ResourceNotFoundException;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
 import com.piro.run.service.LegService;
@@ -41,7 +42,7 @@ public class LegsBean implements Serializable {
     private List<LegDto> legs;
     private LegDto forCreate;
 
-    public LegsBean(InstanceService instanceService, LegService legService, CompetitionService competitionService) {
+    public LegsBean(InstanceService instanceService, LegService legService, CompetitionService competitionService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
         this.instanceService = instanceService;
         this.legService = legService;
@@ -55,11 +56,16 @@ public class LegsBean implements Serializable {
             try {
                 instanceId = Long.valueOf(instanceIdStr);
             }
-            catch (NumberFormatException e){}
+            catch (NumberFormatException e){
+                throw new ResourceNotFoundException();
+            }
         }
 
         if(instanceId != -1) {
             instanceDto = instanceService.getById(instanceId);
+            if(instanceDto == null){
+                throw new ResourceNotFoundException();
+            }
             competitionDto = competitionService.getById(instanceDto.getCompetitionId());
         }else{
             throw new IllegalArgumentException("cannot find instance");

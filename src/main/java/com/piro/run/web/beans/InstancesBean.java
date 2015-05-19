@@ -1,6 +1,7 @@
 package com.piro.run.web.beans;
 
 import com.piro.run.dto.*;
+import com.piro.run.exception.ResourceNotFoundException;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
 import com.piro.run.service.ResultService;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 /**
  * Created by ppirovski on 12/18/14. In Code we trust
@@ -46,7 +48,7 @@ public class InstancesBean implements Serializable {
 
     private LineChartModel legGraphModel;
 
-    public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService){
+    public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
         this.instanceService = instanceService;
         this.resultService = resultService;
@@ -61,11 +63,16 @@ public class InstancesBean implements Serializable {
             try {
                 competitionId = Long.valueOf(competitionIdStr);
             }
-            catch (NumberFormatException e){}
+            catch (NumberFormatException e){
+                throw new ResourceNotFoundException();
+            }
         }
 
         if(competitionId != -1) {
             competitionDto = competitionService.getById(competitionId);
+            if(competitionDto == null){
+                throw new ResourceNotFoundException();
+            }
         }else{
             throw new IllegalArgumentException("cannot find competition");
         }

@@ -20,7 +20,7 @@ public class CompetitionAssemblerImpl extends BaseAssembler<Competition, Competi
     private InstanceAssembler instanceAssembler;
     @Override
     public Competition toEntity(CompetitionDto dto) {
- //       LOG.debug("Transforming to entity dto with id = "+dto.getId());
+        LOG.debug("Transforming to entity dto with id = "+dto.getId());
 
         Competition entity = new Competition();
 
@@ -36,7 +36,10 @@ public class CompetitionAssemblerImpl extends BaseAssembler<Competition, Competi
 
     @Override
     public CompetitionDto toDto(Competition entity) {
-     //   LOG.debug("Transforming to dto entity with id = "+entity.getId());
+        if(entity == null){
+            return null;
+        }
+        LOG.debug("Transforming to dto entity with id = "+entity.getId());
 
         CompetitionDto dto = new CompetitionDto();
 

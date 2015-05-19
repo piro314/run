@@ -13,13 +13,10 @@
 
     <h:body>
         <div id="main">
-            <div id="header">
-                <a href="${request.contextPath}/j_spring_security_logout" id="logout-btn" align="right">Logout</a>
-            </div>
 
             <div id="menu">
                 <ui:insert name="menu">
-                    <ui:include src="/public/publicMenu.xhtml"/>
+                    <ui:include src="/public/userMenu.xhtml"/>
                 </ui:insert>
             </div>
 

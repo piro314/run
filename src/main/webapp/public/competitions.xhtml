@@ -3,7 +3,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 
-<ui:composition template="/templates/publicLayout.xhtml">
+<ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
 
     <ui:define name="content">
         <h:form id="competitionsForm">

@@ -13,6 +13,7 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.MissingResourceException;
 
 /**
  * Created by ppirovski on 12/4/14. In Code we trust
@@ -49,8 +50,12 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
                 //obtain throwable object
                 Throwable t = context.getException();
 
-                if(t.getCause() != null && t.getCause() instanceof FacesFileNotFoundException){
-                    this.notFound();
+                if(t.getCause() != null && (t.getCause() instanceof FacesFileNotFoundException
+                                            || t.getCause() instanceof ResourceNotFoundException
+                                            || t.getCause().getCause()instanceof ResourceNotFoundException
+                                            )
+                                                                                                ){
+                    this.redirect(NOT_FOUND_PAGE);
                     return;
                 }
                 String errorRef = String.valueOf(System.currentTimeMillis());

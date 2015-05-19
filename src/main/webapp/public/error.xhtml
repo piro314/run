@@ -8,15 +8,17 @@
     </title>
 </h:head>
 <h:body class="body_error">
-    <image src="/static/img/oops.jpg"/>
-    <br/>
-    <br/>
-    <p:panel id="pnl" header="Show Details" toggleable="true" closable="false" style="width: 1200px;"
-             toggleSpeed="100" widgetVar="panel" collapsed="true">
+    <div align="center">
+        <img src="../static/img/oops.jpg"/>
+        <br/>
+        <br/>
+        <p:panel id="pnl" header="Show Details" toggleable="true" closable="false" style="width: 1200px;"
+                 toggleSpeed="100" widgetVar="panel" collapsed="true">
 
-        <h:inputTextarea style="width: 100%;" rows="20" readonly="true"
-                         value="#{errorBean.stackTrace}" />
+            <h:inputTextarea style="width: 100%;" rows="20" readonly="true"
+                             value="#{errorBean.stackTrace}" />
 
-    </p:panel>
+        </p:panel>
+    </div>
 </h:body>
 </html>

@@ -49,7 +49,9 @@
 
     <bean id="webBeanUtils" class="com.piro.run.web.beans.WebBeanUtils" scope="request" />
 
-    <bean id="sessionBean" class="com.piro.run.web.beans.SessionBean" scope="session" />
+    <bean id="sessionBean" class="com.piro.run.web.beans.SessionBean" scope="session" >
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
 
     <bean id="championsBean" class="com.piro.run.web.beans.ChampionsBean" scope="view" >
         <constructor-arg ref="championService"/>

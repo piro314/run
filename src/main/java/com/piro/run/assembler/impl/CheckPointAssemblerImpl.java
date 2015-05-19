@@ -37,6 +37,9 @@ public class CheckPointAssemblerImpl extends BaseAssembler<CheckPoint, CheckPoin
 
     @Override
     public CheckPointDto toDto(CheckPoint entity) {
+        if(entity == null){
+            return null;
+        }
         LOG.debug("Transforming to dto entity with id = "+entity.getId());
 
         CheckPointDto dto = new CheckPointDto();

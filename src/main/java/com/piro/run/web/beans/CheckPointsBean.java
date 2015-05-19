@@ -5,6 +5,7 @@ import com.piro.run.dto.CompetitionDto;
 import com.piro.run.dto.InstanceDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.CheckPoint;
+import com.piro.run.exception.ResourceNotFoundException;
 import com.piro.run.service.CheckPointService;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
@@ -21,6 +22,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,7 @@ public class CheckPointsBean implements Serializable{
     public CheckPointsBean(InstanceService instanceService,
                            CompetitionService competitionService,
                            LegService legService,
-                           CheckPointService checkPointService) {
+                           CheckPointService checkPointService) throws ResourceNotFoundException {
 
         this.competitionService = competitionService;
         this.instanceService = instanceService;
@@ -65,11 +67,16 @@ public class CheckPointsBean implements Serializable{
             try {
                 legId = Long.valueOf(legIdStr);
             }
-            catch (NumberFormatException e){}
+            catch (NumberFormatException e){
+                throw new ResourceNotFoundException();
+            }
         }
 
         if(legId != -1) {
             legDto = legService.getById(legId);
+            if(legDto == null){
+                throw new ResourceNotFoundException();
+            }
             instanceDto = instanceService.getById(legDto.getInstanceId());
             competitionDto = competitionService.getById(instanceDto.getCompetitionId());
         }else{

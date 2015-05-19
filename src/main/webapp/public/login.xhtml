@@ -1,0 +1,33 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+<ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
+
+    <ui:define name="content">
+        <div align="center">
+            <h:form id="loginForm">
+
+                <div style="margin-top: 140px">
+                    <p:messages />
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{sessionBean.password}" required="true" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
+                        </f:facet>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
         >
 
-<ui:composition template="/templates/publicLayout.xhtml">
+<ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
 
     <ui:define name="content">
         <h:form id="instancesForm">
@@ -66,7 +66,7 @@
                                     <h:outputText value="#{result.male ? 'М' : 'Ж'}"/>
                                 </p:column>
 
-                                <p:column headerText="Cat" style="width: 50px">
+                                <p:column headerText="Cat" style="width: 50px" filterBy="#{result.category}" filterMatchMode="contains" filterStyle="width: 50px;">
                                     <h:outputText value="#{result.category}"/>
                                 </p:column>
 
@@ -90,7 +90,7 @@
                                 </p:columns>
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Show graph"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.columns.size() gt 0}" />
+                                    <p:commandButton value="Профил на маршрута"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.columns.size() gt 0}" />
                                 </f:facet>
 
                             </p:dataTable>
@@ -99,7 +99,7 @@
                 </tr>
             </table>
 
-            <p:dialog header="Leg Graph" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
+            <p:dialog header="Профил на маршрута" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
                 <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null}"/>
             </p:dialog>
         </h:form>

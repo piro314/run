@@ -48,6 +48,9 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
 
     @Override
     public LegDto toDto(Leg entity) {
+        if(entity == null){
+            return null;
+        }
         LOG.debug("Transforming to dto entity with id = "+entity.getId());
 
         LegDto dto = new LegDto();
