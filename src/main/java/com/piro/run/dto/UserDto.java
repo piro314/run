@@ -1,25 +1,24 @@
-package com.piro.run.entity;
+package com.piro.run.dto;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by ppirovski on 12/5/14. In Code we trust
+ * Created by ppirovski on 5/19/15. In Code we trust
  */
+public class UserDto implements Serializable {
 
-@Entity
-@Table(name = "users")
-public class User {
+    public final long serialVersionUID = 8988573344326424148L;
 
     private String username;
     private String password;
-    private boolean enabled;
-    private List<String> authorities;
+    private String repeatPassword;
     private String name;
     private String email;
+    private boolean enabled;
+    private List<String> authorities;
     private String confirm;
 
-    @Id
     public String getUsername() {
         return username;
     }
@@ -36,23 +35,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getRepeatPassword() {
+        return repeatPassword;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Column(name="authority")
-    @ElementCollection(fetch=FetchType.EAGER)
-    @CollectionTable(name = "authorities", joinColumns = {@JoinColumn(name="username")})
-    public List<String> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<String> authorities) {
-        this.authorities = authorities;
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public String getName() {
@@ -69,6 +57,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<String> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 
     public String getConfirm() {

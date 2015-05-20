@@ -12,7 +12,8 @@
             <h:form id="loginForm">
 
                 <div style="margin-top: 140px">
-                    <p:messages />
+                    <h:outputText value="#{usersBean.activate()}" />
+                    <p:messages id="msgs"/>
                     <h:panelGrid columns="2" cellpadding="5">
                         <h:outputLabel for="username" value="Username:" />
                         <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" />
@@ -20,9 +21,9 @@
                         <h:outputLabel for="password" value="Password:" />
                         <p:password id="password" value="#{sessionBean.password}" required="true" label="password" />
 
-                        <f:facet name="footer">
-                            <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
-                        </f:facet>
+                        <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
+                        <h:link value="Нов потребител" outcome="createAccount" />
+
                     </h:panelGrid>
                 </div>
             </h:form>

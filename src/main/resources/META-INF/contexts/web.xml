@@ -61,4 +61,9 @@
         <constructor-arg ref="statisticsService"/>
     </bean>
 
+    <bean id="usersBean" class="com.piro.run.web.beans.UsersBean" scope="view" >
+
+        <constructor-arg ref="userService"/>
+    </bean>
+
 </beans>

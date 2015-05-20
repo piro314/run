@@ -48,4 +48,30 @@
         <property name="resultRepository" ref="resultRepository"/>
     </bean>
 
+    <bean class="com.piro.run.service.impl.UserServiceImpl" id="userService">
+        <property name="userRepository" ref="userRepository"/>
+        <property name="userAssembler" ref="userAssembler"/>
+        <property name="encoder" ref="encoder"/>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="from" value="${spring.mail.username}" />
+        <property name="subject" value="${mail.subject}" />
+        <property name="message" value="${mail.message}" />
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${spring.mail.host}" />
+        <property name="port" value="${spring.mail.port}" />
+        <property name="username" value="${spring.mail.username}" />
+        <property name="password" value="${spring.mail.password}" />
+
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${spring.mail.properties.mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${spring.mail.properties.mail.smtp.starttls.enable}</prop>
+                <prop key="mail.smtps.ssl.checkserveridentity">${spring.mail.properties.mail.smtps.ssl.checkserveridentity}</prop>
+                <prop key="mail.smtps.ssl.trust">${spring.mail.properties.mail.smtps.ssl.trust}</prop>
+            </props>
+        </property>
+    </bean>
+
 </beans>

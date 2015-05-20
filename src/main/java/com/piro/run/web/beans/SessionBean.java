@@ -1,5 +1,8 @@
 package com.piro.run.web.beans;
 
+import com.piro.run.exception.ResourceNotFoundException;
+import com.piro.run.service.UserService;
+import com.piro.run.service.impl.UserServiceImpl;
 import org.primefaces.context.RequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -18,6 +22,7 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Created by ppirovski on 4/24/15. In Code we trust

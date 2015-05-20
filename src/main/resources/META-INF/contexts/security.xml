@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
@@ -25,10 +26,15 @@
 
         <security:authentication-manager alias="authenticationManager">
             <security:authentication-provider>
-                <security:password-encoder hash="sha-256" />
+                <security:password-encoder ref="encoder" />
                 <security:jdbc-user-service data-source-ref="dataSource"/>
             </security:authentication-provider>
         </security:authentication-manager>
+
+        <beans:bean id="encoder"
+                    class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+            <beans:constructor-arg name="strength" value="11" />
+        </beans:bean>
 
         <security:global-method-security secured-annotations="enabled" />
 

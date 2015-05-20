@@ -1,0 +1,54 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
+
+    <ui:define name="content">
+
+        <div align="center" style="margin-top: 140px">
+            <h:form id="createAccountForm">
+
+                <p:messages id="msgs" />
+
+                <h:panelGrid columns="3">
+                    <h:outputText value="Username"/>
+                    <p:inputText id="username" value="#{usersBean.forCreate.username}" required="true" requiredMessage="this field is required">
+                        <p:ajax event="blur" listener="#{usersBean.checkUsername}" process="@this" update="msgs"/>
+                    </p:inputText>
+                    <p:messages id="usernameMsg" for="username" />
+
+                    <h:outputText value="Password"/>
+                    <p:password id="pass" value="#{usersBean.forCreate.password}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="passMsg" for="pass" />
+
+                    <h:outputText value="Repeat Password"/>
+                    <p:password id="repeatPass" value="#{usersBean.forCreate.repeatPassword}" required="true" requiredMessage="this field is required">
+                        <p:ajax event="blur" listener="#{usersBean.checkPassword}" process="@this pass" update="msgs"/>
+                    </p:password>
+                    <p:messages id="repeatPassMsg" for="repeatPass" />
+
+                    <h:outputText value="Name"/>
+                    <p:inputText id="name" value="#{usersBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+                    <p:messages id="nameMsg" for="name" />
+
+                    <h:outputText value="E-mail"/>
+                    <p:inputText id="email" value="#{usersBean.forCreate.email}" required="true" requiredMessage="this field is required" >
+                        <!--<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
+                    </p:inputText>
+                    <p:messages id="emailMsg" for="email" />
+
+                    <f:facet name="footer" >
+                        <p:commandButton value="Create" actionListener="#{usersBean.createAccount}" update="@form"/>
+                    </f:facet>
+                </h:panelGrid>
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
+</html>

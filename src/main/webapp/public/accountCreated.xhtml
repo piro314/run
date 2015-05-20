@@ -1,0 +1,14 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+
+<ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
+
+    <ui:define name="content">
+
+        <div align="center" style="margin-top: 140px">
+            Успешна регистрация! За да активирате акаунта си проверете въведения e-mail.
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

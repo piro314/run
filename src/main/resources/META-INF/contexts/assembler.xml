@@ -35,5 +35,10 @@
         <property name="checkPointRepository" ref="checkPointRepository"/>
     </bean>
 
+    <bean id="userAssembler" class="com.piro.run.assembler.impl.UserAssemblerImpl"
+          parent="baseAssembler" >
+
+    </bean>
+
 
 </beans>
