@@ -16,20 +16,16 @@
                 <div style="margin-top: 140px">
                     <h:outputText value="#{usersBean.activate()}" />
                     <p:messages id="msgs"/>
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <h:panelGroup>
-                            <h:link value="Нов" outcome="createAccount" />
-                            <p:spacer width="5px"/>
-                            <h:outputLabel for="username" value="Потребител:" />
-                        </h:panelGroup>
-                        <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" />
+                    <h:panelGrid columns="3" cellpadding="5">
 
-                        <h:panelGroup>
-                            <h:link  value="Забравена" actionListener="#{sessionBean.login}" />
-                            <p:spacer width="5px"/>
-                            <h:outputLabel for="password" value="Парола:" />
-                        </h:panelGroup>
-                        <p:password id="password" value="#{sessionBean.password}" required="true" label="password" />
+                        <h:link value="Нов" outcome="createAccount" />
+
+                        <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" requiredMessage="Въведете потребител"/>
+                        <p:watermark for="username" value="Потребител" />
+
+                        <h:link  value="Забравена" actionListener="#{sessionBean.login}" />
+                        <p:password id="password" value="#{sessionBean.password}" required="true" label="password" requiredMessage="Въведете парола"/>
+                        <p:watermark for="password" value="Парола" />
 
                         <p:spacer width="5px"/>
                         <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
