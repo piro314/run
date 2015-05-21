@@ -23,7 +23,7 @@
                         <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" requiredMessage="Въведете потребител"/>
                         <p:watermark for="username" value="Потребител" />
 
-                        <h:link  value="Забравена" actionListener="#{sessionBean.login}" />
+                        <p:commandLink  value="Забравена" onclick="PF('passDlg').show();" />
                         <p:password id="password" value="#{sessionBean.password}" required="true" label="password" requiredMessage="Въведете парола"/>
                         <p:watermark for="password" value="Парола" />
 
@@ -31,6 +31,25 @@
                         <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
 
                     </h:panelGrid>
+
+                    <p:dialog header="Забравена парола" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
+
+                        <p:panelGrid columns="1" layout="grid" >
+                            <h:outputText value="Ще бъде генерирана нова парола и бъде изпратена на email-а ви" />
+                            <h:panelGrid columns="2">
+                                <p:inputText id="forgottenUser" value="#{usersBean.forgottenUser}" />
+                                <p:watermark for="forgottenUser" value="Потребител" />
+
+                                <p:inputText id="forgottenEmail" value="#{usersBean.forgottenEmail}" />
+                                <p:watermark for="forgottenEmail" value="E-mail" />
+
+
+                            </h:panelGrid>
+                            <p:commandButton value="Изпрати" actionListener="#{usersBean.forgottenPassword}" onclick="PF('passDlg').hide();"
+                                             update=":loginForm:msgs" process="@this forgottenUser forgottenEmail"/>
+                        </p:panelGrid>
+
+                    </p:dialog>
 
 
                 </div>

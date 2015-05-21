@@ -3,6 +3,8 @@ package com.piro.run.web.beans;
 import com.piro.run.dto.UserDto;
 import com.piro.run.service.UserService;
 import com.piro.run.service.impl.UserServiceImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
@@ -26,6 +28,16 @@ public class UsersBean implements Serializable {
     private transient UserService userService;
 
     private UserDto forCreate;
+    private UserDto currentUser;
+
+    private String newName;
+    private String newEmail;
+    private String oldPassword;
+    private String newPassword;
+
+    private String forgottenUser;
+    private String forgottenEmail;
+
 
     public UsersBean(UserService userService) {
         this.userService = userService;
@@ -35,6 +47,68 @@ public class UsersBean implements Serializable {
 
     public UserDto getForCreate() {
         return forCreate;
+    }
+
+    public UserDto getCurrentUser() {
+        if(currentUser == null){
+            String username = this.getCurrentUserName();
+            currentUser = userService.findUser(username);
+        }
+        return currentUser;
+    }
+
+    public String getNewName() {
+        if(newName == null){
+            newName = getCurrentUser().getName();
+        }
+        return newName;
+    }
+
+    public void setNewName(String newName) {
+        this.newName = newName;
+    }
+
+    public String getNewEmail() {
+        if(newEmail == null){
+            newEmail = getCurrentUser().getEmail();
+        }
+        return newEmail;
+    }
+
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getForgottenUser() {
+        return forgottenUser;
+    }
+
+    public void setForgottenUser(String forgottenUser) {
+        this.forgottenUser = forgottenUser;
+    }
+
+    public String getForgottenEmail() {
+        return forgottenEmail;
+    }
+
+    public void setForgottenEmail(String forgottenEmail) {
+        this.forgottenEmail = forgottenEmail;
     }
 
     public void checkUsername(){
@@ -107,10 +181,76 @@ public class UsersBean implements Serializable {
 
     }
 
+    public void editUser(){
+
+        currentUser.setName(getNewName());
+        String result = userService.editUser(getCurrentUser(), getNewEmail(), getNewPassword(), getOldPassword());
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        if(StringUtils.isEmpty(result)){
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешна промяна!", null));
+
+        }
+        else {
+            if (result.equals("empty password") || result.equals("wrong password")) {
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Грешна парола", null));
+            }
+        }
+
+        currentUser = null;
+        newEmail = null;
+        newName = null;
+        newPassword = null;
+        oldPassword = null;
+
+
+    }
+
+
+    public boolean checkChange(){
+        return checkEmailOrPasswordChanged() || !getNewName().equals(getCurrentUser().getName());
+    }
+
+    public boolean checkEmailOrPasswordChanged(){
+        if(!getNewEmail().equals(getCurrentUser().getEmail())){
+            return true;
+        }
+        if(!StringUtils.isEmpty(newPassword)){
+            return true;
+        }
+        return false;
+    }
+
+    public void forgottenPassword(){
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        if(userService.generateAndSendPassword(getForgottenUser(), getForgottenEmail())){
+
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Изпратена е нова парола на вашия email", null));
+        }
+        else {
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Проблем с изпращането на новата ви парола. Моля, пробвайте по-късно", null));
+        }
+    }
+
     private String getBaseUrl(ExternalContext extContext){
         HttpServletRequest request = (HttpServletRequest) extContext.getRequest();
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
         return baseURL;
     }
+
+    private String getCurrentUserName(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal == null){
+            throw new SecurityException("not logged in");
+        }
+        if(principal instanceof String){
+           return (String)principal;
+        }
+        if (principal instanceof UserDetails){
+            return ((UserDetails)principal).getUsername();
+        }
+        throw new SecurityException("cannot find principal");
+    }
+
+
 }

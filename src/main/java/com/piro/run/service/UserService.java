@@ -14,4 +14,8 @@ public interface UserService {
     void sendConfirmEmail(String username, String url, String to);
 
     boolean activate(String uId);
+
+    String editUser(UserDto forEdit, String newEmail, String newPassword, String oldPassword);
+
+    boolean generateAndSendPassword(String username, String to);
 }

@@ -54,8 +54,10 @@
         <property name="encoder" ref="encoder"/>
         <property name="mailSender" ref="mailSender"/>
         <property name="from" value="${spring.mail.username}" />
-        <property name="subject" value="${mail.subject}" />
-        <property name="message" value="${mail.message}" />
+        <property name="activateSubject" value="${mail.subject.activate}" />
+        <property name="activateMessage" value="${mail.message.activate}" />
+        <property name="passwordSubject" value="${mail.subject.password}" />
+        <property name="passwordMessage" value="${mail.message.password}" />
     </bean>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

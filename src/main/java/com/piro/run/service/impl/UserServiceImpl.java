@@ -15,7 +15,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,8 +33,10 @@ public class UserServiceImpl implements UserService{
     private JavaMailSender mailSender;
 
     private String from;
-    private String subject;
-    private String message;
+    private String activateSubject;
+    private String activateMessage;
+    private String passwordSubject;
+    private String passwordMessage;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -72,12 +76,21 @@ public class UserServiceImpl implements UserService{
     public void sendConfirmEmail(String username, String url, String to) {
         LOG.debug("sending message to user with username: " + username);
 
+        String msg = null;
+        String subject = null;
+        try {
+            msg = new String(this.activateMessage.getBytes("ISO-8859-1"), "UTF-8");
+            subject = new String(this.activateSubject.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        String msg = this.message + url;
+        msg = msg + url;
         mailMessage.setText(msg);
         mailMessage.setFrom(this.from);
         mailMessage.setTo(to);
-        mailMessage.setSubject(this.subject);
+        mailMessage.setSubject(subject);
 
         try {
             mailSender.send(mailMessage);
@@ -103,6 +116,75 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
+    @Override
+    @Transactional
+    public String editUser(UserDto forEdit, String newEmail, String newPassword, String oldPassword) {
+
+        if(newEmail.equals(forEdit.getEmail()) && StringUtils.isEmpty(newPassword)){
+            userRepository.save(userAssembler.toEntity(forEdit));
+            return "";
+        }
+        if(StringUtils.isEmpty(oldPassword)){
+            return "empty password";
+        }
+        if(passwordEncoder.matches(oldPassword, forEdit.getPassword())){
+            forEdit.setPassword(passwordEncoder.encode(newPassword));
+            forEdit.setEmail(newEmail);
+            userRepository.save(userAssembler.toEntity(forEdit));
+            return "";
+        }
+
+        return "wrong password";
+    }
+
+    @Override
+    @Transactional
+    public boolean generateAndSendPassword(String username, String to) {
+
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(to)){
+            return false;
+        }
+
+        User user = userRepository.findOne(username);
+        if(user == null || !user.getEmail().equals(to)){
+            return false;
+        }
+
+        String random = UUID.randomUUID().toString().replace("-", "_");
+        String newPass = random.substring(0,6);
+
+        user.setPassword(passwordEncoder.encode(newPass));
+
+        LOG.debug("saving new generated password: " + username);
+        userRepository.save(user);
+
+        LOG.debug("sending new password to user with username: " + username);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        String msg = null;
+        String subject = null;
+        try {
+            msg = new String(this.passwordMessage.getBytes("ISO-8859-1"), "UTF-8");
+            subject = new String(this.passwordSubject.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        msg = msg + " " + username + " : " + newPass;
+        mailMessage.setText(msg);
+        mailMessage.setFrom(this.from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+
+        try {
+            mailSender.send(mailMessage);
+        }
+        catch (Exception e){
+            LOG.warn("failed sending email: "+e.getMessage() );
+            return  false;
+        }
+        return true;
+    }
 
     @Required
     public void setUserRepository(UserRepository userRepository) {
@@ -130,12 +212,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Required
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setActivateSubject(String activateSubject) {
+        this.activateSubject = activateSubject;
     }
 
     @Required
-    public void setMessage(String message) {
-        this.message = message;
+    public void setActivateMessage(String activateMessage) {
+        this.activateMessage = activateMessage;
+    }
+
+    @Required
+    public void setPasswordSubject(String passwordSubject) {
+        this.passwordSubject = passwordSubject;
+    }
+
+    @Required
+    public void setPasswordMessage(String passwordMessage) {
+        this.passwordMessage = passwordMessage;
     }
 }

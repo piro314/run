@@ -1,0 +1,64 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+        >
+
+<ui:composition template="/templates/userLayout.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="profileForm">
+            <div style="margin-top: 140px" align="center">
+                <p:messages id="msgs"/>
+                <p:panelGrid columns="2" layout="grid" style="width: 40%">
+
+                    <h:outputLabel for="username" value="Потребителско име:" />
+                    <h:outputText id="username"  value="#{usersBean.currentUser.username}" />
+
+                    <h:outputLabel for="name" value="Промени име:" />
+                    <p:inplace id="name" editor="true">
+                        <p:ajax event="save" update=":profileForm:changeButtons" />
+                        <p:inputText value="#{usersBean.newName}" required="true" />
+                    </p:inplace>
+
+                    <h:outputLabel for="email" value="Промени Email:" />
+                    <p:inplace id="email" editor="true" >
+                        <p:ajax event="save" update=":profileForm:changeButtons" />
+                        <p:inputText value="#{usersBean.newEmail}" required="true" />
+                    </p:inplace>
+
+                    <h:outputLabel for="pass" value="Промени Парола:" />
+                    <p:password id="pass" value="#{usersBean.newPassword}"  >
+                        <p:ajax event="keyup" update=":profileForm:changeButtons" process=":profileForm:pass"/>
+                    </p:password>
+
+
+
+                    <f:facet name="footer" >
+                        <div align="center">
+                            <h:panelGroup id="changeButtons" >
+                                <p:commandButton value="Промени" actionListener="#{usersBean.editUser()}" rendered="#{!usersBean.checkEmailOrPasswordChanged()}"
+                                                 disabled="#{!usersBean.checkChange()}" update="@form"/>
+                                <p:commandButton value="Промени" onclick="PF('passDlg').show();" rendered="#{usersBean.checkEmailOrPasswordChanged()}" />
+                            </h:panelGroup>
+                        </div>
+                    </f:facet>
+
+                </p:panelGrid>
+
+                <p:dialog header="Потвърждение" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
+
+                    <p:panelGrid columns="1" layout="grid" >
+                        <h:outputText value="Тъй като променяте парола или Email, моля потвърдете чрез въвеждане на старата си парола" />
+                        <p:password	 value="#{usersBean.oldPassword}" />
+                        <p:commandButton value="Потвърди" actionListener="#{usersBean.editUser()}" update="@form" onclick="PF('passDlg').hide();"/>
+                    </p:panelGrid>
+
+                </p:dialog>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

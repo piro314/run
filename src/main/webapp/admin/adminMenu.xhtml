@@ -11,7 +11,8 @@
             <p:menuitem value="Статистика" icon="/static/img/menu/statistics.png" url="/public/statistics.jsf"/>
             <p:menuitem value="Шампиони" icon="/static/img/menu/champ.png" url="/public/champions.jsf"/>
             <p:menuitem value="Администриране" icon="/static/img/menu/administrator.png" url="/admin/competitionsCRUD.jsf"/>
-            <p:menuitem value="Logout" icon="/static/img/menu/logout.png" url="${request.contextPath}/j_spring_security_logout" rendered="#{sessionBean.loggedIn}"/>
+            <p:menuitem value="Профил" icon="/static/img/menu/profile.png" url="/user/profile.jsf" rendered="#{sessionBean.loggedIn}"/>
+            <p:menuitem value="Изход" icon="/static/img/menu/logout.png" url="${request.contextPath}/j_spring_security_logout" rendered="#{sessionBean.loggedIn}"/>
         </p:dock>
     </h:form>
 
