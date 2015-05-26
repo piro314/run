@@ -8,10 +8,12 @@ import com.piro.run.dto.CheckPointDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.dto.statistics.LegStatisticsDto;
 import com.piro.run.dto.statistics.RecordsDto;
+import com.piro.run.dto.statistics.UserResultDto;
 import com.piro.run.entity.Leg;
 import com.piro.run.enums.Type;
 import com.piro.run.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +80,13 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         return records;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserResultDto> getUserResults(String username) {
+        return resultRepository.getUserResults(username);
+    }
+
 
 
     @Required

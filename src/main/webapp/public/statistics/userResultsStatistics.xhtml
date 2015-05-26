@@ -1,0 +1,44 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition>
+        <p:dataTable id="userresultsTable" var="result" value="#{statisticsBean.userResults}"
+                     paginator="true" rows="10" >
+
+            <p:column headerText="Състезание" filterBy="#{result.competitionName}" filterMatchMode="contains" >
+                <h:outputText value="#{result.competitionName}" />
+            </p:column>
+
+            <p:column headerText="Инстанция"  filterBy="#{result.instanceName}" filterMatchMode="contains" >
+                <h:outputText value="#{result.instanceName}"/>
+            </p:column>
+
+            <p:column headerText="Етап"  filterBy="#{result.legName}" filterMatchMode="contains" >
+                <h:outputText value="#{result.legName}"/>
+            </p:column>
+
+            <p:column headerText="Дата"  sortBy="#{result.date}">
+                <h:outputText value="#{result.date}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+
+            <p:column headerText="Резултат" value="#{result.time}" >
+
+                <h:outputText value="#{result.time}" rendered="#{result.time lt 86400000}">
+                    <f:convertDateTime pattern="HH:mm:ss"/>
+                </h:outputText>
+
+                <h:outputText value="#{result.hours}" rendered="#{result.time ge 86400000}" />
+                <h:outputText value=":" rendered="#{result.time ge 86400000}" />
+                <h:outputText value="#{result.time}" rendered="#{result.time ge 86400000}">
+                    <f:convertDateTime pattern="mm:ss"/>
+                </h:outputText>
+
+            </p:column>
+        </p:dataTable>
+    </ui:composition>
+</html>

@@ -1,6 +1,7 @@
 package com.piro.run.dao;
 
 import com.piro.run.dto.statistics.RecordsDto;
+import com.piro.run.dto.statistics.UserResultDto;
 import com.piro.run.entity.Leg;
 import com.piro.run.entity.Result;
 import com.piro.run.enums.Type;
@@ -51,5 +52,19 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
                     "order by c.name, l.name "
             )
     List<RecordsDto> getRecords(@Param("male") boolean male, @Param("type") int type);
+
+    @Query( value = "select new com.piro.run.dto.statistics.UserResultDto(p.username, c.name, i.name, l.name, r.time, i.startDate) " +
+            "from Result r " +
+            "join r.checkPoint as cp " +
+            "join r.participant as p " +
+            "join cp.leg l " +
+            "join l.instance as i " +
+            "join i.competition as c " +
+            "where p.username = :username " +
+            "and cp.last = true " +
+            "and r.time > 0 " +
+            "order by i.startDate desc "
+    )
+    List<UserResultDto> getUserResults(@Param("username") String username);
 
 }

@@ -63,10 +63,14 @@
 
                                         </p:selectOneMenu>
                                     </f:facet>
-                                    <h:outputText value="#{result.male ? 'М' : 'Ж'}"/>
+                                    <div align="center">
+
+                                        <p:graphicImage url="/static/img/Male.png" style="width: 20px " rendered="#{result.male}"/>
+                                        <p:graphicImage url="/static/img/Female.png" style="width: 20px " rendered="#{!result.male}"/>
+                                    </div>
                                 </p:column>
 
-                                <p:column headerText="Cat" style="width: 50px" filterBy="#{result.category}" filterMatchMode="contains" filterStyle="width: 50px;">
+                                <p:column headerText="Категория" style="width: 50px" filterBy="#{result.category}" filterMatchMode="contains" filterStyle="width: 50px;">
                                     <h:outputText value="#{result.category}"/>
                                 </p:column>
 

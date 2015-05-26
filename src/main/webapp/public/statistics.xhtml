@@ -13,17 +13,18 @@
             <table style="margin-top: 140px; margin-left: 50px; margin-right: 50px;">
                 <tr style="vertical-align: top"><td>
                     <p:panelMenu style="width:300px">
-                        <p:submenu label="Leg Statistics">
-                            <p:menuitem value="Leg Statistics" actionListener="#{statisticsBean.setSelectedStatistics('legStatistics')}" update="resultsGroup"/>
+                        <p:submenu label="Етапна статистика">
+                            <p:menuitem value="Етапи" actionListener="#{statisticsBean.setSelectedStatistics('legStatistics')}" update="resultsGroup"/>
 
-                            <p:menuitem value="Alabala" actionListener="#{statisticsBean.setSelectedStatistics('alabala')}" update="resultsGroup"/>
                         </p:submenu>
 
-                        <p:submenu label="User Statistics">
-                            <p:menuitem value="Records" actionListener="#{statisticsBean.setSelectedStatistics('recordsStatistics')}" update="resultsGroup"/>
+                        <p:submenu label="Участници">
+                            <p:menuitem value="Рекорди" actionListener="#{statisticsBean.setSelectedStatistics('recordsStatistics')}" update="resultsGroup"/>
+                            <p:menuitem value="Моите резултати" actionListener="#{statisticsBean.setSelectedStatistics('userResultsStatistics')}" update="resultsGroup"
+                                        rendered="#{sessionBean.loggedIn}"/>
                         </p:submenu>
 
-                        <p:submenu label="Other Statistics">
+                        <p:submenu label="Други">
                         </p:submenu>
 
                     </p:panelMenu>

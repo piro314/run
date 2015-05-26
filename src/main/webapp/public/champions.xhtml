@@ -23,7 +23,13 @@
                         </p:row>
                     </f:facet>
                     <p:row>
-                        <p:column ><h:outputText value="#{node.sex == 'M' ? 'М' : 'Ж'}"/></p:column>
+                        <p:column >
+                            <div align="center">
+
+                                <p:graphicImage url="/static/img/Male.png" style="width: 20px " rendered="#{node.sex == 'M'}"/>
+                                <p:graphicImage url="/static/img/Female.png" style="width: 20px " rendered="#{node.sex != 'M'}"/>
+                            </div>
+                        </p:column>
                         <p:column >#{node.category}</p:column>
                         <p:column >#{node.name}</p:column>
                         <p:column >
