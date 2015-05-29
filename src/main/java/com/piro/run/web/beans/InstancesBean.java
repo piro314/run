@@ -8,17 +8,24 @@ import com.piro.run.service.ResultService;
 import com.piro.run.service.impl.CompetitionServiceImpl;
 import com.piro.run.service.impl.InstanceServiceImpl;
 import com.piro.run.service.impl.ResultServiceImpl;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.data.SortEvent;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.chart.*;
 import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
@@ -47,6 +54,8 @@ public class InstancesBean implements Serializable {
     private List<String> columns;
 
     private LineChartModel legGraphModel;
+
+    private ListDataModel savedModel;
 
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
@@ -180,9 +189,6 @@ public class InstancesBean implements Serializable {
     public void onNodeSelect(NodeSelectEvent event) {
         if(event.getTreeNode().getChildren().size() == 0) {
             selected = event.getTreeNode();
-            RequestContext.getCurrentInstance().execute("PF('selectMenu').selectValue('');");
-            RequestContext.getCurrentInstance().execute("PF('resultsTableVar').filter();");
-
         }
     }
 
@@ -216,6 +222,10 @@ public class InstancesBean implements Serializable {
     private void initResultsAndColumns(LegDto legDto){
         results = resultService.getResultsByLegGroupByParticipant(legDto);
 
+        getSexes();
+        DataTable dataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("instancesForm:resultsTable");
+        dataTable.reset();
+
         legGraphModel = new LineChartModel();
         LineChartSeries series = new LineChartSeries();
         series.setFill(true);
@@ -244,8 +254,10 @@ public class InstancesBean implements Serializable {
 
     public List<SelectItem> getSexes(){
         List<SelectItem> result = new ArrayList<>();
+        result.add(new SelectItem(null," "));
         result.add(new SelectItem(false,"Ж"));
         result.add(new SelectItem(true,"М") );
         return result;
     }
+
 }

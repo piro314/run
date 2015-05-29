@@ -39,6 +39,7 @@
                             <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}" rowIndexVar="index" widgetVar="resultsTableVar"
                                          paginator="true" rows="10" >
 
+
                                 <p:column headerText="P" style="width: 30px" priority="2">
                                     <h:outputText value="#{index +1}"/>
                                 </p:column>
@@ -57,10 +58,8 @@
 
                                 <p:column headerText="Пол" style="width: 30px" filterBy="#{result.male}" filterMatchMode="exact" >
                                     <f:facet name="filter">
-                                        <p:selectOneMenu onchange="PF('resultsTableVar').filter()" widgetVar="selectMenu">
-                                            <f:selectItem itemLabel=" " itemValue="" noSelectionOption="true" />
+                                        <p:selectOneMenu  onchange="PF('resultsTableVar').filter()" widgetVar="selectMenu">
                                             <f:selectItems value="#{instancesBean.sexes}" />
-
                                         </p:selectOneMenu>
                                     </f:facet>
                                     <div align="center">
@@ -81,15 +80,18 @@
                                     </f:facet>
 
 
+
                                     <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time lt 86400000}">
                                         <f:convertDateTime pattern="HH:mm:ss"/>
                                     </h:outputText>
 
-                                    <h:outputText value="#{result.results[colIndex].hours}" rendered="#{result.results[colIndex].time ge 86400000}" />
-                                    <h:outputText value=":" rendered="#{result.results[colIndex].time ge 86400000}" />
-                                    <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time ge 86400000}">
+                                    <h:outputText value="#{result.results[colIndex].hours}" rendered="#{result.results[colIndex].time ge 86400000 and result.results[colIndex].time lt 1000000000}}" />
+                                    <h:outputText value=":" rendered="#{result.results[colIndex].time ge 86400000 and result.results[colIndex].time lt 1000000000}}" />
+                                    <h:outputText value="#{result.results[colIndex].time}" rendered="#{result.results[colIndex].time ge 86400000 and result.results[colIndex].time lt 1000000000}">
                                         <f:convertDateTime pattern="mm:ss"/>
                                     </h:outputText>
+
+                                    <h:outputText value="DNF" rendered="#{result.results[colIndex].time ge 1000000000}"/>
 
                                 </p:columns>
 

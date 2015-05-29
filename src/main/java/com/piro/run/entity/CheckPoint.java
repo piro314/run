@@ -68,7 +68,7 @@ public class CheckPoint {
         this.leg = leg;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="checkPoint")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="checkPoint", fetch = FetchType.EAGER)
     public List<Result> getResults() {
         return results;
     }

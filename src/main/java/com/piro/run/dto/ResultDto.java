@@ -1,9 +1,13 @@
 package com.piro.run.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by ppirovski on 4/15/15. In Code we trust
  */
-public class ResultDto {
+public class ResultDto implements Serializable{
+
+    public final long serialVersionUID = 1532951921234512218L;
 
     private Long id;
     private Long checkPointId;
