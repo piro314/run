@@ -76,9 +76,15 @@ public class ResultServiceImpl implements ResultService {
         LOG.debug("deleting results for participant with id = " +participantResultDto.getParticipantId() +
                 " and leg id = "+participantResultDto.getLegId());
 
-        List<Result> results = resultAssembler.toEntities(participantResultDto.getResults());
-        resultRepository.delete(results);
-        participantRepository.delete(participantResultDto.getParticipantId());
+       Participant participant = participantRepository.findOne(participantResultDto.getParticipantId());
+       for(Result r : participant.getResults()){
+           r.getCheckPoint().getResults().remove(r);
+       }
+       resultRepository.delete(participant.getResults());
+       participant.setResults(new ArrayList<Result>());
+
+
+        participantRepository.delete(participant);
     }
 
     @Override

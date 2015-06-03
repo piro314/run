@@ -60,7 +60,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         dto.setHighest(entity.getHighest());
         dto.setdPlus(entity.getdPlus());
         dto.setDistance(entity.getDistance());
-        dto.setdMinus(dto.getdMinus());
+        dto.setdMinus(entity.getdMinus());
         dto.setCheckPoints(checkPointAssembler.toDtos(entity.getCheckPoints()));
         dto.setInstanceId(entity.getInstance().getId());
         dto.setName(entity.getName());

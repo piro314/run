@@ -229,6 +229,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>0.4.3</version>
+                <configuration>
+                    <appName>run</appName>
+                    <jdkVersion>1.7</jdkVersion>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

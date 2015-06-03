@@ -1,6 +1,7 @@
 package com.piro.run.web.beans;
 
 import com.piro.run.dto.*;
+import com.piro.run.entity.Instance;
 import com.piro.run.exception.ResourceNotFoundException;
 import com.piro.run.service.CompetitionService;
 import com.piro.run.service.InstanceService;
@@ -29,10 +30,7 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.MissingResourceException;
+import java.util.*;
 
 /**
  * Created by ppirovski on 12/18/14. In Code we trust
@@ -174,12 +172,16 @@ public class InstancesBean implements Serializable {
     private void initTree(){
         root = new DefaultTreeNode();
         boolean expanded = true;
-        for(InstanceDto instanceDto : competitionDto.getInstances()){
+        List<InstanceDto> instances = competitionDto.getInstances();
+        Collections.sort(instances);
+        for(InstanceDto instanceDto : instances){
             TreeNode instanceNode = new DefaultTreeNode(instanceDto, root);
             instanceNode.setExpanded(expanded);
             expanded = false;
             root.getChildren().add(instanceNode);
-            for(LegDto legDto : instanceDto.getLegs()){
+            List<LegDto> legs = instanceDto.getLegs();
+            Collections.sort(legs);
+            for(LegDto legDto : legs){
                 TreeNode legNode = new DefaultTreeNode(legDto, instanceNode);
                 instanceNode.getChildren().add(legNode);
             }
@@ -221,6 +223,7 @@ public class InstancesBean implements Serializable {
 
     private void initResultsAndColumns(LegDto legDto){
         results = resultService.getResultsByLegGroupByParticipant(legDto);
+        Collections.sort(results);
 
         getSexes();
         DataTable dataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("instancesForm:resultsTable");

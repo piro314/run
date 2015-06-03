@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class InstanceDto implements Serializable{
+public class InstanceDto implements Serializable, Comparable<InstanceDto>{
 
     public final long serialVersionUID = 2931221342113611371L;
 
@@ -77,5 +77,16 @@ public class InstanceDto implements Serializable{
 
     public void setResultsCount(long resultsCount) {
         this.resultsCount = resultsCount;
+    }
+
+    @Override
+    public int compareTo(InstanceDto instanceDto) {
+        if(this.getStartDate().after(instanceDto.getStartDate())){
+            return -1;
+        }
+        else if(this.getStartDate().before(instanceDto.getStartDate())){
+            return 1;
+        }
+        return 0;
     }
 }

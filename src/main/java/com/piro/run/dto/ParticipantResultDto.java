@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by ppirovski on 4/16/15. In Code we trust
  */
-public class ParticipantResultDto implements Serializable{
+public class ParticipantResultDto implements Serializable, Comparable<ParticipantResultDto>{
 
     public final long serialVersionUID = 1234921921234912218L;
 
@@ -81,5 +81,17 @@ public class ParticipantResultDto implements Serializable{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public int compareTo(ParticipantResultDto participantResultDto) {
+        long thisTime = this.getResults().get(this.getResults().size()-1).getTime();
+        long thatTime = participantResultDto.getResults().get(participantResultDto.getResults().size()-1).getTime();
+
+        if(thisTime < thatTime) return -1;
+        if(thisTime > thatTime) return 1;
+
+
+        return 0;
     }
 }

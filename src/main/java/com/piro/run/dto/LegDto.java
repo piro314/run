@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class LegDto implements Serializable{
+public class LegDto implements Serializable, Comparable<LegDto>{
 
     public final long serialVersionUID = 2727221942188311381L;
 
@@ -112,5 +112,22 @@ public class LegDto implements Serializable{
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public int compareTo(LegDto legDto) {
+        if(this.getType().getValue() < legDto.getType().getValue()){
+            return -1;
+        }
+        if(this.getType().getValue() > legDto.getType().getValue()){
+            return 1;
+        }
+        if(this.getDistance() < legDto.getDistance()){
+            return -1;
+        }
+        if(this.getDistance() > legDto.getDistance()){
+            return 1;
+        }
+        return 0;
     }
 }
