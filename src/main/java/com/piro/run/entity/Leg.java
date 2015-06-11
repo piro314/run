@@ -23,6 +23,7 @@ public class Leg {
     private List<CheckPoint> checkPoints;
     private Instance instance;
     private int type;
+    private String profile;
 
 
     @Id
@@ -116,5 +117,14 @@ public class Leg {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    @Column(name="profile")
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

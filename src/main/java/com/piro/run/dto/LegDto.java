@@ -3,6 +3,7 @@ package com.piro.run.dto;
 import com.piro.run.entity.CheckPoint;
 import com.piro.run.entity.Instance;
 import com.piro.run.enums.Type;
+import javax.validation.constraints.Pattern;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +26,9 @@ public class LegDto implements Serializable, Comparable<LegDto>{
     private Long instanceId;
     private long resultsCount;
     private Type type;
+
+    @Pattern(regexp="(\\d)+:(\\d{1,4})(,(\\d)+:(\\d{1,4}))*")
+    private String profile;
 
     public Long getId() {
         return id;
@@ -112,6 +116,14 @@ public class LegDto implements Serializable, Comparable<LegDto>{
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     @Override

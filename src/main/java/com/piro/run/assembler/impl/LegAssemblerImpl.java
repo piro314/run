@@ -42,6 +42,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         entity.setLowest(dto.getLowest());
         entity.setInstance(instanceRepository.findOne(dto.getInstanceId()));
         entity.setType(dto.getType().getValue());
+        entity.setProfile(dto.getProfile());
 
         return entity;
     }
@@ -66,6 +67,7 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         dto.setName(entity.getName());
         dto.setResultsCount(resultRepository.countByCheckPointLeg(entity));
         dto.setType(Type.fromInt(entity.getType()));
+        dto.setProfile(entity.getProfile());
 
         return dto;
     }

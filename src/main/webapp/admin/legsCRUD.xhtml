@@ -7,205 +7,221 @@
 
 <ui:composition template="/templates/adminLayout.xhtml">
 
-    <ui:define name="content">
-        <h:form id="legsCRUDForm">
+<ui:define name="content">
+<h:form id="legsCRUDForm">
 
-            <p:growl id="msgs" showDetail="true"/>
+<p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable id="legsTable" var="leg" value="#{legsBean.legs}" editable="true"
-                         paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
+<p:dataTable id="legsTable" var="leg" value="#{legsBean.legs}" editable="true"
+             paginator="true" rows="10" style="margin-bottom:20px; margin-top:140px; width:90%; margin-left:5%">
 
-                <f:facet name="header">
-                    <p:breadCrumb>
-                        <p:menuitem value="Home" url="#" />
-                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
-                        <p:menuitem value="#{legsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{legsBean.competitionDto.id}" />
-                        <p:menuitem value="#{legsBean.instanceDto.name}" url="#" />
-                    </p:breadCrumb>
-                    <h:outputText value="Legs" />
-                </f:facet>
-
-
-                <p:ajax event="rowEdit" listener="#{legsBean.onRowEdit}" update=":legsCRUDForm:msgs" />
-                <p:ajax event="rowEditCancel" listener="#{legsBean.onRowCancel}" update=":legsCRUDForm:msgs" />
-
-                <p:column headerText="Name" filterBy="#{leg.name}" filterMatchMode="contains">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{leg.name}"/></f:facet>
-                        <f:facet name="input"><p:inputText id="nameInput" value="#{leg.name}" style="width:96%"/></f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="Type" sortBy="#{leg.type}">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{leg.type}"/></f:facet>
-                        <f:facet name="input">
-                            <p:selectOneMenu id="selectType" value="#{leg.type}">
-                                <f:selectItems value="#{legsBean.types}" />
-                            </p:selectOneMenu>
-                       </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="Distance (m)" filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.distance}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{leg.distance}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{leg.distance}" style="width:96%">
-                                <f:convertNumber integerOnly="true" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="D+ (m)" filterBy="#{leg.dPlus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dPlus}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{leg.dPlus}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{leg.dPlus}" style="width:96%">
-                                <f:convertNumber integerOnly="true" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="D- (m)" filterBy="#{leg.dMinus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dMinus}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{leg.dMinus}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{leg.dMinus}" style="width:96%">
-                                <f:convertNumber integerOnly="true" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="Highest (m)" filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.highest}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{leg.highest}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{leg.highest}" style="width:96%">
-                                <f:convertNumber integerOnly="true" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column headerText="Lowest (m)" filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.lowest}">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{leg.lowest}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText  value="#{leg.lowest}" style="width:96%">
-                                <f:convertNumber integerOnly="true" />
-                            </p:inputText>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
-
-                <p:column style="width:22px">
-                    <p:rowEditor id="editButton"/>
-                    <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
-                </p:column>
-
-                <p:column style="width:42px" >
-
-                    <p:commandButton icon="ui-icon-gear" id="gearButton"
-                                     actionListener="#{legsBean.redirectEdit(leg.id)}"
-                                     process="@this" />
-                    <p:tooltip id="toolTipGear" for="gearButton" value="Check Points" />
-                </p:column>
-
-                <p:column style="width:42px" >
-
-                    <p:commandButton icon="ui-icon-clipboard" id="resultsButton"
-                                     actionListener="#{legsBean.redirectResults(leg.id)}"
-                                     process="@this" />
-                    <p:tooltip id="toolTipResults" for="resultsButton" value="Results" />
-
-                </p:column>
-
-                <p:column style="width:42px">
-                    <p:commandButton icon="ui-icon-trash" id="deleteButton"
-                                     actionListener="#{legsBean.delete(leg)}"
-                                     process="@this"
-                                     update=":legsCRUDForm:msgs :legsCRUDForm:legsTable"
-                                     disabled="#{leg.resultsCount gt 0}"
-                            />
-                    <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
-                </p:column>
-
-                <f:facet name="footer">
-                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
-                </f:facet>
-
-            </p:dataTable>
-
-            <p:dialog header="Create new Leg" widgetVar="createDialog" resizable="false" modal="true">
-
-                <h:panelGrid id="createLegPanel" columns="3">
-                    <h:outputText value="Name"/>
-                    <p:inputText id="name" value="#{legsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
-                    <p:messages id="nameMsg" for="name" />
-
-                    <h:outputText value="Type"/>
-                    <p:selectOneMenu id="typeInput" value="#{legsBean.forCreate.type}">
-                        <f:selectItems value="#{legsBean.types}" />
-                    </p:selectOneMenu>
-                    <p:messages id="typeInputMsg" for="typeInput"/>
-
-                    <h:outputText value="Distance"/>
-                    <p:inputText id="distanceInput" value="#{legsBean.forCreate.distance}">
-                        <f:convertNumber integerOnly="true" />
-                    </p:inputText>
-                    <p:messages id="distanceInputMsg" for="distanceInput"/>
-
-                    <h:outputText value="D+ (m)"/>
-                    <p:inputText id="dPlusInput" value="#{legsBean.forCreate.dPlus}">
-                        <f:convertNumber integerOnly="true" />
-                    </p:inputText>
-                    <p:messages id="dPlusInputMsg" for="dPlusInput"/>
-
-                    <h:outputText value="D- (m)"/>
-                    <p:inputText id="dMinusInput" value="#{legsBean.forCreate.dMinus}">
-                        <f:convertNumber integerOnly="true" />
-                    </p:inputText>
-                    <p:messages id="dMinusInputMsg" for="dMinusInput"/>
-
-                    <h:outputText value="Highest (m)"/>
-                    <p:inputText id="highestInput" value="#{legsBean.forCreate.highest}">
-                        <f:convertNumber integerOnly="true" />
-                    </p:inputText>
-                    <p:messages id="highestInputMsg" for="highestInput"/>
-
-                    <h:outputText value="Lowest (m)"/>
-                    <p:inputText id="lowestInput" value="#{legsBean.forCreate.lowest}">
-                        <f:convertNumber integerOnly="true" />
-                    </p:inputText>
-                    <p:messages id="lowestInputMsg" for="lowestInput"/>
+    <f:facet name="header">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="#" />
+            <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+            <p:menuitem value="#{legsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{legsBean.competitionDto.id}" />
+            <p:menuitem value="#{legsBean.instanceDto.name}" url="#" />
+        </p:breadCrumb>
+        <h:outputText value="Legs" />
+    </f:facet>
 
 
-                    <p:commandButton value="Create"
-                                     actionListener="#{legsBean.createNewLeg}"
-                                     update=":legsCRUDForm:msgs
+    <p:ajax event="rowEdit" listener="#{legsBean.onRowEdit}" update=":legsCRUDForm:msgs" />
+    <p:ajax event="rowEditCancel" listener="#{legsBean.onRowCancel}" update=":legsCRUDForm:msgs" />
+
+    <p:column headerText="Name" filterBy="#{leg.name}" filterMatchMode="contains">
+        <p:cellEditor>
+            <f:facet name="output"><h:outputText value="#{leg.name}"/></f:facet>
+            <f:facet name="input"><p:inputText id="nameInput" value="#{leg.name}" style="width:96%"/></f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Type" sortBy="#{leg.type}">
+        <p:cellEditor>
+            <f:facet name="output"><h:outputText value="#{leg.type}"/></f:facet>
+            <f:facet name="input">
+                <p:selectOneMenu id="selectType" value="#{leg.type}">
+                    <f:selectItems value="#{legsBean.types}" />
+                </p:selectOneMenu>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Distance (m)" filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.distance}">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.distance}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{leg.distance}" style="width:96%">
+                    <f:convertNumber integerOnly="true" />
+                </p:inputText>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="D+ (m)" filterBy="#{leg.dPlus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dPlus}">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.dPlus}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{leg.dPlus}" style="width:96%">
+                    <f:convertNumber integerOnly="true" />
+                </p:inputText>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="D- (m)" filterBy="#{leg.dMinus}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.dMinus}">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.dMinus}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{leg.dMinus}" style="width:96%">
+                    <f:convertNumber integerOnly="true" />
+                </p:inputText>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Highest (m)" filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.highest}">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.highest}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{leg.highest}" style="width:96%">
+                    <f:convertNumber integerOnly="true" />
+                </p:inputText>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Lowest (m)" filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{leg.lowest}">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.lowest}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText  value="#{leg.lowest}" style="width:96%">
+                    <f:convertNumber integerOnly="true" />
+                </p:inputText>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Profile">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{leg.profile}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputTextarea rows="6" cols="16"  value="#{leg.profile}" />
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column style="width:22px">
+        <p:rowEditor id="editButton"/>
+        <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
+    </p:column>
+
+    <p:column style="width:42px" >
+
+        <p:commandButton icon="ui-icon-gear" id="gearButton"
+                         actionListener="#{legsBean.redirectEdit(leg.id)}"
+                         process="@this" />
+        <p:tooltip id="toolTipGear" for="gearButton" value="Check Points" />
+    </p:column>
+
+    <p:column style="width:42px" >
+
+        <p:commandButton icon="ui-icon-clipboard" id="resultsButton"
+                         actionListener="#{legsBean.redirectResults(leg.id)}"
+                         process="@this" />
+        <p:tooltip id="toolTipResults" for="resultsButton" value="Results" />
+
+    </p:column>
+
+    <p:column style="width:42px">
+        <p:commandButton icon="ui-icon-trash" id="deleteButton"
+                         actionListener="#{legsBean.delete(leg)}"
+                         process="@this"
+                         update=":legsCRUDForm:msgs :legsCRUDForm:legsTable"
+                         disabled="#{leg.resultsCount gt 0}"
+                />
+        <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
+    </p:column>
+
+    <f:facet name="footer">
+        <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+    </f:facet>
+
+</p:dataTable>
+
+<p:dialog header="Create new Leg" widgetVar="createDialog" resizable="false" modal="true">
+
+    <h:panelGrid id="createLegPanel" columns="3">
+        <h:outputText value="Name"/>
+        <p:inputText id="name" value="#{legsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+        <p:messages id="nameMsg" for="name" />
+
+        <h:outputText value="Type"/>
+        <p:selectOneMenu id="typeInput" value="#{legsBean.forCreate.type}">
+            <f:selectItems value="#{legsBean.types}" />
+        </p:selectOneMenu>
+        <p:messages id="typeInputMsg" for="typeInput"/>
+
+        <h:outputText value="Distance"/>
+        <p:inputText id="distanceInput" value="#{legsBean.forCreate.distance}">
+            <f:convertNumber integerOnly="true" />
+        </p:inputText>
+        <p:messages id="distanceInputMsg" for="distanceInput"/>
+
+        <h:outputText value="D+ (m)"/>
+        <p:inputText id="dPlusInput" value="#{legsBean.forCreate.dPlus}">
+            <f:convertNumber integerOnly="true" />
+        </p:inputText>
+        <p:messages id="dPlusInputMsg" for="dPlusInput"/>
+
+        <h:outputText value="D- (m)"/>
+        <p:inputText id="dMinusInput" value="#{legsBean.forCreate.dMinus}">
+            <f:convertNumber integerOnly="true" />
+        </p:inputText>
+        <p:messages id="dMinusInputMsg" for="dMinusInput"/>
+
+        <h:outputText value="Highest (m)"/>
+        <p:inputText id="highestInput" value="#{legsBean.forCreate.highest}">
+            <f:convertNumber integerOnly="true" />
+        </p:inputText>
+        <p:messages id="highestInputMsg" for="highestInput"/>
+
+        <h:outputText value="Lowest (m)"/>
+        <p:inputText id="lowestInput" value="#{legsBean.forCreate.lowest}">
+            <f:convertNumber integerOnly="true" />
+        </p:inputText>
+        <p:messages id="lowestInputMsg" for="lowestInput"/>
+
+        <h:outputText value="Profile"/>
+        <p:inputTextarea id="profileInput" value="#{legsBean.forCreate.profile}"/>
+
+        <p:messages id="profileInputtMsg" for="profileInput"/>
+
+
+        <p:commandButton value="Create"
+                         actionListener="#{legsBean.createNewLeg}"
+                         update=":legsCRUDForm:msgs
                                       :legsCRUDForm:legsTable
                                       nameMsg distanceInputMsg dPlusInputMsg dMinusInputMsg highestInputMsg lowestInputMsg createLegPanel"
-                            />
+                />
 
-                </h:panelGrid>
-            </p:dialog>
+    </h:panelGrid>
+</p:dialog>
 
 
-        </h:form>
-    </ui:define>
+</h:form>
+</ui:define>
 </ui:composition>
 </html>

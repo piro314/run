@@ -50,7 +50,7 @@ public class InstanceAssemblerImpl extends BaseAssembler<Instance, InstanceDto>
         InstanceDto dto = new InstanceDto();
 
         dto.setStartDate(entity.getStartDate());
-        dto.setEndDate(entity.getStartDate());
+        dto.setEndDate(entity.getEndDate());
         dto.setId(entity.getId());
         dto.setCompetitionId(entity.getCompetition().getId());
         dto.setLegs(legAssembler.toDtos(entity.getLegs()));

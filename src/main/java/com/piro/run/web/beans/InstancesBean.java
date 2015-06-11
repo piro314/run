@@ -55,6 +55,8 @@ public class InstancesBean implements Serializable {
 
     private ListDataModel savedModel;
 
+    private boolean showGraph;
+
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
         this.instanceService = instanceService;
@@ -87,6 +89,7 @@ public class InstancesBean implements Serializable {
         forCreate = new InstanceDto();
         forCreate.setCompetitionId(competitionId);
         columns = new ArrayList<>();
+        this.showGraph = false;
     }
 
     public List<InstanceDto> getInstances() {
@@ -106,6 +109,10 @@ public class InstancesBean implements Serializable {
 
     public void setCompetitionDto(CompetitionDto competitionDto) {
         this.competitionDto = competitionDto;
+    }
+
+    public boolean isShowGraph() {
+        return showGraph;
     }
 
     public void onRowEdit(RowEditEvent event) {
@@ -233,7 +240,7 @@ public class InstancesBean implements Serializable {
         LineChartSeries series = new LineChartSeries();
         series.setFill(true);
         legGraphModel.setShowPointLabels(true);
-        legGraphModel.getAxes().put(AxisType.X, new CategoryAxis("Междинни точки"));
+        legGraphModel.getAxes().put(AxisType.X, new CategoryAxis("Разстояние (км)"));
         Axis yAxis = legGraphModel.getAxis(AxisType.Y);
         yAxis.setLabel("Височина (м)");
 
@@ -241,11 +248,22 @@ public class InstancesBean implements Serializable {
         for(CheckPointDto checkPoint : legDto.getCheckPoints()) {
             String key = checkPoint.getName();
             columns.add(key);
-
-            String checkPointName = checkPoint.getName();
-            int distanceKm = checkPoint.getDistanceFromStart()/1000;
-            series.set(distanceKm+"км "+checkPointName, checkPoint.getAltitude());
         }
+
+        showGraph = false;
+
+        if(!StringUtils.isEmpty(legDto.getProfile())) {
+            String[] profileData = legDto.getProfile().split(",");
+            for (String s : profileData) {
+                String x = s.split(":")[0];
+                String y = s.split(":")[1];
+                int distance = Integer.valueOf(x);
+                int altitude = Integer.valueOf(y);
+                series.set((distance / 1000) , altitude);
+            }
+            showGraph = true;
+        }
+
         legGraphModel.addSeries(series);
 
     }

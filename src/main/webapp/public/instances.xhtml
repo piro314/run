@@ -96,7 +96,7 @@
                                 </p:columns>
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Профил на маршрута"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.columns.size() gt 0}" />
+                                    <p:commandButton value="Профил на маршрута"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.showGraph }" />
                                 </f:facet>
 
                             </p:dataTable>
@@ -106,7 +106,7 @@
             </table>
 
             <p:dialog header="Профил на маршрута" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
-                <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null}"/>
+                <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null and instancesBean.showGraph}"/>
             </p:dialog>
         </h:form>
     </ui:define>
