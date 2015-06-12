@@ -25,6 +25,7 @@ import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,7 @@ public class CheckPointsBean implements Serializable{
     public List<CheckPointDto> getCheckPoints() {
         if(checkPoints == null){
             checkPoints = checkPointService.getByLeg(legDto);
+            Collections.sort(checkPoints);
         }
         return checkPoints;
     }
@@ -110,6 +112,7 @@ public class CheckPointsBean implements Serializable{
     public void onRowEdit(RowEditEvent event) {
         CheckPointDto toUpdate = (CheckPointDto)event.getObject();
         checkPointService.update(toUpdate);
+        Collections.sort(checkPoints);
         FacesMessage msg = new FacesMessage("CheckPoint Edited", "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -133,6 +136,7 @@ public class CheckPointsBean implements Serializable{
 
         CheckPointDto created = checkPointService.createNew(forCreate);
         checkPoints.add(created);
+        Collections.sort(checkPoints);
         forCreate = new CheckPointDto();
         forCreate.setLegId(legDto.getId());
 

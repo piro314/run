@@ -26,6 +26,7 @@
         <property name="checkPointAssembler" ref="checkPointAssembler"/>
         <property name="legAssembler" ref="legAssembler"/>
         <property name="checkPointRepository" ref="checkPointRepository"/>
+        <property name="resultRepository" ref="resultRepository"/>
     </bean>
 
     <bean class="com.piro.run.service.impl.ResultServiceImpl" id="resultService">

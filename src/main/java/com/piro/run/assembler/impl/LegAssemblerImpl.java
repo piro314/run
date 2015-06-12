@@ -4,6 +4,7 @@ import com.piro.run.assembler.CheckPointAssembler;
 import com.piro.run.assembler.LegAssembler;
 import com.piro.run.dao.InstanceRepository;
 import com.piro.run.dao.ResultRepository;
+import com.piro.run.dto.CheckPointDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.Leg;
 import com.piro.run.enums.Type;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
@@ -62,7 +65,9 @@ public class LegAssemblerImpl extends BaseAssembler<Leg, LegDto>
         dto.setdPlus(entity.getdPlus());
         dto.setDistance(entity.getDistance());
         dto.setdMinus(entity.getdMinus());
-        dto.setCheckPoints(checkPointAssembler.toDtos(entity.getCheckPoints()));
+        List<CheckPointDto> checkPointDtos= checkPointAssembler.toDtos(entity.getCheckPoints());
+        Collections.sort(checkPointDtos);
+        dto.setCheckPoints(checkPointDtos);
         dto.setInstanceId(entity.getInstance().getId());
         dto.setName(entity.getName());
         dto.setResultsCount(resultRepository.countByCheckPointLeg(entity));

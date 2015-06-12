@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ResultRepository extends JpaRepository<Result, Long> {
 
-    List<Result> findByCheckPointLegOrderByParticipantAscCheckPointAsc(Leg leg);
+    List<Result> findByCheckPointLegOrderByParticipantAscCheckPointDistanceFromStartAsc(Leg leg);
 
     long countByCheckPointLeg(Leg leg);
 

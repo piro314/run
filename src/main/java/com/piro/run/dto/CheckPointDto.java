@@ -1,6 +1,7 @@
 package com.piro.run.dto;
 
 import com.piro.run.entity.Leg;
+import com.piro.run.service.CompetitionService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by ppirovski on 12/13/14. In Code we trust
  */
-public class CheckPointDto implements Serializable{
+public class CheckPointDto implements Serializable, Comparable<CheckPointDto>{
 
     public final long serialVersionUID = 2321244942417515351L;
 
@@ -65,5 +66,10 @@ public class CheckPointDto implements Serializable{
 
     public void setLast(boolean last) {
         this.last = last;
+    }
+
+    @Override
+    public int compareTo(CheckPointDto checkPointDto) {
+        return this.distanceFromStart - checkPointDto.getDistanceFromStart();
     }
 }

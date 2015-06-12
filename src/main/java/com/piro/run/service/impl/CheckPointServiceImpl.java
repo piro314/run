@@ -6,10 +6,12 @@ import com.piro.run.assembler.impl.CheckPointAssemblerImpl;
 import com.piro.run.assembler.impl.LegAssemblerImpl;
 import com.piro.run.dao.CheckPointRepository;
 import com.piro.run.dao.LegRepository;
+import com.piro.run.dao.ResultRepository;
 import com.piro.run.dto.CheckPointDto;
 import com.piro.run.dto.LegDto;
 import com.piro.run.entity.CheckPoint;
 import com.piro.run.entity.Leg;
+import com.piro.run.entity.Result;
 import com.piro.run.service.CheckPointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import sun.rmi.runtime.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +33,7 @@ public class CheckPointServiceImpl implements CheckPointService {
     private CheckPointRepository checkPointRepository;
     private CheckPointAssembler checkPointAssembler;
     private LegAssembler legAssembler;
+    private ResultRepository resultRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +69,30 @@ public class CheckPointServiceImpl implements CheckPointService {
             this.checkForAnotherLast(checkPoint);
         }
 
+
+
         LOG.debug("creating new checkPoint for leg with id = "+checkPointDto.getLegId());
         checkPoint = checkPointRepository.save(checkPoint);
+
+        //if there are existing results new checkpoint must have time for the participants
+        List<CheckPoint> checkPoints = checkPointRepository.findByLeg(checkPoint.getLeg());
+        List<Result> results = new ArrayList<>();
+        if(checkPoints != null && !checkPoints.isEmpty()){
+            CheckPoint otherCheckPoint = checkPoints.get(0);
+
+            for(Result r : otherCheckPoint.getResults()){
+                Result newResult = new Result();
+                newResult.setParticipant(r.getParticipant());
+                newResult.setCheckPoint(checkPoint);
+                newResult.setTime(0L);
+
+                results.add(newResult);
+            }
+
+            if(!results.isEmpty()){
+                resultRepository.save(results);
+            }
+        }
 
         return checkPointAssembler.toDto(checkPoint);
     }
@@ -115,5 +141,10 @@ public class CheckPointServiceImpl implements CheckPointService {
     @Required
     public void setCheckPointRepository(CheckPointRepository checkPointRepository) {
         this.checkPointRepository = checkPointRepository;
+    }
+
+    @Required
+    public void setResultRepository(ResultRepository resultRepository) {
+        this.resultRepository = resultRepository;
     }
 }

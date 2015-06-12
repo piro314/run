@@ -44,7 +44,7 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = new ArrayList<>();
         Leg leg = legAssembler.toEntity(legDto);
 
-        List<Result> results= resultRepository.findByCheckPointLegOrderByParticipantAscCheckPointAsc(leg);
+        List<Result> results= resultRepository.findByCheckPointLegOrderByParticipantAscCheckPointDistanceFromStartAsc(leg);
         return resultAssembler.toParticipantResultDto(results);
     }
 

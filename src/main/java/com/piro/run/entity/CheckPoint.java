@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name="check_points")
-public class CheckPoint {
+public class CheckPoint implements Comparable<CheckPoint>{
 
     private long id;
     private String name;
@@ -84,5 +84,10 @@ public class CheckPoint {
 
     public void setLast(boolean last) {
         this.last = last;
+    }
+
+    @Override
+    public int compareTo(CheckPoint checkPoint) {
+        return this.getDistanceFromStart() - checkPoint.getDistanceFromStart();
     }
 }
