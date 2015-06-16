@@ -27,7 +27,7 @@ public class LegDto implements Serializable, Comparable<LegDto>{
     private long resultsCount;
     private Type type;
 
-    @Pattern(regexp="(\\d)+:(\\d{1,4})(,(\\d)+:(\\d{1,4}))*")
+    @Pattern(regexp="^$|((\\d)+:(\\d{1,4})(,(\\d)+:(\\d{1,4}))*)")
     private String profile;
 
     public Long getId() {
