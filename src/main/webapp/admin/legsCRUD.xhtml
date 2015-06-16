@@ -206,8 +206,8 @@
 
         <h:outputText value="Profile"/>
         <p:inputTextarea id="profileInput" value="#{legsBean.forCreate.profile}"/>
-
         <p:messages id="profileInputtMsg" for="profileInput"/>
+        <p:watermark for="profileInput" value="{distance:altitude} Example: 500:1230,1000:980" />
 
 
         <p:commandButton value="Create"
