@@ -4,10 +4,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
         >
-
 <ui:composition template="#{sessionBean.loggedIn ? '/templates/userLayout.xhtml' : '/templates/publicLayout.xhtml'}">
 
+
+
     <ui:define name="content">
+        <style>
+            .highlight {
+                background: #A7FFE7  !important ;
+                background-image: none !important;
+            }
+
+        </style>
         <h:form id="instancesForm">
 
             <table style="margin-top: 140px; margin-left: 50px; margin-right: 50px;">
@@ -34,10 +42,10 @@
 
                         <h:panelGroup id="resultsGroup">
 
-
+                            <p:growl id="msgs" showDetail="true"/>
 
                             <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}" rowIndexVar="index" widgetVar="resultsTableVar"
-                                         paginator="true" rows="10" >
+                                         paginator="true" rows="10" rowStyleClass="#{instancesBean.username == result.participantUsername ? 'highlight' : 'normal'}">
 
 
                                 <p:column headerText="P" style="width: 30px" priority="2">
@@ -49,7 +57,13 @@
                                 </p:column>
 
                                 <p:column headerText="Username" style="width: 120px" filterBy="#{result.participantUsername}" filterMatchMode="contains" priority="6">
-                                    <h:outputText value="#{result.participantUsername}"/>
+                                    <h:outputText value="#{result.participantUsername}" rendered="#{result.participantUsername != ''}"/>
+                                    <p:commandButton value="Това съм аз"  id="thatsMeButton" actionListener="#{instancesBean.linkParticipant(result)}"
+                                                     process="@this" update=":instancesForm:resultsGroup"
+                                                     rendered="#{sessionBean.loggedIn and (result.participantUsername == '' or result.participantUsername == null) and !instancesBean.userHere}"/>
+
+                                    <p:tooltip id="toolTipMe" for="thatsMeButton" value="Ако това сте вие, свържете резултата с потребителя си" />
+
                                 </p:column>
 
                                 <p:column headerText="N" style="width: 40px" priority="5" filterBy="#{result.participantNumber}" filterMatchMode="contains" filterStyle="width: 30px;">
@@ -108,6 +122,8 @@
             <p:dialog header="Профил на маршрута" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
                 <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null and instancesBean.showGraph}"/>
             </p:dialog>
+
+
         </h:form>
     </ui:define>
 </ui:composition>

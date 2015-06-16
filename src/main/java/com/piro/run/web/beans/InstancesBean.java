@@ -18,6 +18,8 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.chart.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
 import javax.faces.application.FacesMessage;
@@ -28,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.print.attribute.standard.Severity;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -56,6 +59,8 @@ public class InstancesBean implements Serializable {
     private ListDataModel savedModel;
 
     private boolean showGraph;
+    private Boolean userHere;
+    private String username;
 
     public InstancesBean(CompetitionService competitionService, InstanceService instanceService, ResultService resultService) throws ResourceNotFoundException {
         this.competitionService = competitionService;
@@ -228,6 +233,19 @@ public class InstancesBean implements Serializable {
         return columns;
     }
 
+    public boolean isUserHere() {
+        if(userHere == null){
+            for(ParticipantResultDto participantResultDto : getResults()){
+                if(getUsername().equals(participantResultDto.getParticipantUsername())){
+                    userHere = true;
+                    return userHere;
+                }
+            }
+            userHere = false;
+        }
+        return userHere;
+    }
+
     private void initResultsAndColumns(LegDto legDto){
         results = resultService.getResultsByLegGroupByParticipant(legDto);
         Collections.sort(results);
@@ -251,6 +269,7 @@ public class InstancesBean implements Serializable {
         }
 
         showGraph = false;
+        userHere = null;
 
         if(!StringUtils.isEmpty(legDto.getProfile())) {
             String[] profileData = legDto.getProfile().split(",");
@@ -279,6 +298,33 @@ public class InstancesBean implements Serializable {
         result.add(new SelectItem(false,"Ж"));
         result.add(new SelectItem(true,"М") );
         return result;
+    }
+
+    public String getUsername(){
+        if(username == null) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal == null) {
+                username =  "anonymousUser";
+            }
+            if (principal instanceof String) {
+
+                username =   (String) principal;
+            }
+            if (principal instanceof UserDetails) {
+                return ((UserDetails) principal).getUsername();
+
+            }
+            username =   "anonymousUser";
+        }
+        return username;
+    }
+
+    public void linkParticipant(ParticipantResultDto dto){
+        resultService.linkParticipant(dto, getUsername());
+        dto.setParticipantUsername(getUsername());
+        userHere = true;
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешно свързване на резултата", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
 }

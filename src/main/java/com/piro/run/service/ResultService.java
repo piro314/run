@@ -18,4 +18,6 @@ public interface ResultService {
     void delete(ParticipantResultDto participantResultDto);
 
     void createNew(ParticipantResultDto participantResultDto);
+
+    void linkParticipant(ParticipantResultDto participantResultDto, String username);
 }

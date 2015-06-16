@@ -123,6 +123,14 @@ public class ResultServiceImpl implements ResultService {
 
     }
 
+    @Override
+    @Transactional
+    public void linkParticipant(ParticipantResultDto participantResultDto, String username) {
+        Participant participant = participantRepository.findOne(participantResultDto.getParticipantId());
+        participant.setUsername(username);
+        participantRepository.save(participant);
+    }
+
     @Required
     public void setResultAssembler(ResultAssembler resultAssembler) {
         this.resultAssembler = resultAssembler;

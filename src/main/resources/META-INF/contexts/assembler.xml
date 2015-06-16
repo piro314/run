@@ -40,5 +40,9 @@
 
     </bean>
 
+    <bean id="participantRequestAssembler" class="com.piro.run.assembler.impl.ParticipantRequestAssemblerImpl">
 
+        <property name="userRepository" ref="userRepository"/>
+        <property name="participantRepository" ref="participantRepository"/>
+    </bean>
 </beans>
