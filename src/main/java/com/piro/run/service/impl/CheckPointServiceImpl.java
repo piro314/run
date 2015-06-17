@@ -79,16 +79,17 @@ public class CheckPointServiceImpl implements CheckPointService {
         List<Result> results = new ArrayList<>();
         if(checkPoints != null && !checkPoints.isEmpty()){
             CheckPoint otherCheckPoint = checkPoints.get(0);
+            List<Result> otherResults =  otherCheckPoint.getResults();
+            if(otherResults != null) {
+                for (Result r : otherResults) {
+                    Result newResult = new Result();
+                    newResult.setParticipant(r.getParticipant());
+                    newResult.setCheckPoint(checkPoint);
+                    newResult.setTime(0L);
 
-            for(Result r : otherCheckPoint.getResults()){
-                Result newResult = new Result();
-                newResult.setParticipant(r.getParticipant());
-                newResult.setCheckPoint(checkPoint);
-                newResult.setTime(0L);
-
-                results.add(newResult);
+                    results.add(newResult);
+                }
             }
-
             if(!results.isEmpty()){
                 resultRepository.save(results);
             }
