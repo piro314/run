@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.faces.FacesException;
+import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.ExternalContext;
@@ -24,6 +25,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
     final static String ERROR_PAGE  = "/public/error.jsf";
     final static String NOT_FOUND_PAGE  = "/static/404.html";
+    final static String START_PAGE  = "/public/competitions.jsf";
 
     private ExceptionHandler wrapped;
 
@@ -49,6 +51,11 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
 
                 //obtain throwable object
                 Throwable t = context.getException();
+
+                if(t instanceof ViewExpiredException){
+                    this.redirect(START_PAGE);
+                    return;
+                }
 
                 if(t.getCause() != null && (t.getCause() instanceof FacesFileNotFoundException
                                             || t.getCause() instanceof ResourceNotFoundException

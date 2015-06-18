@@ -17,7 +17,6 @@
 
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
 
         <property name="packagesToScan">
             <list>
@@ -26,11 +25,25 @@
         </property>
         <property name="jpaProperties">
             <props>
+                <prop key="hibernate.connection.provider_class">${hibernate.connection.provider_class}</prop>
+                <prop key="hibernate.connection.driver_class">${datasource"driver}</prop>
+                <prop key="hibernate.connection.url">${datasource.url}?useUnicode=yes&amp;characterEncoding=UTF-8</prop>
+                <prop key="hibernate.connection.username">${datasource.username}</prop>
+                <prop key="hibernate.connection.password">${datasource.password}</prop>
+
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.show_sql">${hibernate.showSql}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.ddl}</prop>
                 <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
-                <prop key="hibernate.connection.pool_size">${jdbc.pool.initialSize}</prop>
+
+
+                <prop key="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</prop>
+                <prop key="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</prop>
+                <prop key="hibernate.c3p0.acquire_increment">${hibernate.c3p0.acquire_increment}</prop>
+                <prop key="hibernate.c3p0.idle_test_period">${hibernate.c3p0.idle_test_period}</prop>
+                <prop key="hibernate.c3p0.max_statements">${hibernate.c3p0.max_statements}</prop>
+                <prop key="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</prop>
+
             </props>
         </property>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
