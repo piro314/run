@@ -82,10 +82,10 @@ public class InstanceDto implements Serializable, Comparable<InstanceDto>{
     @Override
     public int compareTo(InstanceDto instanceDto) {
         if(this.getStartDate().after(instanceDto.getStartDate())){
-            return -1;
+            return 1;
         }
         else if(this.getStartDate().before(instanceDto.getStartDate())){
-            return 1;
+            return -1;
         }
         return 0;
     }

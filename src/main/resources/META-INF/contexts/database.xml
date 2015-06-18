@@ -26,7 +26,7 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.connection.provider_class">${hibernate.connection.provider_class}</prop>
-                <prop key="hibernate.connection.driver_class">${datasource"driver}</prop>
+                <prop key="hibernate.connection.driver_class">${datasource.driver}</prop>
                 <prop key="hibernate.connection.url">${datasource.url}?useUnicode=yes&amp;characterEncoding=UTF-8</prop>
                 <prop key="hibernate.connection.username">${datasource.username}</prop>
                 <prop key="hibernate.connection.password">${datasource.password}</prop>
