@@ -43,6 +43,8 @@
                 <prop key="hibernate.c3p0.idle_test_period">${hibernate.c3p0.idle_test_period}</prop>
                 <prop key="hibernate.c3p0.max_statements">${hibernate.c3p0.max_statements}</prop>
                 <prop key="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</prop>
+                <prop key="c3p0.testConnectionOnCheckout">${hibernate.c3p0.testConnectionOnCheckout}</prop>
+
 
             </props>
         </property>
