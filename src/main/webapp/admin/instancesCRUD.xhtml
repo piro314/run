@@ -39,10 +39,10 @@
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.startDate}">
-                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Sofia"/>
                             </h:outputText>
                         </f:facet>
-                        <f:facet name="input"><p:calendar pattern="yyyy-MM-dd" id="startDate" value="#{instance.startDate}" navigator="true" /></f:facet>
+                        <f:facet name="input"><p:calendar pattern="yyyy-MM-dd" id="startDate" value="#{instance.startDate}" navigator="true" timeZone="Europe/Sofia"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -50,10 +50,10 @@
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.endDate}">
-                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Sofia"/>
                             </h:outputText>
                         </f:facet>
-                        <f:facet name="input"><p:calendar  pattern="yyyy-MM-dd" id="endDate" value="#{instance.endDate}" navigator="true"/></f:facet>
+                        <f:facet name="input"><p:calendar  pattern="yyyy-MM-dd" id="endDate" value="#{instance.endDate}" navigator="true" timeZone="Europe/Sofia"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -94,11 +94,11 @@
                     <p:messages id="nameMsg" for="name" />
 
                     <h:outputText value="Start Date"/>
-                    <p:calendar id="startDateInput" value="#{instancesBean.forCreate.startDate}" required="true" requiredMessage="this field is required" navigator="true"/>
+                    <p:calendar id="startDateInput" value="#{instancesBean.forCreate.startDate}" required="true" requiredMessage="this field is required" navigator="true" timeZone="Europe/Sofia"/>
                     <p:messages id="startDateInputMsg" for="startDateInput"/>
 
                     <h:outputText value="End Date"/>
-                    <p:calendar id="endDateInput" value="#{instancesBean.forCreate.endDate}" required="true" requiredMessage="this field is required" navigator="true"/>
+                    <p:calendar id="endDateInput" value="#{instancesBean.forCreate.endDate}" required="true" requiredMessage="this field is required" navigator="true" timeZone="Europe/Sofia"/>
                     <p:messages id="endDateInputMsg" for="endDateInput"/>
 
                     <p:commandButton value="Create"

@@ -66,7 +66,7 @@ public class Instance {
         this.legs = legs;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="competition_id")
     public Competition getCompetition() {
         return competition;
