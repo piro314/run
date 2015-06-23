@@ -2,6 +2,7 @@ package com.piro.run.dao;
 
 import com.piro.run.dto.statistics.RecordsDto;
 import com.piro.run.dto.statistics.UserResultDto;
+import com.piro.run.entity.FinalResult;
 import com.piro.run.entity.Leg;
 import com.piro.run.entity.Result;
 import com.piro.run.enums.Type;
@@ -37,19 +38,12 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
                     "group by c.id, i.id, l.id, p.male, p.category")
     List<Object[]> getChampionsData();
 
-    @Query( value = "select new com.piro.run.dto.statistics.RecordsDto(c.name, i.name, l.name, p.name, l.distance, min(r.time)) " +
-                    "from Result r " +
-                    "join r.checkPoint as cp " +
-                    "join r.participant as p " +
-                    "join cp.leg l " +
-                    "join l.instance as i " +
-                    "join i.competition as c " +
-                    "where p.male = :male " +
-                    "and l.type = :type " +
-                    "and cp.last = true " +
-                    "and r.time > 0 " +
-                    "group by c.id, i.id, l.id " +
-                    "order by c.name, l.name "
+    @Query( value = "select new com.piro.run.dto.statistics.RecordsDto(fr.cName, fr.iName, fr.lName, fr.pName, fr.distance, min(fr.time)) " +
+                    "from FinalResult  fr " +
+                    "where fr.male = :male " +
+                    "and fr.type = :type " +
+                    "group by fr.cId, fr.iId, fr.lId " +
+                    "order by fr.cName, fr.iName, fr.lName "
             )
     List<RecordsDto> getRecords(@Param("male") boolean male, @Param("type") int type);
 
@@ -66,5 +60,10 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
             "order by i.startDate desc "
     )
     List<UserResultDto> getUserResults(@Param("username") String username);
+
+    @Query( value = "from FinalResult fr " +
+                    "where fr.time in (:times) "
+            )
+    List<FinalResult> getFinalResultsByTime(@Param("times") List<Long> times);
 
 }

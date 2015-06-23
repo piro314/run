@@ -9,6 +9,7 @@ import com.piro.run.dto.LegDto;
 import com.piro.run.dto.statistics.LegStatisticsDto;
 import com.piro.run.dto.statistics.RecordsDto;
 import com.piro.run.dto.statistics.UserResultDto;
+import com.piro.run.entity.FinalResult;
 import com.piro.run.entity.Leg;
 import com.piro.run.enums.Type;
 import com.piro.run.service.StatisticsService;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ppirovski on 5/12/15. In Code we trust
@@ -77,6 +80,22 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         }
         records.removeAll(forRemove);
+
+        List<Long> times = new ArrayList<>();
+        for(RecordsDto record : records){
+            times.add(record.getTime());
+        }
+
+        List<FinalResult> finalResults = resultRepository.getFinalResultsByTime(times);
+
+        Map<Long, FinalResult> resultsMap = new HashMap<>();
+        for(FinalResult result : finalResults){
+            resultsMap.put(result.getTime(), result);
+        }
+
+        for(RecordsDto record : records){
+            record.setParticipantName(resultsMap.get(record.getTime()).getpName());
+        }
 
         return records;
     }

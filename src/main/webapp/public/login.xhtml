@@ -20,15 +20,15 @@
 
                         <h:link value="Нов" outcome="createAccount" />
 
-                        <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" requiredMessage="Въведете потребител"/>
+                        <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" requiredMessage="Въведете потребител" tabindex="1"/>
                         <p:watermark for="username" value="Потребител" />
 
                         <p:commandLink  value="Забравена" onclick="PF('passDlg').show();" />
-                        <p:password id="password" value="#{sessionBean.password}" required="true" label="password" requiredMessage="Въведете парола"/>
+                        <p:password id="password" value="#{sessionBean.password}" required="true" label="password" requiredMessage="Въведете парола" tabindex="2"/>
                         <p:watermark for="password" value="Парола" />
 
                         <p:spacer width="5px"/>
-                        <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false"/>
+                        <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false" tabindex="3"/>
 
                     </h:panelGrid>
 
