@@ -43,7 +43,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
                     "where fr.male = :male " +
                     "and fr.type = :type " +
                     "group by fr.cId, fr.iId, fr.lId " +
-                    "order by fr.cName, fr.iName, fr.lName "
+                    "order by fr.cName,fr.lName,fr.iName "
             )
     List<RecordsDto> getRecords(@Param("male") boolean male, @Param("type") int type);
 
