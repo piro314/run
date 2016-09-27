@@ -15,7 +15,7 @@
 
                 <div style="margin-top: 140px">
                     <h:outputText value="#{usersBean.activate()}" />
-                    <p:messages id="msgs"/>
+                    <p:messages id="messages"/>
                     <h:panelGrid columns="3" cellpadding="5">
 
                         <h:link value="Нов" outcome="createAccount" />
@@ -46,7 +46,7 @@
 
                             </h:panelGrid>
                             <p:commandButton value="Изпрати" actionListener="#{usersBean.forgottenPassword}" onclick="PF('passDlg').hide();"
-                                             update=":loginForm:msgs" process="@this forgottenUser forgottenEmail"/>
+                                             update=":loginForm:messages" process="@this forgottenUser forgottenEmail"/>
                         </p:panelGrid>
 
                     </p:dialog>

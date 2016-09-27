@@ -8,6 +8,16 @@
 				 
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>bg</supported-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<base-name>com.piro.run.i18n.Text</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+
 	</application>	
 	
 	<factory>
