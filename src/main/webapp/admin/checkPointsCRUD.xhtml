@@ -18,26 +18,26 @@
                 <f:facet name="header">
                     <p:breadCrumb>
                         <p:menuitem value="Home" url="#" />
-                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+                        <p:menuitem value="#{msgs['competitions']}" url="competitionsCRUD.jsf" />
                         <p:menuitem value="#{checkPointsBean.competitionDto.name}" url="instancesCRUD.jsf?competitionId=#{checkPointsBean.competitionDto.id}" />
                         <p:menuitem value="#{checkPointsBean.instanceDto.name}" url="legsCRUD.jsf?instanceId=#{checkPointsBean.instanceDto.id}" />
                         <p:menuitem value="#{checkPointsBean.legDto.name}" url="#" />
                     </p:breadCrumb>
-                    <h:outputText value="Check Points" />
+                    <h:outputText value="#{msgs['checkPoints']}" />
                 </f:facet>
 
 
                 <p:ajax event="rowEdit" listener="#{checkPointsBean.onRowEdit}" update=":checkPointsCRUDForm:msgs :checkPointsCRUDForm:checkPointsTable:lastInput" />
                 <p:ajax event="rowEditCancel" listener="#{checkPointsBean.onRowCancel}" update=":checkPointsCRUDForm:msgs" />
 
-                <p:column headerText="Name" filterBy="#{checkPoint.name}" filterMatchMode="contains">
+                <p:column headerText="#{msgs['name']}" filterBy="#{checkPoint.name}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{checkPoint.name}"/></f:facet>
                         <f:facet name="input"><p:inputText id="nameInput" value="#{checkPoint.name}" style="width:96%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Altitude (m)" filterBy="#{checkPoint.altitude}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.altitude}">
+                <p:column headerText="#{msgs['altitude']}" filterBy="#{checkPoint.altitude}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.altitude}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{checkPoint.altitude}" />
@@ -50,7 +50,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Distance from start (m)" filterBy="#{checkPoint.distanceFromStart}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.distanceFromStart}">
+                <p:column headerText="#{msgs['distanceFromStart']}" filterBy="#{checkPoint.distanceFromStart}" filterFunction="#{webBeanUtils.filterBigger}" sortBy="#{checkPoint.distanceFromStart}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{checkPoint.distanceFromStart}" />
@@ -63,7 +63,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Last" >
+                <p:column headerText="#{msgs['last']}" >
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{checkPoint.last ? 'true' : 'false'}"/></f:facet>
                         <f:facet name="input"><p:selectBooleanCheckbox id="lastInput" value="#{checkPoint.last}" disabled="#{checkPointsBean.hasAnotherLast(checkPoint.getId())}"/></f:facet>
@@ -85,36 +85,36 @@
                 </p:column>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
-                    <p:commandButton value="Clone another leg"  icon="ui-icon-extlink" onclick="PF('cloneDialog').show();" rendered="#{checkPointsBean.checkPoints.isEmpty()}"/>
+                    <p:commandButton value="#{msgs['createNew']}"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+                    <p:commandButton value="#{msgs['cloneAnotherLeg']}"  icon="ui-icon-extlink" onclick="PF('cloneDialog').show();" rendered="#{checkPointsBean.checkPoints.isEmpty()}"/>
                 </f:facet>
 
             </p:dataTable>
 
-            <p:dialog header="Create new Check Point" widgetVar="createDialog" resizable="false" modal="true">
+            <p:dialog header="#{msgs['createNewCheckPoint']}" widgetVar="createDialog" resizable="false" modal="true">
 
                 <h:panelGrid id="createCheckPointPanel" columns="3">
-                    <h:outputText value="Name"/>
+                    <h:outputText value="#{msgs['name']}"/>
                     <p:inputText id="name" value="#{checkPointsBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
                     <p:messages id="nameMsg" for="name" />
 
-                    <h:outputText value="Altitude (m)"/>
+                    <h:outputText value=""/>
                     <p:inputText id="altitudeInput" value="#{checkPointsBean.forCreate.altitude}">
                         <f:convertNumber integerOnly="true" />
                     </p:inputText>
                     <p:messages id="altitudeInputMsg" for="altitudeInput"/>
 
-                    <h:outputText value="Distance from start (m)"/>
+                    <h:outputText value="#{msgs['distanceFromStart']})"/>
                     <p:inputText id="distanceInput" value="#{checkPointsBean.forCreate.distanceFromStart}" >
                         <f:convertNumber integerOnly="true" />
                     </p:inputText>
                     <p:messages id="distanceInputMsg" for="distanceInput"/>
 
-                    <h:outputText value="Last"/>
+                    <h:outputText value="#{msgs['last']}"/>
                     <p:selectBooleanCheckbox id="last" value="#{checkPointsBean.forCreate.last}" disabled="#{checkPointsBean.hasAnotherLast(-1)}"/>
                     <p:messages id="lastMsg" for="last" />
 
-                    <p:commandButton value="Create"
+                    <p:commandButton value="#{msgs['create']}"
                                      actionListener="#{checkPointsBean.createNewCheckPoint}"
                                      update=":checkPointsCRUDForm:msgs
                                       :checkPointsCRUDForm:checkPointsTable
@@ -124,14 +124,14 @@
                 </h:panelGrid>
             </p:dialog>
 
-            <p:dialog header="Clone check points from another leg" widgetVar="cloneDialog" resizable="false" modal="true">
+            <p:dialog header="#{msgs['cloneCheckPoints']}" widgetVar="cloneDialog" resizable="false" modal="true">
 
                 <h:panelGrid columns="2">
-                    <p:outputLabel for="selectLeg" value="Leg to copy from  " />
+                    <p:outputLabel for="selectLeg" value="#{msgs['legToCopyFrom']}" />
                     <p:selectOneMenu id="selectLeg" value="#{checkPointsBean.copyLegId}">
                         <f:selectItems value="#{checkPointsBean.selectLegs}" />
                     </p:selectOneMenu>
-                    <p:commandButton value="Create" actionListener="#{checkPointsBean.cloneCheckPoints}"
+                    <p:commandButton value="#{msgs['create']}" actionListener="#{checkPointsBean.cloneCheckPoints}"
                                      update=":checkPointsCRUDForm:checkPointsTable :checkPointsCRUDForm:msgs"
                                      process="selectLeg @this" disabled="#{checkPointsBean.selectLegs.isEmpty()}"/>
                 </h:panelGrid>

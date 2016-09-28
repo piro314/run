@@ -42,35 +42,35 @@
 
                         <h:panelGroup id="resultsGroup">
 
-                            <p:growl id="msgs" showDetail="true"/>
+                            <p:growl id="messages" showDetail="true"/>
 
                             <p:dataTable id="resultsTable" var="result" value="#{instancesBean.results}" rowIndexVar="index" widgetVar="resultsTableVar"
                                          paginator="true" rows="10" rowStyleClass="#{instancesBean.username == result.participantUsername ? 'highlight' : 'normal'}">
 
 
-                                <p:column headerText="P" style="width: 30px" priority="2">
+                                <p:column headerText="#{msgs['position']}" style="width: 30px" priority="2">
                                     <h:outputText value="#{index +1}"/>
                                 </p:column>
 
-                                <p:column headerText="Име" style="width: 120px" filterBy="#{result.participantName}" filterMatchMode="contains" priority="1">
+                                <p:column headerText="#{msgs['name']}" style="width: 120px" filterBy="#{result.participantName}" filterMatchMode="contains" priority="1">
                                     <h:outputText value="#{result.participantName}"/>
                                 </p:column>
 
-                                <p:column headerText="Username" style="width: 120px" filterBy="#{result.participantUsername}" filterMatchMode="contains" priority="6">
+                                <p:column headerText="#{msgs['username']}" style="width: 120px" filterBy="#{result.participantUsername}" filterMatchMode="contains" priority="6">
                                     <h:outputText value="#{result.participantUsername}" rendered="#{result.participantUsername != ''}"/>
-                                    <p:commandButton value="Това съм аз"  id="thatsMeButton" actionListener="#{instancesBean.linkParticipant(result)}"
+                                    <p:commandButton value="#{msgs['thisIsMe']}"  id="thatsMeButton" actionListener="#{instancesBean.linkParticipant(result)}"
                                                      process="@this" update=":instancesForm:resultsGroup"
                                                      rendered="#{sessionBean.loggedIn and (result.participantUsername == '' or result.participantUsername == null) and !instancesBean.userHere}"/>
 
-                                    <p:tooltip id="toolTipMe" for="thatsMeButton" value="Ако това сте вие, свържете резултата с потребителя си" />
+                                    <p:tooltip id="toolTipMe" for="thatsMeButton" value="#{msgs['ifThisIsMe']}" />
 
                                 </p:column>
 
-                                <p:column headerText="N" style="width: 40px" priority="5" filterBy="#{result.participantNumber}" filterMatchMode="contains" filterStyle="width: 30px;">
+                                <p:column headerText="#{msgs['number']}" style="width: 40px" priority="5" filterBy="#{result.participantNumber}" filterMatchMode="contains" filterStyle="width: 30px;">
                                     <h:outputText value="#{result.participantNumber}"/>
                                 </p:column>
 
-                                <p:column headerText="Пол" style="width: 30px" filterBy="#{result.male}" filterMatchMode="exact" >
+                                <p:column headerText="#{msgs['sex']}" style="width: 30px" filterBy="#{result.male}" filterMatchMode="exact" >
                                     <f:facet name="filter">
                                         <p:selectOneMenu  onchange="PF('resultsTableVar').filter()" widgetVar="selectMenu">
                                             <f:selectItems value="#{instancesBean.sexes}" />
@@ -83,7 +83,7 @@
                                     </div>
                                 </p:column>
 
-                                <p:column headerText="Категория" style="width: 50px" filterBy="#{result.category}" filterMatchMode="contains" filterStyle="width: 50px;">
+                                <p:column headerText="#{msgs['category']}" style="width: 50px" filterBy="#{result.category}" filterMatchMode="contains" filterStyle="width: 50px;">
                                     <h:outputText value="#{result.category}"/>
                                 </p:column>
 
@@ -110,7 +110,7 @@
                                 </p:columns>
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Профил на маршрута"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.showGraph }" />
+                                    <p:commandButton value="#{msgs['routeProfile']}"  onclick="PF('graphDialog').show();" rendered="#{instancesBean.selected != null and instancesBean.showGraph }" />
                                 </f:facet>
 
                             </p:dataTable>
@@ -119,7 +119,7 @@
                 </tr>
             </table>
 
-            <p:dialog header="Профил на маршрута" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
+            <p:dialog header="#{msgs['routeProfile']}" widgetVar="graphDialog" resizable="false" closable="true" id="graph">
                 <p:chart type="line" model="#{instancesBean.legGraphModel}" style="height:300px; width:1200px;" rendered="#{instancesBean.selected != null and instancesBean.showGraph}"/>
             </p:dialog>
 

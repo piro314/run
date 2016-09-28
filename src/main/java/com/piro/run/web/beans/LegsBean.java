@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Created by ppirovski on 4/14/15. In Code we trust
@@ -89,7 +90,8 @@ public class LegsBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         LegDto toUpdate = (LegDto)event.getObject();
         legService.update(toUpdate);
-        FacesMessage msg = new FacesMessage("Leg Edited", "" );
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("legEdited"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -104,7 +106,8 @@ public class LegsBean implements Serializable {
         }
         legService.delete(forDelete.getId());
         legs.remove(forDelete);
-        FacesMessage msg = new FacesMessage("Leg deleted", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("legDeleted"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -117,7 +120,8 @@ public class LegsBean implements Serializable {
         forCreate = new LegDto();
         forCreate.setInstanceId(instanceDto.getId());
 
-        FacesMessage msg = new FacesMessage("New leg created", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("newLegCreated"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('createDialog').hide();");

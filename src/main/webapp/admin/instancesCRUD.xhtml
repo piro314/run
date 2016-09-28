@@ -18,24 +18,24 @@
                 <f:facet name="header">
                     <p:breadCrumb>
                         <p:menuitem value="Home" url="#" />
-                        <p:menuitem value="Competitions" url="competitionsCRUD.jsf" />
+                        <p:menuitem value="#{msgs['competitions']}" url="competitionsCRUD.jsf" />
                         <p:menuitem value="#{instancesBean.competitionDto.name}" url="#" />
                     </p:breadCrumb>
-                    <h:outputText value="Instances" />
+                    <h:outputText value="#{msgs['instances']}" />
                 </f:facet>
 
 
                 <p:ajax event="rowEdit" listener="#{instancesBean.onRowEdit}" update=":instancesCRUDForm:msgs" />
                 <p:ajax event="rowEditCancel" listener="#{instancesBean.onRowCancel}" update=":instancesCRUDForm:msgs" />
 
-                <p:column headerText="Name" filterBy="#{instance.name}" filterMatchMode="contains">
+                <p:column headerText="#{msgs['name']}" filterBy="#{instance.name}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{instance.name}"/></f:facet>
                         <f:facet name="input"><p:inputText id="nameInput" value="#{instance.name}" style="width:96%"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Start Date" filterBy="#{instance.startDate}" filterMatchMode="contains" sortBy="#{instance.startDate}">
+                <p:column headerText="#{msgs['startDate']}" filterBy="#{instance.startDate}" filterMatchMode="contains" sortBy="#{instance.startDate}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.startDate}">
@@ -46,7 +46,7 @@
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="End Date" filterBy="#{instance.endDate}" filterMatchMode="contains" sortBy="#{instance.endDate}">
+                <p:column headerText="#{msgs['endDate']}" filterBy="#{instance.endDate}" filterMatchMode="contains" sortBy="#{instance.endDate}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{instance.endDate}">
@@ -59,7 +59,7 @@
 
                 <p:column style="width:22px">
                     <p:rowEditor id="editButton"/>
-                    <p:tooltip id="toolTipEdit" for="editButton" value="Edit" />
+                    <p:tooltip id="toolTipEdit" for="editButton" value="#{msgs['edit']}" />
                 </p:column>
 
                 <p:column style="width:42px" >
@@ -67,7 +67,7 @@
                     <p:commandButton icon="ui-icon-gear" id="gearButton"
                                      actionListener="#{instancesBean.redirectEdit(instance.id)}"
                                      process="@this" />
-                    <p:tooltip id="toolTipGear" for="gearButton" value="Legs" />
+                    <p:tooltip id="toolTipGear" for="gearButton" value="#{msgs['legs']}" />
                 </p:column>
 
                 <p:column style="width:42px">
@@ -77,31 +77,31 @@
                                      update=":instancesCRUDForm:msgs :instancesCRUDForm:instancesTable"
                                      disabled="#{instance.resultsCount gt 0}"
                             />
-                    <p:tooltip id="toolTipDelete" for="deleteButton" value="Delete" />
+                    <p:tooltip id="toolTipDelete" for="deleteButton" value="#{msgs['delete']}" />
                 </p:column>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Create New"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
+                    <p:commandButton value="#{msgs['createNew']}"  icon="ui-icon-extlink" onclick="PF('createDialog').show();" />
                 </f:facet>
 
             </p:dataTable>
 
-            <p:dialog header="Create new Instance" widgetVar="createDialog" resizable="false" modal="true">
+            <p:dialog header="#{msgs['createNewInstance']}" widgetVar="createDialog" resizable="false" modal="true">
 
                 <h:panelGrid id="createInstancePanel" columns="3">
-                    <h:outputText value="Name"/>
+                    <h:outputText value="#{msgs['name']}"/>
                     <p:inputText id="name" value="#{instancesBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
                     <p:messages id="nameMsg" for="name" />
 
-                    <h:outputText value="Start Date"/>
+                    <h:outputText value="#{msgs['startDate']}"/>
                     <p:calendar id="startDateInput" value="#{instancesBean.forCreate.startDate}" required="true" requiredMessage="this field is required" navigator="true" timeZone="Europe/Sofia"/>
                     <p:messages id="startDateInputMsg" for="startDateInput"/>
 
-                    <h:outputText value="End Date"/>
+                    <h:outputText value="#{msgs['endDate']}"/>
                     <p:calendar id="endDateInput" value="#{instancesBean.forCreate.endDate}" required="true" requiredMessage="this field is required" navigator="true" timeZone="Europe/Sofia"/>
                     <p:messages id="endDateInputMsg" for="endDateInput"/>
 
-                    <p:commandButton value="Create"
+                    <p:commandButton value="#{msgs['create']}"
                                      actionListener="#{instancesBean.createNewInstance}"
                                      update=":instancesCRUDForm:msgs
                                       :instancesCRUDForm:instancesTable

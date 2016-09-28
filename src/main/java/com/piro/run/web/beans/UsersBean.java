@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Created by ppirovski on 5/19/15. In Code we trust
@@ -115,8 +116,9 @@ public class UsersBean implements Serializable {
         UserDto user = userService.findUser(forCreate.getUsername());
 
         if(user != null) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,"Username is already used", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            FacesMessage msg = new FacesMessage(bundle.getString("usernameIsUsed"), "" );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
     }
@@ -126,8 +128,9 @@ public class UsersBean implements Serializable {
             return;
         }
         if(!forCreate.getPassword().equals(forCreate.getRepeatPassword())){
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,"Repeat Password does not match password", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            FacesMessage msg = new FacesMessage(bundle.getString("passwordMismatch"), "" );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
@@ -137,11 +140,13 @@ public class UsersBean implements Serializable {
         UserDto user = userService.findUser(forCreate.getUsername());
 
         if(user != null) {
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is already used", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("usernameIsUsed"), null));
             errors = true;
         }
         if(!forCreate.getPassword().equals(forCreate.getRepeatPassword())){
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Repeat Password does not match password", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("passwordMismatch"), null));
             errors = true;
         }
         if(errors){
@@ -161,7 +166,8 @@ public class UsersBean implements Serializable {
         try {
             extContext.redirect(redirectUrl);
         } catch (IOException e) {
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not send email for account confirmation", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("cannotSendEmail"), null));
         }
     }
 
@@ -174,7 +180,8 @@ public class UsersBean implements Serializable {
 
         if(!StringUtils.isEmpty(uId)){
             if(userService.activate(uId)){
-                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешна Активация!", null));
+                ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("successfulActivation"), null));
             }
         }
         return "";
@@ -187,12 +194,14 @@ public class UsersBean implements Serializable {
         String result = userService.editUser(getCurrentUser(), getNewEmail(), getNewPassword(), getOldPassword());
         FacesContext ctx = FacesContext.getCurrentInstance();
         if(StringUtils.isEmpty(result)){
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешна промяна!", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("successfulChange"), null));
 
         }
         else {
             if (result.equals("empty password") || result.equals("wrong password")) {
-                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Грешна парола", null));
+                ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("wrongPassword"), null));
             }
         }
 
@@ -222,12 +231,13 @@ public class UsersBean implements Serializable {
 
     public void forgottenPassword(){
         FacesContext ctx = FacesContext.getCurrentInstance();
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", ctx.getViewRoot().getLocale());
         if(userService.generateAndSendPassword(getForgottenUser(), getForgottenEmail())){
 
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Изпратена е нова парола на вашия email", null));
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("passwordSent"), null));
         }
         else {
-            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Проблем с изпращането на новата ви парола. Моля, пробвайте по-късно", null));
+            ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, bundle.getString("problemSendingPass"), null));
         }
     }
 

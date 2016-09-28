@@ -8,24 +8,24 @@
     <p:dataTable id="LegStatisticsTable" var="leg" value="#{statisticsBean.legStatistics}"
                  paginator="true" rows="10" >
 
-        <p:column headerText="Състезание" filterBy="#{leg.competitionName}" filterMatchMode="contains" >
+        <p:column headerText="#{msgs['competition']}" filterBy="#{leg.competitionName}" filterMatchMode="contains" >
             <h:outputText value="#{leg.competitionName}" />
         </p:column>
 
-        <p:column headerText="Инстанция"  filterBy="#{leg.instanceName}" filterMatchMode="contains" >
+        <p:column headerText="#{msgs['instance']}"  filterBy="#{leg.instanceName}" filterMatchMode="contains" >
             <h:outputText value="#{leg.instanceName}"/>
         </p:column>
 
-        <p:column headerText="Име"  filterBy="#{leg.name}" filterMatchMode="contains" >
+        <p:column headerText="#{msgs['name']}"  filterBy="#{leg.name}" filterMatchMode="contains" >
             <h:outputText value="#{leg.name}"/>
         </p:column>
 
-        <p:column headerText="Тип"  style="width: 40px " >
+        <p:column headerText="#{msgs['type']}"  style="width: 40px " >
             <div align="center"><p:graphicImage url="/static/img/biking.png" style="width: 30px " rendered="#{leg.type == 'BIKE'}"/></div>
             <div align="center"><p:graphicImage url="/static/img/runner.png" style="width: 30px " rendered="#{leg.type == 'RUN'}"/></div>
         </p:column>
 
-        <p:column headerText="Дистанция"  sortBy="#{leg.distance}" style="width: 120px " filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBiggerKm}" filterStyle="width: 80px;">
+        <p:column headerText="#{msgs['distance']}"  sortBy="#{leg.distance}" style="width: 120px " filterBy="#{leg.distance}" filterFunction="#{webBeanUtils.filterBiggerKm}" filterStyle="width: 80px;">
             <h:outputText value="#{leg.distance/1000}">
                 <f:convertNumber pattern="###.#км"/>
             </h:outputText>
@@ -33,7 +33,7 @@
 
         <p:column   sortBy="#{leg.dPlus}" style="width: 80px " filterBy="#{leg.dPlus}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
             <f:facet name="header">
-                <h:outputText value="D+" id="dPlusHeader" />
+                <h:outputText value="#{msgs['dPlus']}" id="dPlusHeader" />
                 <p:tooltip id="toolTipDPlusHeader" for="dPlusHeader" value="Положителна Денивелация" />
             </f:facet>
 
@@ -44,7 +44,7 @@
         <p:column sortBy="#{leg.dMinus}" style="width: 80px " filterBy="#{leg.dMinus}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
 
             <f:facet name="header">
-                <h:outputText value="D-" id="dMinusHeader" />
+                <h:outputText value="#{msgs['dMinus']}" id="dMinusHeader" />
                 <p:tooltip id="toolTipDMinusHeader" for="dMinusHeader" value="Отрицателна Денивелация" />
             </f:facet>
             <h:outputText value="#{leg.dMinus}" id="dMinusText"/>
@@ -71,12 +71,12 @@
             </h:outputText>
         </p:column>
 
-        <p:column headerText="Най-високо"  sortBy="#{leg.highest}" style="width: 100px " filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
-            <h:outputText value="#{leg.highest}м"/>
+        <p:column headerText="#{msgs['highest']}"  sortBy="#{leg.highest}" style="width: 100px " filterBy="#{leg.highest}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
+            <h:outputText value="#{leg.highest}"/>
         </p:column>
 
-        <p:column headerText="Най-ниско"  sortBy="#{leg.lowest}" style="width: 100px " filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
-            <h:outputText value="#{leg.lowest}м"/>
+        <p:column headerText="#{msgs['lowest']}"  sortBy="#{leg.lowest}" style="width: 100px " filterBy="#{leg.lowest}" filterFunction="#{webBeanUtils.filterBigger}" filterStyle="width: 50px;">
+            <h:outputText value="#{leg.lowest}"/>
         </p:column>
 
 

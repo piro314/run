@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Created by ppirovski on 12/15/14. In Code we trust
@@ -43,7 +44,9 @@ public class CompetitionsBean implements Serializable{
     public void onRowEdit(RowEditEvent event) {
         CompetitionDto toUpdate = (CompetitionDto)event.getObject();
         competitionService.update(toUpdate);
-        FacesMessage msg = new FacesMessage("Competition Edited", "" );
+
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("competitionEdited"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -75,7 +78,9 @@ public class CompetitionsBean implements Serializable{
             competitions.add(created);
             forCreate = new CompetitionDto();
         }
-        FacesMessage msg = new FacesMessage("New competition created", "");
+
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("newCompetitionCreated"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('testDialog').hide();");
@@ -96,7 +101,9 @@ public class CompetitionsBean implements Serializable{
         }
         competitionService.delete(forDelete.getId());
         competitions.remove(forDelete);
-        FacesMessage msg = new FacesMessage("Competition deleted", "");
+
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("competitionDeleted"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

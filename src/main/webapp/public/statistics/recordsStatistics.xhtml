@@ -15,23 +15,23 @@
         <p:dataTable id="maleRecordsRun" var="record" value="#{statisticsBean.maleRecordsRun}"
                      paginator="true" rows="5" >
 
-            <p:column headerText="Състезание"  filterBy="#{record.competitionName}" filterMatchMode="contains">
+            <p:column headerText="#{msgs['competition']}"  filterBy="#{record.competitionName}" filterMatchMode="contains">
                 <h:outputText value="#{record.competitionName}"/>
             </p:column>
 
-            <p:column headerText="Инстанция"   >
+            <p:column headerText="#{msgs['instance']}"   >
                 <h:outputText value="#{record.instanceName}"/>
             </p:column>
 
-            <p:column headerText="Етап"   >
+            <p:column headerText="#{msgs['leg']}"   >
                 <h:outputText value="#{record.legName}"/>
             </p:column>
 
-            <p:column headerText="Рекордьор"   >
+            <p:column headerText="#{msgs['recordHolder']}"   >
                 <h:outputText value="#{record.participantName}"/>
             </p:column>
 
-            <p:column headerText="Резултат" style="width: 80px">
+            <p:column headerText="#{msgs['result']}" style="width: 80px">
                 <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
                     <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>
@@ -48,23 +48,23 @@
         <p:dataTable id="femaleRecordsRun" var="record" value="#{statisticsBean.femaleRecordsRun}"
                      paginator="true" rows="5" >
 
-            <p:column headerText="Състезание"  filterBy="#{record.competitionName}" filterMatchMode="contains">
+            <p:column headerText="#{msgs['competition']}"  filterBy="#{record.competitionName}" filterMatchMode="contains">
                 <h:outputText value="#{record.competitionName}"/>
             </p:column>
 
-            <p:column headerText="Инстанция"   >
+            <p:column headerText="#{msgs['instance']}"   >
                 <h:outputText value="#{record.instanceName}"/>
             </p:column>
 
-            <p:column headerText="Етап"   >
+            <p:column headerText="#{msgs['leg']}"   >
                 <h:outputText value="#{record.legName}"/>
             </p:column>
 
-            <p:column headerText="Рекордьор"   >
+            <p:column headerText="#{msgs['recordHolder']}"   >
                 <h:outputText value="#{record.participantName}"/>
             </p:column>
 
-            <p:column headerText="Резултат" style="width: 80px">
+            <p:column headerText="#{msgs['result']}" style="width: 80px">
                 <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
                     <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>
@@ -84,23 +84,23 @@
         <p:dataTable id="maleRecordsBike" var="record" value="#{statisticsBean.maleRecordsBike}"
                      paginator="true" rows="5" >
 
-            <p:column headerText="Състезание" filterBy="#{record.competitionName}" filterMatchMode="contains" >
+            <p:column headerText="#{msgs['competition']}" filterBy="#{record.competitionName}" filterMatchMode="contains" >
                 <h:outputText value="#{record.competitionName}"/>
             </p:column>
 
-            <p:column headerText="Инстанция"   >
+            <p:column headerText="#{msgs['instance']}"   >
                 <h:outputText value="#{record.instanceName}"/>
             </p:column>
 
-            <p:column headerText="Етап"   >
+            <p:column headerText="#{msgs['leg']}"   >
                 <h:outputText value="#{record.legName}"/>
             </p:column>
 
-            <p:column headerText="Рекордьор"   >
+            <p:column headerText="#{msgs['recordHolder']}"   >
                 <h:outputText value="#{record.participantName}"/>
             </p:column>
 
-            <p:column headerText="Резултат" style="width: 80px">
+            <p:column headerText="#{msgs['result']}" style="width: 80px">
                 <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
                     <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>
@@ -118,23 +118,23 @@
         <p:dataTable id="femaleRecordsBike" var="record" value="#{statisticsBean.femaleRecordsBike}"
                      paginator="true" rows="5" >
 
-            <p:column headerText="Състезание" filterBy="#{record.competitionName}" filterMatchMode="contains" >
+            <p:column headerText="#{msgs['competition']}" filterBy="#{record.competitionName}" filterMatchMode="contains" >
                 <h:outputText value="#{record.competitionName}"/>
             </p:column>
 
-            <p:column headerText="Инстанция"   >
+            <p:column headerText="#{msgs['instance']}"   >
                 <h:outputText value="#{record.instanceName}"/>
             </p:column>
 
-            <p:column headerText="Етап"   >
+            <p:column headerText="#{msgs['leg']}"   >
                 <h:outputText value="#{record.legName}"/>
             </p:column>
 
-            <p:column headerText="Рекордьор"   >
+            <p:column headerText="#{msgs['recordHolder']}"   >
                 <h:outputText value="#{record.participantName}"/>
             </p:column>
 
-            <p:column headerText="Резултат" style="width: 80px">
+            <p:column headerText="#{msgs['result']}" style="width: 80px">
                 <h:outputText value="#{record.time}" rendered="#{record.time lt 86400000}">
                     <f:convertDateTime pattern="HH:mm:ss"/>
                 </h:outputText>

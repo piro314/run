@@ -12,7 +12,7 @@
             <p:dataGrid var="competition" value="#{competitionsBean.competitions}" columns="3" rows="9" layout="grid" paginator="true" style=" margin-top: 140px">
 
                 <f:facet name="header">
-                    Състезания
+                    #{msgs['competitions']}
                 </f:facet>
 
                 <p:panel header="#{competition.name}" style="text-align:center">
@@ -22,9 +22,9 @@
                         <h:panelGrid columns="1" style="width:100%;" layout="grid">
                             <h:outputText value="#{competition.description}" />
                             <p:spacer height="0"/>
-                            <p:link value="Официална страница" href="#{competition.url}" target="_blank" process="@this"/>
+                            <p:link value="#{msgs['officialPage']}" href="#{competition.url}" target="_blank" process="@this"/>
                             <p:spacer height="0"/>
-                            <p:commandButton value="Резултати" actionListener="#{competitionsBean.redirect(competition.id)}" process="@this"/>
+                            <p:commandButton value="#{msgs['results']}" actionListener="#{competitionsBean.redirect(competition.id)}" process="@this"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </p:panel>

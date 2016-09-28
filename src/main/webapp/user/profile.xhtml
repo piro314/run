@@ -14,22 +14,22 @@
                 <p:messages id="msgs"/>
                 <p:panelGrid columns="2" layout="grid" style="width: 40%">
 
-                    <h:outputLabel for="username" value="Потребителско име:" />
+                    <h:outputLabel for="username" value="#{msgs['username']}" />
                     <h:outputText id="username"  value="#{usersBean.currentUser.username}" />
 
-                    <h:outputLabel for="name" value="Промени име:" />
+                    <h:outputLabel for="name" value="#{msgs['changeUsername']}" />
                     <p:inplace id="name" editor="true">
                         <p:ajax event="save" update=":profileForm:changeButtons" />
                         <p:inputText value="#{usersBean.newName}" required="true" />
                     </p:inplace>
 
-                    <h:outputLabel for="email" value="Промени Email:" />
+                    <h:outputLabel for="email" value="#{msgs['changeEmail']}" />
                     <p:inplace id="email" editor="true" >
                         <p:ajax event="save" update=":profileForm:changeButtons" />
                         <p:inputText value="#{usersBean.newEmail}" required="true" />
                     </p:inplace>
 
-                    <h:outputLabel for="pass" value="Промени Парола:" />
+                    <h:outputLabel for="pass" value="#{msgs['changePass']}" />
                     <p:password id="pass" value="#{usersBean.newPassword}"  >
                         <p:ajax event="keyup" update=":profileForm:changeButtons" process=":profileForm:pass"/>
                     </p:password>
@@ -39,21 +39,21 @@
                     <f:facet name="footer" >
                         <div align="center">
                             <h:panelGroup id="changeButtons" >
-                                <p:commandButton value="Промени" actionListener="#{usersBean.editUser()}" rendered="#{!usersBean.checkEmailOrPasswordChanged()}"
+                                <p:commandButton value="#{msgs['change']}" actionListener="#{usersBean.editUser()}" rendered="#{!usersBean.checkEmailOrPasswordChanged()}"
                                                  disabled="#{!usersBean.checkChange()}" update="@form"/>
-                                <p:commandButton value="Промени" onclick="PF('passDlg').show();" rendered="#{usersBean.checkEmailOrPasswordChanged()}" />
+                                <p:commandButton value="#{msgs['change']}" onclick="PF('passDlg').show();" rendered="#{usersBean.checkEmailOrPasswordChanged()}" />
                             </h:panelGroup>
                         </div>
                     </f:facet>
 
                 </p:panelGrid>
 
-                <p:dialog header="Потвърждение" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
+                <p:dialog header="#{msgs['confirmation']}" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
 
                     <p:panelGrid columns="1" layout="grid" >
-                        <h:outputText value="Тъй като променяте парола или Email, моля потвърдете чрез въвеждане на старата си парола" />
+                        <h:outputText value="#{msgs['confirmationMessage']}" />
                         <p:password	 value="#{usersBean.oldPassword}" />
-                        <p:commandButton value="Потвърди" actionListener="#{usersBean.editUser()}" update="@form" onclick="PF('passDlg').hide();"/>
+                        <p:commandButton value="#{msgs['confirm']}" actionListener="#{usersBean.editUser()}" update="@form" onclick="PF('passDlg').hide();"/>
                     </p:panelGrid>
 
                 </p:dialog>

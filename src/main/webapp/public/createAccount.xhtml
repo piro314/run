@@ -12,37 +12,37 @@
         <div align="center" style="margin-top: 140px">
             <h:form id="createAccountForm">
 
-                <p:messages id="msgs" />
+                <p:messages id="messages" />
 
                 <h:panelGrid columns="3">
-                    <h:outputText value="Username"/>
-                    <p:inputText id="username" value="#{usersBean.forCreate.username}" required="true" requiredMessage="this field is required">
-                        <p:ajax event="blur" listener="#{usersBean.checkUsername}" process="@this" update="msgs"/>
+                    <h:outputText value="#{msgs['username']}"/>
+                    <p:inputText id="username" value="#{usersBean.forCreate.username}" required="true" requiredMessage="#{msgs['requiredMsg']}">
+                        <p:ajax event="blur" listener="#{usersBean.checkUsername}" process="@this" update="messages"/>
                     </p:inputText>
                     <p:messages id="usernameMsg" for="username" />
 
-                    <h:outputText value="Password"/>
-                    <p:password id="pass" value="#{usersBean.forCreate.password}" required="true" requiredMessage="this field is required"/>
+                    <h:outputText value="#{msgs['password']}"/>
+                    <p:password id="pass" value="#{usersBean.forCreate.password}" required="true" requiredMessage="#{msgs['requiredMsg']}"/>
                     <p:messages id="passMsg" for="pass" />
 
-                    <h:outputText value="Repeat Password"/>
-                    <p:password id="repeatPass" value="#{usersBean.forCreate.repeatPassword}" required="true" requiredMessage="this field is required">
-                        <p:ajax event="blur" listener="#{usersBean.checkPassword}" process="@this pass" update="msgs"/>
+                    <h:outputText value="#{msgs['repeatPassword']}"/>
+                    <p:password id="repeatPass" value="#{usersBean.forCreate.repeatPassword}" required="true" requiredMessage="#{msgs['requiredMsg']}">
+                        <p:ajax event="blur" listener="#{usersBean.checkPassword}" process="@this pass" update="messages"/>
                     </p:password>
                     <p:messages id="repeatPassMsg" for="repeatPass" />
 
-                    <h:outputText value="Name"/>
-                    <p:inputText id="name" value="#{usersBean.forCreate.name}" required="true" requiredMessage="this field is required"/>
+                    <h:outputText value="#{msgs['name']}"/>
+                    <p:inputText id="name" value="#{usersBean.forCreate.name}" required="true" requiredMessage="#{msgs['requiredMsg']}"/>
                     <p:messages id="nameMsg" for="name" />
 
-                    <h:outputText value="E-mail"/>
-                    <p:inputText id="email" value="#{usersBean.forCreate.email}" required="true" requiredMessage="this field is required" >
+                    <h:outputText value="#{msgs['email']}"/>
+                    <p:inputText id="email" value="#{usersBean.forCreate.email}" required="true" requiredMessage="#{msgs['requiredMsg']}" >
                         <!--<f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                     </p:inputText>
                     <p:messages id="emailMsg" for="email" />
 
                     <f:facet name="footer" >
-                        <p:commandButton value="Create" actionListener="#{usersBean.createAccount}" update="@form"/>
+                        <p:commandButton value="#{msgs['create']}" actionListener="#{usersBean.createAccount}" update="@form"/>
                     </f:facet>
                 </h:panelGrid>
 

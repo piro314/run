@@ -123,12 +123,15 @@ public class InstancesBean implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         InstanceDto toUpdate = (InstanceDto)event.getObject();
         instanceService.update(toUpdate);
-        FacesMessage msg = new FacesMessage("Instance Edited", "" );
+
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("instanceEdited"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("editCancelled"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -138,7 +141,8 @@ public class InstancesBean implements Serializable {
         }
         instanceService.delete(forDelete.getId());
         instances.remove(forDelete);
-        FacesMessage msg = new FacesMessage("Instance deleted", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("instanceDeleted"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -149,7 +153,8 @@ public class InstancesBean implements Serializable {
             forCreate = new InstanceDto();
             forCreate.setCompetitionId(competitionDto.getId());
         }
-        FacesMessage msg = new FacesMessage("New instance created", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("newInstanceCreated"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('createDialog').hide();");
@@ -258,9 +263,13 @@ public class InstancesBean implements Serializable {
         LineChartSeries series = new LineChartSeries();
         series.setFill(true);
         legGraphModel.setShowPointLabels(true);
-        legGraphModel.getAxes().put(AxisType.X, new CategoryAxis("Разстояние (км)"));
+
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String axisXStr = bundle.getString("axisX");
+        legGraphModel.getAxes().put(AxisType.X, new CategoryAxis(axisXStr));
         Axis yAxis = legGraphModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Височина (м)");
+        String axisYStr = bundle.getString("axisY");
+        yAxis.setLabel(axisYStr);
 
         columns = new ArrayList<>();
         for(CheckPointDto checkPoint : legDto.getCheckPoints()) {
@@ -295,8 +304,9 @@ public class InstancesBean implements Serializable {
     public List<SelectItem> getSexes(){
         List<SelectItem> result = new ArrayList<>();
         result.add(new SelectItem(null," "));
-        result.add(new SelectItem(false,"Ж"));
-        result.add(new SelectItem(true,"М") );
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        result.add(new SelectItem(false,bundle.getString("femaleLetter")));
+        result.add(new SelectItem(true,bundle.getString("maleLetter")) );
         return result;
     }
 
@@ -323,7 +333,8 @@ public class InstancesBean implements Serializable {
         resultService.linkParticipant(dto, getUsername());
         dto.setParticipantUsername(getUsername());
         userHere = true;
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Успешно свързване на резултата", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("successfulLink"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

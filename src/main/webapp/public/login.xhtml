@@ -18,34 +18,34 @@
                     <p:messages id="messages"/>
                     <h:panelGrid columns="3" cellpadding="5">
 
-                        <h:link value="Нов" outcome="createAccount" />
+                        <h:link value="#{msgs['new']}" outcome="createAccount" />
 
                         <p:inputText id="username" value="#{sessionBean.username}" required="true" label="username" requiredMessage="Въведете потребител" tabindex="1"/>
-                        <p:watermark for="username" value="Потребител" />
+                        <p:watermark for="username" value="#{msgs['user']}" />
 
-                        <p:commandLink  value="Забравена" onclick="PF('passDlg').show();" />
+                        <p:commandLink  value="#{msgs['forgotten']}" onclick="PF('passDlg').show();" />
                         <p:password id="password" value="#{sessionBean.password}" required="true" label="password" requiredMessage="Въведете парола" tabindex="2"/>
-                        <p:watermark for="password" value="Парола" />
+                        <p:watermark for="password" value="#{msgs['password']}" />
 
                         <p:spacer width="5px"/>
-                        <p:commandButton value="Login" actionListener="#{sessionBean.login}" ajax="false" tabindex="3"/>
+                        <p:commandButton value="#{msgs['login']}" actionListener="#{sessionBean.login}" ajax="false" tabindex="3"/>
 
                     </h:panelGrid>
 
-                    <p:dialog header="Забравена парола" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
+                    <p:dialog header="#{msgs['forgottenPass']}" widgetVar="passDlg" resizable="false" modal="true" id="passwordDialog" closable="true">
 
                         <p:panelGrid columns="1" layout="grid" >
-                            <h:outputText value="Ще бъде генерирана нова парола и ще бъде изпратена на email-а ви" />
+                            <h:outputText value="#{msgs['forgottenPassText']}" />
                             <h:panelGrid columns="2">
                                 <p:inputText id="forgottenUser" value="#{usersBean.forgottenUser}" />
-                                <p:watermark for="forgottenUser" value="Потребител" />
+                                <p:watermark for="forgottenUser" value="#{msgs['user']}" />
 
                                 <p:inputText id="forgottenEmail" value="#{usersBean.forgottenEmail}" />
-                                <p:watermark for="forgottenEmail" value="E-mail" />
+                                <p:watermark for="forgottenEmail" value="#{msgs['email']}" />
 
 
                             </h:panelGrid>
-                            <p:commandButton value="Изпрати" actionListener="#{usersBean.forgottenPassword}" onclick="PF('passDlg').hide();"
+                            <p:commandButton value="#{msgs['send']}" actionListener="#{usersBean.forgottenPassword}" onclick="PF('passDlg').hide();"
                                              update=":loginForm:messages" process="@this forgottenUser forgottenEmail"/>
                         </p:panelGrid>
 

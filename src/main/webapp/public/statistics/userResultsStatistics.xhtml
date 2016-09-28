@@ -7,26 +7,26 @@
         <p:dataTable id="userresultsTable" var="result" value="#{statisticsBean.userResults}"
                      paginator="true" rows="10" >
 
-            <p:column headerText="Състезание" filterBy="#{result.competitionName}" filterMatchMode="contains" >
+            <p:column headerText="#{msgs['competition']}" filterBy="#{result.competitionName}" filterMatchMode="contains" >
                 <h:outputText value="#{result.competitionName}" />
             </p:column>
 
-            <p:column headerText="Инстанция"  filterBy="#{result.instanceName}" filterMatchMode="contains" >
+            <p:column headerText="#{msgs['instance']}"  filterBy="#{result.instanceName}" filterMatchMode="contains" >
                 <h:outputText value="#{result.instanceName}"/>
             </p:column>
 
-            <p:column headerText="Етап"  filterBy="#{result.legName}" filterMatchMode="contains" >
+            <p:column headerText="#{msgs['leg']}"  filterBy="#{result.legName}" filterMatchMode="contains" >
                 <h:outputText value="#{result.legName}"/>
             </p:column>
 
-            <p:column headerText="Дата"  sortBy="#{result.date}">
+            <p:column headerText="#{msgs['date']}"  sortBy="#{result.date}">
                 <h:outputText value="#{result.date}">
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </p:column>
 
 
-            <p:column headerText="Резултат" value="#{result.time}" >
+            <p:column headerText="#{msgs['result']}" value="#{result.time}" >
 
                 <h:outputText value="#{result.time}" rendered="#{result.time lt 86400000}">
                     <f:convertDateTime pattern="HH:mm:ss"/>

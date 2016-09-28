@@ -24,10 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ppirovski on 4/14/15. In Code we trust
@@ -113,19 +110,22 @@ public class CheckPointsBean implements Serializable{
         CheckPointDto toUpdate = (CheckPointDto)event.getObject();
         checkPointService.update(toUpdate);
         Collections.sort(checkPoints);
-        FacesMessage msg = new FacesMessage("CheckPoint Edited", "" );
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("checkPointEdited"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("editCancelled"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void delete(CheckPointDto forDelete){
         checkPointService.delete(forDelete.getId());
         checkPoints.remove(forDelete);
-        FacesMessage msg = new FacesMessage("Check Point deleted", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("checkPointDeleted"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -140,7 +140,8 @@ public class CheckPointsBean implements Serializable{
         forCreate = new CheckPointDto();
         forCreate.setLegId(legDto.getId());
 
-        FacesMessage msg = new FacesMessage("New Check Point created", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("newCheckPointCreated"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('createDialog').hide();");
@@ -166,7 +167,8 @@ public class CheckPointsBean implements Serializable{
         legService.cloneCheckPoints(this.getCopyLegId(), legDto.getId());
         checkPoints = null;
 
-        FacesMessage msg = new FacesMessage("Check Points cloned", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("checkPointsCloned"), "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('cloneDialog').hide();");

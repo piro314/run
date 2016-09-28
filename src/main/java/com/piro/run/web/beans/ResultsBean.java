@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Created by ppirovski on 4/16/15. In Code we trust
@@ -117,19 +118,22 @@ public class ResultsBean implements Serializable {
         for(ResultDto resultDto : toUpdate.getResults()){
             resultDto.setTime(TimeUtils.covertToMillis(resultDto.getHours(), resultDto.getMinutes(), resultDto.getSeconds()));
         }
-        FacesMessage msg = new FacesMessage("Result Edited", "" );
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("resultEdited"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("editCancelled"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void delete(ParticipantResultDto forDelete){
         resultService.delete(forDelete);
         results.remove(forDelete);
-        FacesMessage msg = new FacesMessage("Result deleted", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("resultDeleted"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -157,7 +161,8 @@ public class ResultsBean implements Serializable {
         columns = new ArrayList<>();
         this.createColumns();
 
-        FacesMessage msg = new FacesMessage("New Result created", "");
+        ResourceBundle bundle = ResourceBundle.getBundle("Text", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesMessage msg = new FacesMessage(bundle.getString("newResultCreated"), "" );
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().execute("PF('createDialog').hide();");
